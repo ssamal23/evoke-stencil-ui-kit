@@ -1,0 +1,23 @@
+/* Bootstrap 5 theme: maps Evoke tokens to Bootstrap CSS variables (--bs-*). */
+:root {
+  --evoke-primary: var(--bs-primary, #0d6efd);
+  --evoke-primary-contrast: var(--bs-white, #fff);
+  --evoke-danger: var(--bs-danger, #dc3545);
+  --evoke-success: var(--bs-success, #198754);
+  --evoke-warning: var(--bs-warning, #ffc107);
+  --evoke-info: var(--bs-info, #0dcaf0);
+  --evoke-surface: var(--bs-body-bg, #fff);
+  --evoke-text: var(--bs-body-color, #212529);
+  --evoke-border: var(--bs-border-color, #dee2e6);
+  --evoke-radius: var(--bs-border-radius, 0.375rem);
+  --evoke-radius-field: var(--bs-border-radius, 0.375rem);
+  --evoke-font: var(--bs-body-font-family, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif);
+  --evoke-focus-ring: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  --evoke-secondary: var(--bs-secondary, #6c757d);
+  --evoke-secondary-contrast: var(--bs-white, #fff);
+  --evoke-text-muted: var(--bs-secondary-color, #6c757d);
+  --evoke-radius-button: var(--bs-border-radius, 0.375rem);
+  --evoke-control-height: 38px;
+  --evoke-button-padding-x: 0.75rem;
+  --evoke-font-size: 1rem;
+}

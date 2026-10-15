@@ -1,0 +1,60 @@
+{
+  "name": "evoke-stencil-ui-kit",
+  "version": "0.1.0",
+  "description": "Evoke Tech UI kit: framework-agnostic web components (Stencil) for Angular, React, Vue and plain HTML, with Angular Material, Tailwind CSS, Bootstrap and plain CSS themes.",
+  "license": "MIT",
+  "author": "ssamal23 (https://github.com/ssamal23)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssamal23/evoke-stencil-ui-kit.git"
+  },
+  "homepage": "https://github.com/ssamal23/evoke-stencil-ui-kit#readme",
+  "bugs": {
+    "url": "https://github.com/ssamal23/evoke-stencil-ui-kit/issues"
+  },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/evoke-ui/evoke-ui.esm.js",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./components/*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    },
+    "./loader": {
+      "types": "./loader/index.d.ts",
+      "import": "./loader/index.js",
+      "require": "./loader/index.cjs.js"
+    },
+    "./dist/evoke-ui/evoke-ui.css": "./dist/evoke-ui/evoke-ui.css",
+    "./themes/*": "./dist/themes/*"
+  },
+  "scripts": {
+    "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && stencil build --docs",
+    "start": "stencil build --dev --watch --serve",
+    "postbuild": "node -e \"require('fs').cpSync('src/themes','dist/themes',{recursive:true})\"",
+    "test": "stencil test --spec",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["stencil", "web-components", "angular", "react", "vue", "tailwind", "bootstrap", "angular-material"],
+  "devDependencies": {
+    "@stencil/core": "^4.45.2"
+  }
+}
+
+

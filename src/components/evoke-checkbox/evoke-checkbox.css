@@ -1,0 +1,16 @@
+evoke-checkbox { display: block; }
+evoke-checkbox .evoke-check { display: flex; flex-direction: column; gap: 0.25rem; font-family: var(--evoke-font, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); color: var(--evoke-text, #1a1a1a); }
+evoke-checkbox .evoke-check__row { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem; }
+evoke-checkbox .evoke-check__row--disabled { opacity: 0.6; cursor: not-allowed; }
+evoke-checkbox .evoke-check__input {
+  appearance: none; -webkit-appearance: none; margin: 0; flex: none; width: 16px; height: 16px;
+  border: 2px solid var(--evoke-primary, #ff5316); border-radius: 4px; background: var(--evoke-surface, #ffffff) center / 12px no-repeat;
+  cursor: inherit; transition: background-color 0.15s, box-shadow 0.15s;
+}
+evoke-checkbox .evoke-check__input:checked {
+  background-color: var(--evoke-primary, #ff5316);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+}
+evoke-checkbox .evoke-check__input:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-checkbox .evoke-check__input--error { border-color: var(--evoke-danger, #dc2626); }
+evoke-checkbox .evoke-check__error { color: var(--evoke-danger, #dc2626); font-size: 0.875rem; }

@@ -1,0 +1,21 @@
+/* Angular Material theme: maps Evoke tokens to Material 3 system tokens (--mat-sys-*).
+   Works with `mat.theme()` / `mat.system-level-colors`. Fallbacks are the M3 baseline palette. */
+:root {
+  --evoke-primary: var(--mat-sys-primary, #6750a4);
+  --evoke-primary-contrast: var(--mat-sys-on-primary, #ffffff);
+  --evoke-danger: var(--mat-sys-error, #b3261e);
+  --evoke-surface: var(--mat-sys-surface, #fef7ff);
+  --evoke-text: var(--mat-sys-on-surface, #1d1b20);
+  --evoke-border: var(--mat-sys-outline, #79747e);
+  --evoke-radius: var(--mat-sys-corner-full, 20px);
+  --evoke-radius-field: var(--mat-sys-corner-extra-small, 4px);
+  --evoke-font: var(--mat-sys-body-large-font, Roboto, 'Helvetica Neue', sans-serif);
+  --evoke-focus-ring: 0 0 0 2px var(--mat-sys-primary, #6750a4);
+  --evoke-secondary: var(--mat-sys-secondary, #625b71);
+  --evoke-secondary-contrast: var(--mat-sys-on-secondary, #ffffff);
+  --evoke-text-muted: var(--mat-sys-on-surface-variant, #49454f);
+  --evoke-radius-button: var(--mat-sys-corner-full, 20px);
+  --evoke-control-height: 40px;
+  --evoke-button-padding-x: 24px;
+  --evoke-font-size: 1rem;
+}

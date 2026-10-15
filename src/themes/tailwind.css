@@ -1,0 +1,24 @@
+/* Tailwind theme: maps Evoke tokens to Tailwind v4 theme variables (--color-*, --radius-*).
+   Fallbacks are Tailwind's default palette values, so it also works with Tailwind v3. */
+:root {
+  --evoke-primary: var(--color-blue-600, #2563eb);
+  --evoke-primary-contrast: var(--color-white, #ffffff);
+  --evoke-danger: var(--color-red-600, #dc2626);
+  --evoke-success: var(--color-green-600, #16a34a);
+  --evoke-warning: var(--color-amber-600, #d97706);
+  --evoke-info: var(--color-cyan-600, #0891b2);
+  --evoke-surface: var(--color-white, #ffffff);
+  --evoke-text: var(--color-gray-800, #1f2937);
+  --evoke-border: var(--color-gray-300, #d1d5db);
+  --evoke-radius: var(--radius-md, 0.375rem);
+  --evoke-radius-field: var(--radius-md, 0.375rem);
+  --evoke-font: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  --evoke-focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-blue-500, #3b82f6) 40%, transparent);
+  --evoke-secondary: var(--color-slate-800, #1e293b);
+  --evoke-secondary-contrast: var(--color-white, #ffffff);
+  --evoke-text-muted: var(--color-gray-500, #6b7280);
+  --evoke-radius-button: var(--radius-md, 0.375rem);
+  --evoke-control-height: 2.5rem;
+  --evoke-button-padding-x: 1rem;
+  --evoke-font-size: 1rem;
+}

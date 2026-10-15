@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evoke UI</title>
+  <script type="module" src="/build/evoke-ui.esm.js"></script>
+  <link rel="stylesheet" href="/build/evoke-ui.css" />
+</head>
+<body style="padding:2rem;font-family:Inter,sans-serif;display:grid;gap:1.25rem;max-width:420px">
+  <evoke-alert type="success" dismissible>Saved successfully</evoke-alert>
+  <evoke-select label="Sign in as" placeholder="Select your role"
+    options='[{"label":"Product Manager","value":"pm"},{"label":"Project Lead","value":"lead"},{"label":"Designer","value":"designer"},{"label":"Developer","value":"dev"}]'></evoke-select>
+  <evoke-input label="Username" icon="mail" placeholder="name@company.com" error="Username is required"></evoke-input>
+  <evoke-input label="Password" icon="lock" type="password" placeholder="Enter your password"></evoke-input>
+  <evoke-radio-group label="Plan" value="pro" inline options='[{"label":"Free","value":"free"},{"label":"Pro","value":"pro"},{"label":"Team","value":"team","disabled":true}]'></evoke-radio-group>
+  <evoke-checkbox label="Remember me" checked></evoke-checkbox>
+  <evoke-checkbox label="I accept the terms" error="You must accept the terms"></evoke-checkbox>
+  <evoke-button block>Sign in to workspace</evoke-button>
+</body>
+</html>

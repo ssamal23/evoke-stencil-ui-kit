@@ -1,0 +1,17 @@
+evoke-button { display: inline-block; }
+evoke-button .evoke-btn {
+  box-sizing: border-box; font-family: var(--evoke-font, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); font-size: var(--evoke-font-size, 16px); line-height: 1.5; cursor: pointer;
+  height: var(--evoke-control-height, 56px); padding: 0 var(--evoke-button-padding-x, 36px);
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border: 1px solid transparent; border-radius: var(--evoke-radius-button, 9999px);
+  transition: filter 0.15s, box-shadow 0.15s;
+}
+evoke-button .evoke-btn:hover:not(:disabled) { filter: brightness(0.92); }
+evoke-button .evoke-btn:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-button .evoke-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+evoke-button .evoke-btn--primary { background: var(--evoke-primary, #ff5316); color: var(--evoke-primary-contrast, #ffffff); }
+evoke-button .evoke-btn--secondary { background: var(--evoke-secondary, #0b1560); color: var(--evoke-secondary-contrast, #ffffff); }
+evoke-button .evoke-btn--danger { background: var(--evoke-danger, #dc2626); color: #fff; }
+evoke-button .evoke-btn--outline { background: transparent; color: var(--evoke-primary, #ff5316); border-color: var(--evoke-primary, #ff5316); }
+evoke-button[block] { display: block; }
+evoke-button[block] .evoke-btn { width: 100%; }
