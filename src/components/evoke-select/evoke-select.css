@@ -8,9 +8,30 @@ evoke-select .evoke-field__input {
   appearance: none; -webkit-appearance: none; cursor: pointer;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
-evoke-select .evoke-field__select--empty { color: var(--evoke-text-muted, #7a7a7a); }
-evoke-select .evoke-field__input:focus { outline: none; border-color: var(--evoke-secondary, #0b1560); box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
-evoke-select .evoke-field__input:disabled { opacity: 0.6; cursor: not-allowed; }
+evoke-select .evoke-field__select--empty { color: var(--evoke-text-muted, #6b6b6b); }
+evoke-select .evoke-field__input:hover:not(:disabled):not(:focus) { border-color: var(--evoke-text-muted, #6b6b6b); }
+evoke-select .evoke-field__input:focus, evoke-select .evoke-select__trigger:focus-visible { outline: none; border-color: var(--evoke-secondary, #0b1560); box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-select .evoke-field__input:disabled, evoke-select .evoke-select__trigger--disabled { opacity: 0.6; cursor: not-allowed; }
 evoke-select .evoke-field__input--error { border-color: var(--evoke-danger, #dc2626); }
-evoke-select .evoke-field__chevron { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--evoke-text-muted, #7a7a7a); pointer-events: none; }
+evoke-select .evoke-field__chevron { position: absolute; right: 16px; top: calc(var(--evoke-control-height, 56px) / 2); transform: translateY(-50%); width: 18px; height: 18px; color: var(--evoke-text-muted, #6b6b6b); pointer-events: none; }
+evoke-select .evoke-field__hint { color: var(--evoke-text-muted, #6b6b6b); font-size: 0.875rem; }
 evoke-select .evoke-field__error { color: var(--evoke-danger, #dc2626); font-size: 0.875rem; }
+/* custom (multiple / searchable) */
+evoke-select .evoke-select__trigger { display: flex; align-items: center; height: auto; min-height: var(--evoke-control-height, 56px); padding-top: 6px; padding-bottom: 6px; }
+evoke-select .evoke-select__value { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
+evoke-select .evoke-select__placeholder { color: var(--evoke-text-muted, #6b6b6b); }
+evoke-select .evoke-select__chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 4px 2px 10px; border-radius: 9999px; font-size: 0.875rem; background: color-mix(in srgb, var(--evoke-primary, #ff5316) 12%, var(--evoke-surface, #ffffff)); color: var(--evoke-text, #1a1a1a); }
+evoke-select .evoke-select__chip-remove { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+evoke-select .evoke-select__chip-remove:hover { background: color-mix(in srgb, var(--evoke-text, #1a1a1a) 12%, transparent); }
+evoke-select .evoke-select__chip-remove:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-select .evoke-select__chip-remove .evoke-icon { width: 12px; height: 12px; }
+evoke-select .evoke-select__panel { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 4px); background: var(--evoke-surface, #ffffff); border: 1px solid var(--evoke-border, #dedede); border-radius: var(--evoke-radius-field, 8px); box-shadow: var(--evoke-shadow, 0 4px 12px rgba(0, 0, 0, 0.12)); max-height: 280px; display: flex; flex-direction: column; overflow: hidden; }
+evoke-select .evoke-select__search { box-sizing: border-box; margin: 8px; padding: 8px 12px; border: 1px solid var(--evoke-border, #dedede); border-radius: var(--evoke-radius-field, 8px); font: inherit; color: var(--evoke-text, #1a1a1a); background: var(--evoke-surface, #ffffff); }
+evoke-select .evoke-select__search:focus { outline: none; border-color: var(--evoke-secondary, #0b1560); box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-select .evoke-select__list { list-style: none; margin: 0; padding: 4px; overflow: auto; }
+evoke-select .evoke-select__option { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: calc(var(--evoke-radius-field, 8px) - 2px); cursor: pointer; }
+evoke-select .evoke-select__option--active { background: var(--evoke-surface-muted, #f5f5f5); }
+evoke-select .evoke-select__option--selected { color: var(--evoke-primary-text, #cc3d0d); font-weight: 500; }
+evoke-select .evoke-select__option--disabled { opacity: 0.5; cursor: not-allowed; }
+evoke-select .evoke-select__option .evoke-icon { width: 16px; height: 16px; flex: none; }
+evoke-select .evoke-select__empty { padding: 12px 16px; color: var(--evoke-text-muted, #6b6b6b); }

@@ -9,7 +9,9 @@ export class EvokeRadioGroup {
   @Prop({ mutable: true }) value = '';
   @Prop() name = '';
   @Prop() disabled = false;
-  /** Lay options out in a row instead of a column */
+  /** Classic radio circles, or a segmented button group */
+  @Prop() appearance: 'classic' | 'segmented' = 'classic';
+  /** Lay classic options out in a row instead of a column */
   @Prop() inline = false;
   /** Error message shown below the group */
   @Prop() error = '';
@@ -17,36 +19,47 @@ export class EvokeRadioGroup {
   /** Emits the selected value */
   @Event() evokeChange!: EventEmitter<string>;
 
-  private groupName = `evoke-radio-${Math.random().toString(36).slice(2, 9)}`;
+  private uid = Math.random().toString(36).slice(2, 9);
 
   render() {
-    const name = this.name || this.groupName;
+    const name = this.name || `evoke-radio-${this.uid}`;
+    const labelId = `${name}-label`;
+    const errId = `${name}-err`;
+    const segmented = this.appearance === 'segmented';
     return (
-      <div class="evoke-radio" role="radiogroup" aria-label={this.label || undefined}>
-        {this.label && <span class="evoke-radio__label">{this.label}</span>}
-        <div class={`evoke-radio__options ${this.inline ? 'evoke-radio__options--inline' : ''}`}>
+      <div class="evoke-radio" role="radiogroup" aria-labelledby={this.label ? labelId : undefined} aria-describedby={this.error ? errId : undefined}>
+        {this.label && <span id={labelId} class="evoke-radio__label">{this.label}</span>}
+        <div class={`evoke-radio__options ${this.inline && !segmented ? 'evoke-radio__options--inline' : ''} ${segmented ? 'evoke-radio__options--segmented' : ''}`.replace(/\s+/g, ' ').trim()}>
           {parseOptions(this.options).map((o) => {
             const off = this.disabled || o.disabled;
-            return (
-              <label class={`evoke-radio__row ${off ? 'evoke-radio__row--disabled' : ''}`}>
-                <input
-                  type="radio"
-                  class={`evoke-radio__input ${this.error ? 'evoke-radio__input--error' : ''}`.trim()}
-                  name={name}
-                  value={o.value}
-                  checked={o.value === this.value}
-                  disabled={off}
-                  onChange={() => {
-                    this.value = o.value;
-                    this.evokeChange.emit(this.value);
-                  }}
-                />
+            const input = (
+              <input
+                type="radio"
+                class={`${segmented ? 'evoke-seg__input' : 'evoke-radio__input'} ${this.error ? 'evoke-radio__input--error' : ''}`.trim()}
+                name={name}
+                value={o.value}
+                checked={o.value === this.value}
+                disabled={off}
+                onChange={() => {
+                  this.value = o.value;
+                  this.evokeChange.emit(this.value);
+                }}
+              />
+            );
+            return segmented ? (
+              <label class={`evoke-seg ${off ? 'evoke-seg--disabled' : ''}`.trim()}>
+                {input}
+                <span class="evoke-seg__text">{o.label}</span>
+              </label>
+            ) : (
+              <label class={`evoke-radio__row ${off ? 'evoke-radio__row--disabled' : ''}`.trim()}>
+                {input}
                 <span>{o.label}</span>
               </label>
             );
           })}
         </div>
-        {this.error && <span class="evoke-radio__error" role="alert">{this.error}</span>}
+        {this.error && <span id={errId} class="evoke-radio__error" role="alert">{this.error}</span>}
       </div>
     );
   }

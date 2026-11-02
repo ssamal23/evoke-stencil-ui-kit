@@ -1,0 +1,16 @@
+evoke-chip { display: inline-block; }
+evoke-chip .evoke-chip { box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; font-family: var(--evoke-font, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); font-size: 0.875rem; color: var(--evoke-text, #1a1a1a); background: var(--evoke-surface, #ffffff); border: 1px solid var(--evoke-border, #dedede); border-radius: 9999px; transition: background-color 0.15s, border-color 0.15s, filter 0.15s; }
+evoke-chip .evoke-chip .evoke-icon { width: 14px; height: 14px; flex: none; }
+evoke-chip .evoke-chip--filter { cursor: pointer; font: inherit; font-size: 0.875rem; }
+evoke-chip .evoke-chip--filter:hover:not(:disabled):not(.evoke-chip--selected) { background: var(--evoke-surface-muted, #f5f5f5); border-color: var(--evoke-text-muted, #6b6b6b); }
+evoke-chip .evoke-chip--filter:active:not(:disabled) { filter: brightness(0.9); }
+evoke-chip .evoke-chip--filter:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-chip .evoke-chip--selected { background: color-mix(in srgb, var(--evoke-primary, #ff5316) 14%, var(--evoke-surface, #ffffff)); border-color: var(--evoke-primary, #ff5316); color: var(--evoke-text, #1a1a1a); }
+evoke-chip .evoke-chip--selected .evoke-icon { color: var(--evoke-primary, #ff5316); }
+evoke-chip .evoke-chip--filter:disabled, evoke-chip .evoke-chip--disabled { opacity: 0.5; cursor: not-allowed; }
+evoke-chip .evoke-chip--removable { padding-right: 4px; background: var(--evoke-surface-muted, #f5f5f5); border-color: transparent; }
+evoke-chip .evoke-chip__remove { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; color: inherit; background: none; border: 0; border-radius: 50%; cursor: pointer; }
+evoke-chip .evoke-chip__remove:hover:not(:disabled) { background: color-mix(in srgb, var(--evoke-text, #1a1a1a) 14%, transparent); }
+evoke-chip .evoke-chip__remove:active:not(:disabled) { background: color-mix(in srgb, var(--evoke-text, #1a1a1a) 24%, transparent); }
+evoke-chip .evoke-chip__remove:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-chip .evoke-chip__remove:disabled { cursor: not-allowed; }

@@ -1,0 +1,20 @@
+evoke-tabs { display: block; min-width: 0; max-width: 100%; }
+evoke-tabs .evoke-tabs { font-family: var(--evoke-font, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); color: var(--evoke-text, #1a1a1a); }
+evoke-tabs .evoke-tabs__list { display: flex; gap: 4px; overflow-x: auto; }
+evoke-tabs .evoke-tabs__tab { flex: none; font: inherit; font-size: 1rem; padding: 12px 20px; background: transparent; border: 0; color: var(--evoke-text-muted, #6b6b6b); cursor: pointer; transition: color 0.15s, background-color 0.15s, filter 0.15s; }
+evoke-tabs .evoke-tabs__tab:hover:not(:disabled):not(.evoke-tabs__tab--active) { color: var(--evoke-text, #1a1a1a); }
+evoke-tabs .evoke-tabs__tab:disabled { opacity: 0.5; cursor: not-allowed; }
+evoke-tabs .evoke-tabs__tab:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+/* underline */
+evoke-tabs .evoke-tabs--underline .evoke-tabs__list { border-bottom: 1px solid var(--evoke-border, #dedede); gap: 0; }
+evoke-tabs .evoke-tabs--underline .evoke-tabs__tab { border-bottom: 2px solid transparent; margin-bottom: -1px; }
+evoke-tabs .evoke-tabs--underline .evoke-tabs__tab:hover:not(:disabled):not(.evoke-tabs__tab--active) { border-bottom-color: var(--evoke-border, #dedede); }
+evoke-tabs .evoke-tabs--underline .evoke-tabs__tab--active { color: var(--evoke-primary-text, #cc3d0d); border-bottom-color: var(--evoke-primary, #ff5316); font-weight: 500; }
+evoke-tabs .evoke-tabs--underline .evoke-tabs__tab:active:not(:disabled) { background: var(--evoke-surface-muted, #f5f5f5); }
+/* pill */
+evoke-tabs .evoke-tabs--pill .evoke-tabs__tab { border-radius: var(--evoke-radius-button, 9999px); padding: 8px 20px; }
+evoke-tabs .evoke-tabs--pill .evoke-tabs__tab:hover:not(:disabled):not(.evoke-tabs__tab--active) { background: var(--evoke-surface-muted, #f5f5f5); }
+evoke-tabs .evoke-tabs--pill .evoke-tabs__tab--active { background: var(--evoke-primary, #ff5316); color: var(--evoke-primary-contrast, #ffffff); }
+evoke-tabs .evoke-tabs--pill .evoke-tabs__tab:active:not(:disabled) { filter: brightness(0.85); }
+evoke-tabs .evoke-tabs__panel { padding: 16px 0; }
+evoke-tabs .evoke-tabs__panel:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); border-radius: var(--evoke-radius-field, 8px); }

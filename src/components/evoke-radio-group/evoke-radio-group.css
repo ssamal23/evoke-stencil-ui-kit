@@ -8,9 +8,22 @@ evoke-radio-group .evoke-radio__row--disabled { opacity: 0.6; cursor: not-allowe
 evoke-radio-group .evoke-radio__input {
   appearance: none; -webkit-appearance: none; margin: 0; flex: none; width: 16px; height: 16px;
   border: 2px solid var(--evoke-primary, #ff5316); border-radius: 50%; background: var(--evoke-surface, #ffffff);
-  cursor: inherit; transition: box-shadow 0.15s;
+  cursor: inherit; transition: box-shadow 0.15s, filter 0.15s;
 }
+evoke-radio-group .evoke-radio__input:hover:not(:disabled) { filter: brightness(0.92); }
 evoke-radio-group .evoke-radio__input:checked { background: radial-gradient(circle, var(--evoke-primary, #ff5316) 0 40%, var(--evoke-surface, #ffffff) 45%); }
 evoke-radio-group .evoke-radio__input:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
 evoke-radio-group .evoke-radio__input--error { border-color: var(--evoke-danger, #dc2626); }
 evoke-radio-group .evoke-radio__error { color: var(--evoke-danger, #dc2626); font-size: 0.875rem; }
+/* segmented */
+evoke-radio-group .evoke-radio__options--segmented { flex-direction: row; gap: 0; align-self: flex-start; border: 1px solid var(--evoke-primary, #ff5316); border-radius: var(--evoke-radius-field, 8px); overflow: hidden; }
+evoke-radio-group .evoke-seg { position: relative; display: inline-flex; cursor: pointer; }
+evoke-radio-group .evoke-seg + .evoke-seg { border-left: 1px solid var(--evoke-primary, #ff5316); }
+evoke-radio-group .evoke-seg--disabled { opacity: 0.5; cursor: not-allowed; }
+evoke-radio-group .evoke-seg__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+evoke-radio-group .evoke-seg__text { display: inline-flex; align-items: center; justify-content: center; min-height: calc(var(--evoke-control-height, 56px) * 0.75); padding: 0 20px; font-size: 0.875rem; background: var(--evoke-surface, #ffffff); color: var(--evoke-primary-text, #cc3d0d); transition: background-color 0.15s, filter 0.15s; }
+evoke-radio-group .evoke-seg:hover .evoke-seg__input:not(:disabled):not(:checked) + .evoke-seg__text { background: color-mix(in srgb, var(--evoke-primary, #ff5316) 10%, var(--evoke-surface, #ffffff)); }
+evoke-radio-group .evoke-seg__input:checked + .evoke-seg__text { background: var(--evoke-primary, #ff5316); color: var(--evoke-primary-contrast, #ffffff); }
+evoke-radio-group .evoke-seg__input:active:not(:disabled) + .evoke-seg__text { filter: brightness(0.85); }
+evoke-radio-group .evoke-seg__input:focus-visible + .evoke-seg__text { box-shadow: inset 0 0 0 3px var(--evoke-secondary, #0b1560); }
+evoke-radio-group .evoke-seg__input.evoke-radio__input--error + .evoke-seg__text { color: var(--evoke-danger, #dc2626); }

@@ -1,5 +1,5 @@
 {
-  "name": "evoke-stencil-ui-kit",
+  "name": "@evoke-tech/stencil-ui-kit",
   "version": "0.1.0",
   "description": "Evoke Tech UI kit: framework-agnostic web components (Stencil) for Angular, React, Vue and plain HTML, with Angular Material, Tailwind CSS, Bootstrap and plain CSS themes.",
   "license": "MIT",

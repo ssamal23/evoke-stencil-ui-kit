@@ -7,12 +7,14 @@
 
 ## Properties
 
-| Property          | Attribute           | Description                        | Type      | Default |
-| ----------------- | ------------------- | ---------------------------------- | --------- | ------- |
-| `closeOnBackdrop` | `close-on-backdrop` |                                    | `boolean` | `true`  |
-| `heading`         | `heading`           |                                    | `string`  | `''`    |
-| `modalClass`      | `modal-class`       | Extra classes for the dialog panel | `string`  | `''`    |
-| `open`            | `open`              | Whether the modal is visible       | `boolean` | `false` |
+| Property          | Attribute           | Description                                           | Type                   | Default    |
+| ----------------- | ------------------- | ----------------------------------------------------- | ---------------------- | ---------- |
+| `closeOnBackdrop` | `close-on-backdrop` |                                                       | `boolean`              | `true`     |
+| `heading`         | `heading`           |                                                       | `string`               | `''`       |
+| `modalClass`      | `modal-class`       | Extra classes for the dialog panel                    | `string`               | `''`       |
+| `open`            | `open`              | Whether the modal is visible                          | `boolean`              | `false`    |
+| `position`        | `position`          | Centred dialog, or a drawer sliding in from the right | `"center" \| "right"`  | `'center'` |
+| `size`            | `size`              |                                                       | `"lg" \| "md" \| "sm"` | `'md'`     |
 
 
 ## Events

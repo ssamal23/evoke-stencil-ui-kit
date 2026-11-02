@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property      | Attribute     | Description | Type                                           | Default  |
-| ------------- | ------------- | ----------- | ---------------------------------------------- | -------- |
-| `dismissible` | `dismissible` |             | `boolean`                                      | `false`  |
-| `type`        | `type`        |             | `"danger" \| "info" \| "success" \| "warning"` | `'info'` |
+| Property      | Attribute     | Description                                         | Type                                           | Default    |
+| ------------- | ------------- | --------------------------------------------------- | ---------------------------------------------- | ---------- |
+| `appearance`  | `appearance`  | Subtle (tinted background) or solid (filled colour) | `"solid" \| "subtle"`                          | `'subtle'` |
+| `dismissible` | `dismissible` |                                                     | `boolean`                                      | `false`    |
+| `type`        | `type`        |                                                     | `"danger" \| "info" \| "success" \| "warning"` | `'info'`   |
 
 
 ## Events

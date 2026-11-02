@@ -20,4 +20,7 @@
   --evoke-control-height: 38px;
   --evoke-button-padding-x: 0.75rem;
   --evoke-font-size: 1rem;
+  --evoke-surface-muted: var(--bs-tertiary-bg, #f8f9fa);
+  --evoke-shadow: var(--bs-box-shadow, 0 0.5rem 1rem rgba(0, 0, 0, 0.15));
+  --evoke-primary-text: color-mix(in srgb, var(--bs-primary, #0d6efd) 85%, #000);
 }

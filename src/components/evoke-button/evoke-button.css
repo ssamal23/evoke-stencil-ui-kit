@@ -4,14 +4,28 @@ evoke-button .evoke-btn {
   height: var(--evoke-control-height, 56px); padding: 0 var(--evoke-button-padding-x, 36px);
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   border: 1px solid transparent; border-radius: var(--evoke-radius-button, 9999px);
-  transition: filter 0.15s, box-shadow 0.15s;
+  transition: filter 0.15s, background-color 0.15s, box-shadow 0.15s, transform 0.05s;
 }
+evoke-button .evoke-btn--sm { height: calc(var(--evoke-control-height, 56px) * 0.75); padding: 0 calc(var(--evoke-button-padding-x, 36px) * 0.6); font-size: 0.875rem; }
+evoke-button .evoke-btn--lg { height: calc(var(--evoke-control-height, 56px) * 1.15); padding: 0 calc(var(--evoke-button-padding-x, 36px) * 1.2); font-size: 1.125rem; }
+evoke-button .evoke-btn--icon { padding: 0; width: var(--evoke-control-height, 56px); }
+evoke-button .evoke-btn--icon.evoke-btn--sm { width: calc(var(--evoke-control-height, 56px) * 0.75); }
+evoke-button .evoke-btn--icon.evoke-btn--lg { width: calc(var(--evoke-control-height, 56px) * 1.15); }
+evoke-button .evoke-icon { width: 1.1em; height: 1.1em; flex: none; }
 evoke-button .evoke-btn:hover:not(:disabled) { filter: brightness(0.92); }
+evoke-button .evoke-btn:active:not(:disabled) { filter: brightness(0.82); transform: translateY(1px); }
 evoke-button .evoke-btn:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
 evoke-button .evoke-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+evoke-button .evoke-btn--loading:disabled { cursor: progress; opacity: 0.8; }
 evoke-button .evoke-btn--primary { background: var(--evoke-primary, #ff5316); color: var(--evoke-primary-contrast, #ffffff); }
 evoke-button .evoke-btn--secondary { background: var(--evoke-secondary, #0b1560); color: var(--evoke-secondary-contrast, #ffffff); }
 evoke-button .evoke-btn--danger { background: var(--evoke-danger, #dc2626); color: #fff; }
-evoke-button .evoke-btn--outline { background: transparent; color: var(--evoke-primary, #ff5316); border-color: var(--evoke-primary, #ff5316); }
+evoke-button .evoke-btn--outline { background: transparent; color: var(--evoke-primary-text, #cc3d0d); border-color: var(--evoke-primary, #ff5316); }
+evoke-button .evoke-btn--ghost { background: transparent; color: var(--evoke-primary-text, #cc3d0d); border-color: transparent; }
+evoke-button .evoke-btn--ghost:hover:not(:disabled) { filter: none; background: color-mix(in srgb, var(--evoke-primary, #ff5316) 10%, transparent); }
+evoke-button .evoke-btn--ghost:active:not(:disabled) { filter: none; background: color-mix(in srgb, var(--evoke-primary, #ff5316) 18%, transparent); }
+evoke-button .evoke-spinner { width: 1em; height: 1em; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: evoke-spin 0.7s linear infinite; }
+@keyframes evoke-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { evoke-button .evoke-spinner { animation-duration: 2s; } }
 evoke-button[block] { display: block; }
 evoke-button[block] .evoke-btn { width: 100%; }

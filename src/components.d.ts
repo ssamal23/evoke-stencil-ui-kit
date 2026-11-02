@@ -5,10 +5,17 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { EvokeIcon } from "./utils/icons";
 import { EvokeOption } from "./utils/options";
+export { EvokeIcon } from "./utils/icons";
 export { EvokeOption } from "./utils/options";
 export namespace Components {
     interface EvokeAlert {
+        /**
+          * Subtle (tinted background) or solid (filled colour)
+          * @default 'subtle'
+         */
+        "appearance": 'subtle' | 'solid';
         /**
           * @default false
          */
@@ -18,7 +25,59 @@ export namespace Components {
          */
         "type": 'info' | 'success' | 'warning' | 'danger';
     }
+    interface EvokeAppBar {
+        /**
+          * Light surface, or dark / brand-coloured (navy)
+          * @default 'light'
+         */
+        "appearance": 'light' | 'dark';
+        /**
+          * Accessible name for the navigation landmark
+          * @default 'Main'
+         */
+        "navLabel": string;
+        /**
+          * Stick to the top of the viewport while scrolling
+          * @default false
+         */
+        "sticky": boolean;
+    }
+    interface EvokeBadge {
+        /**
+          * @default 'danger'
+         */
+        "color": 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info';
+        /**
+          * Number to show (count badge)
+          * @default 0
+         */
+        "count": number;
+        /**
+          * Show a small status dot instead of a number
+          * @default false
+         */
+        "dot": boolean;
+        /**
+          * Screen-reader text, e.g. "3 items in cart". A dot without a label is treated as decorative.
+          * @default ''
+         */
+        "label": string;
+        /**
+          * Counts above this show as "max+" (e.g. 99+)
+          * @default 99
+         */
+        "max": number;
+        /**
+          * Show the badge even when the count is 0
+          * @default false
+         */
+        "showZero": boolean;
+    }
     interface EvokeButton {
+        /**
+          * aria-label for the inner button (required when `icon-only`)
+         */
+        "accessibleLabel"?: string;
         /**
           * Stretch to the full width of the container
           * @default false
@@ -34,21 +93,49 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Optional leading icon
+         */
+        "icon"?: EvokeIcon;
+        /**
+          * Square button for icon-only use; set `accessible-label` too
+          * @default false
+         */
+        "iconOnly": boolean;
+        /**
+          * Shows a spinner and blocks clicks while true
+          * @default false
+         */
+        "loading": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": 'sm' | 'md' | 'lg';
+        /**
           * @default 'button'
          */
         "type": 'button' | 'submit' | 'reset';
         /**
-          * Visual variant
+          * Solid variants (primary, secondary, danger), outline, or ghost (text only, no border)
           * @default 'primary'
          */
-        "variant": 'primary' | 'secondary' | 'danger' | 'outline';
+        "variant": 'primary' | 'secondary' | 'danger' | 'outline' | 'ghost';
     }
     interface EvokeCard {
+        /**
+          * Outlined (border) or elevated (shadow, no border)
+          * @default 'outlined'
+         */
+        "appearance": 'outlined' | 'elevated';
         /**
           * Extra classes for the card container, e.g. "shadow-md" (Tailwind) or "card" (Bootstrap)
           * @default ''
          */
         "cardClass": string;
+        /**
+          * Makes the whole card a button (hover/active/focus states, Enter/Space)
+          * @default false
+         */
+        "clickable": boolean;
         /**
           * @default ''
          */
@@ -69,6 +156,11 @@ export namespace Components {
          */
         "error": string;
         /**
+          * Mixed state, e.g. a "select all" box when only some items are selected. Cleared on click.
+          * @default false
+         */
+        "indeterminate": boolean;
+        /**
           * Extra classes for the inner <input>
           * @default ''
          */
@@ -78,7 +170,7 @@ export namespace Components {
          */
         "label": string;
     }
-    interface EvokeInput {
+    interface EvokeChip {
         /**
           * @default false
          */
@@ -86,11 +178,42 @@ export namespace Components {
         /**
           * @default ''
          */
+        "label": string;
+        /**
+          * Shows a remove button instead of toggling selection
+          * @default false
+         */
+        "removable": boolean;
+        /**
+          * Selected state (filter chip)
+          * @default false
+         */
+        "selected": boolean;
+    }
+    interface EvokeInput {
+        /**
+          * Outlined (default) or filled (tinted background, bottom border)
+          * @default 'outlined'
+         */
+        "appearance": 'outlined' | 'filled';
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error message shown below the field (replaces the hint)
+          * @default ''
+         */
         "error": string;
+        /**
+          * Helper text shown below the field
+          * @default ''
+         */
+        "hint": string;
         /**
           * Optional leading icon
          */
-        "icon"?: 'mail' | 'lock' | 'user' | 'search';
+        "icon"?: EvokeIcon;
         /**
           * Extra classes for the inner <input>, e.g. "form-control" (Bootstrap)
           * @default ''
@@ -103,7 +226,15 @@ export namespace Components {
         /**
           * @default ''
          */
+        "name": string;
+        /**
+          * @default ''
+         */
         "placeholder": string;
+        /**
+          * @default false
+         */
+        "required": boolean;
         /**
           * @default 'text'
          */
@@ -132,8 +263,98 @@ export namespace Components {
           * @default false
          */
         "open": boolean;
+        /**
+          * Centred dialog, or a drawer sliding in from the right
+          * @default 'center'
+         */
+        "position": 'center' | 'right';
+        /**
+          * @default 'md'
+         */
+        "size": 'sm' | 'md' | 'lg';
+    }
+    interface EvokePagination {
+        /**
+          * Numbered pages, or compact (Prev, "2 of 10", Next)
+          * @default 'numbered'
+         */
+        "appearance": 'numbered' | 'compact';
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Current page (1-based)
+          * @default 1
+         */
+        "page": number;
+        /**
+          * Total number of pages
+          * @default 1
+         */
+        "total": number;
+    }
+    interface EvokeProgress {
+        /**
+          * Unknown duration: animates continuously and ignores `value`
+          * @default false
+         */
+        "indeterminate": boolean;
+        /**
+          * Accessible name, e.g. "Uploading"
+          * @default 'Loading'
+         */
+        "label": string;
+        /**
+          * Diameter in px for the circular type
+          * @default 40
+         */
+        "size": number;
+        /**
+          * Linear bar, or circular spinner / ring
+          * @default 'linear'
+         */
+        "type": 'linear' | 'circular';
+        /**
+          * Progress from 0 to 100
+          * @default 0
+         */
+        "value": number;
+    }
+    interface EvokeQuantityStepper {
+        /**
+          * Inline (minus, value, plus) or compact with a quantity dropdown
+          * @default 'inline'
+         */
+        "appearance": 'inline' | 'compact';
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Accessible name for the control
+          * @default 'Quantity'
+         */
+        "label": string;
+        /**
+          * @default 99
+         */
+        "max": number;
+        /**
+          * @default 1
+         */
+        "min": number;
+        /**
+          * @default 1
+         */
+        "value": number;
     }
     interface EvokeRadioGroup {
+        /**
+          * Classic radio circles, or a segmented button group
+          * @default 'classic'
+         */
+        "appearance": 'classic' | 'segmented';
         /**
           * @default false
          */
@@ -144,7 +365,7 @@ export namespace Components {
          */
         "error": string;
         /**
-          * Lay options out in a row instead of a column
+          * Lay classic options out in a row instead of a column
           * @default false
          */
         "inline": boolean;
@@ -172,14 +393,23 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Error message shown below the field
+          * Error message shown below the field (replaces the hint)
           * @default ''
          */
         "error": string;
         /**
           * @default ''
          */
+        "hint": string;
+        /**
+          * @default ''
+         */
         "label": string;
+        /**
+          * Multi-select: selected values are shown as removable chips
+          * @default false
+         */
+        "multiple": boolean;
         /**
           * Options as an array of { label, value, disabled? } or a JSON string of the same
           * @default []
@@ -190,23 +420,211 @@ export namespace Components {
          */
         "placeholder": string;
         /**
-          * Extra classes for the inner <select>, e.g. "form-select" (Bootstrap)
+          * Adds a search box that filters the options
+          * @default false
+         */
+        "searchable": boolean;
+        /**
+          * Extra classes for the inner <select> (single, non-searchable mode), e.g. "form-select"
           * @default ''
          */
         "selectClass": string;
         /**
+          * Selected value (string), or an array of values when `multiple`
+          * @default ''
+         */
+        "value": string | string[];
+    }
+    interface EvokeSwitch {
+        /**
+          * aria-label for a plain toggle that has no visible label
+         */
+        "accessibleLabel"?: string;
+        /**
+          * @default false
+         */
+        "checked": boolean;
+        /**
+          * Secondary text under the label
+          * @default ''
+         */
+        "description": string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Optional visible label. Without a label or description it is a plain toggle.
+          * @default ''
+         */
+        "label": string;
+    }
+    interface EvokeTable {
+        /**
+          * Visually hidden/visible table caption for screen readers
+          * @default ''
+         */
+        "caption": string;
+        /**
+          * Columns as an array of { key, label, sortable?, align? } or a JSON string of the same
+          * @default []
+         */
+        "columns": { key: string; label: string; sortable?: boolean; align?: 'left' | 'center' | 'right' }[] | string;
+        /**
+          * @default 'No data'
+         */
+        "emptyText": string;
+        /**
+          * Rows as an array of objects keyed by column key, or a JSON string of the same
+          * @default []
+         */
+        "rows": Record<string, string | number | boolean | null>[] | string;
+        /**
+          * Allow sorting on columns marked `sortable` (or all columns if none are marked)
+          * @default false
+         */
+        "sortable": boolean;
+        /**
+          * Alternate row shading
+          * @default false
+         */
+        "striped": boolean;
+    }
+    interface EvokeTabs {
+        /**
+          * Underline tabs or pill tabs
+          * @default 'underline'
+         */
+        "appearance": 'underline' | 'pill';
+        /**
+          * Accessible name for the tab list
+          * @default ''
+         */
+        "label": string;
+        /**
+          * Tabs as an array of { label, value, disabled? } or a JSON string of the same
+          * @default []
+         */
+        "options": EvokeOption[] | string;
+        /**
+          * Value of the active tab. Defaults to the first enabled tab.
           * @default ''
          */
         "value": string;
+    }
+    interface EvokeTextarea {
+        /**
+          * Grow with the content instead of scrolling
+          * @default false
+         */
+        "autoGrow": boolean;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default ''
+         */
+        "error": string;
+        /**
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * @default ''
+         */
+        "label": string;
+        /**
+          * Max characters; also shows a live "n / max" counter
+         */
+        "maxLength"?: number;
+        /**
+          * @default ''
+         */
+        "name": string;
+        /**
+          * @default ''
+         */
+        "placeholder": string;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Visible rows (the minimum height when `auto-grow` is on)
+          * @default 4
+         */
+        "rows": number;
+        /**
+          * Extra classes for the inner <textarea>
+          * @default ''
+         */
+        "textareaClass": string;
+        /**
+          * @default ''
+         */
+        "value": string;
+    }
+    interface EvokeToast {
+        /**
+          * Label of an action button, e.g. "View cart". Leave empty for a simple message.
+          * @default ''
+         */
+        "action": string;
+        /**
+          * Auto-dismiss after this many ms; 0 keeps it open until closed
+          * @default 4000
+         */
+        "duration": number;
+        /**
+          * Message text (or use the default slot)
+          * @default ''
+         */
+        "message": string;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * @default 'bottom'
+         */
+        "position": 'bottom' | 'top';
+        /**
+          * @default 'info'
+         */
+        "type": 'info' | 'success' | 'warning' | 'danger';
+    }
+    interface EvokeTooltip {
+        /**
+          * @default 'top'
+         */
+        "placement": 'top' | 'bottom' | 'left' | 'right';
+        /**
+          * @default ''
+         */
+        "text": string;
+        /**
+          * Dark, or light with an arrow
+          * @default 'dark'
+         */
+        "theme": 'dark' | 'light';
     }
 }
 export interface EvokeAlertCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEvokeAlertElement;
 }
+export interface EvokeCardCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeCardElement;
+}
 export interface EvokeCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEvokeCheckboxElement;
+}
+export interface EvokeChipCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeChipElement;
 }
 export interface EvokeInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -216,6 +634,14 @@ export interface EvokeModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEvokeModalElement;
 }
+export interface EvokePaginationCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokePaginationElement;
+}
+export interface EvokeQuantityStepperCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeQuantityStepperElement;
+}
 export interface EvokeRadioGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEvokeRadioGroupElement;
@@ -223,6 +649,26 @@ export interface EvokeRadioGroupCustomEvent<T> extends CustomEvent<T> {
 export interface EvokeSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEvokeSelectElement;
+}
+export interface EvokeSwitchCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeSwitchElement;
+}
+export interface EvokeTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeTableElement;
+}
+export interface EvokeTabsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeTabsElement;
+}
+export interface EvokeTextareaCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeTextareaElement;
+}
+export interface EvokeToastCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeToastElement;
 }
 declare global {
     interface HTMLEvokeAlertElementEventMap {
@@ -242,13 +688,36 @@ declare global {
         prototype: HTMLEvokeAlertElement;
         new (): HTMLEvokeAlertElement;
     };
+    interface HTMLEvokeAppBarElement extends Components.EvokeAppBar, HTMLStencilElement {
+    }
+    var HTMLEvokeAppBarElement: {
+        prototype: HTMLEvokeAppBarElement;
+        new (): HTMLEvokeAppBarElement;
+    };
+    interface HTMLEvokeBadgeElement extends Components.EvokeBadge, HTMLStencilElement {
+    }
+    var HTMLEvokeBadgeElement: {
+        prototype: HTMLEvokeBadgeElement;
+        new (): HTMLEvokeBadgeElement;
+    };
     interface HTMLEvokeButtonElement extends Components.EvokeButton, HTMLStencilElement {
     }
     var HTMLEvokeButtonElement: {
         prototype: HTMLEvokeButtonElement;
         new (): HTMLEvokeButtonElement;
     };
+    interface HTMLEvokeCardElementEventMap {
+        "evokeClick": void;
+    }
     interface HTMLEvokeCardElement extends Components.EvokeCard, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeCardElementEventMap>(type: K, listener: (this: HTMLEvokeCardElement, ev: EvokeCardCustomEvent<HTMLEvokeCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeCardElementEventMap>(type: K, listener: (this: HTMLEvokeCardElement, ev: EvokeCardCustomEvent<HTMLEvokeCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLEvokeCardElement: {
         prototype: HTMLEvokeCardElement;
@@ -270,6 +739,24 @@ declare global {
     var HTMLEvokeCheckboxElement: {
         prototype: HTMLEvokeCheckboxElement;
         new (): HTMLEvokeCheckboxElement;
+    };
+    interface HTMLEvokeChipElementEventMap {
+        "evokeChange": boolean;
+        "evokeRemove": void;
+    }
+    interface HTMLEvokeChipElement extends Components.EvokeChip, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeChipElementEventMap>(type: K, listener: (this: HTMLEvokeChipElement, ev: EvokeChipCustomEvent<HTMLEvokeChipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeChipElementEventMap>(type: K, listener: (this: HTMLEvokeChipElement, ev: EvokeChipCustomEvent<HTMLEvokeChipElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeChipElement: {
+        prototype: HTMLEvokeChipElement;
+        new (): HTMLEvokeChipElement;
     };
     interface HTMLEvokeInputElementEventMap {
         "evokeInput": string;
@@ -306,6 +793,46 @@ declare global {
         prototype: HTMLEvokeModalElement;
         new (): HTMLEvokeModalElement;
     };
+    interface HTMLEvokePaginationElementEventMap {
+        "evokeChange": number;
+    }
+    interface HTMLEvokePaginationElement extends Components.EvokePagination, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokePaginationElementEventMap>(type: K, listener: (this: HTMLEvokePaginationElement, ev: EvokePaginationCustomEvent<HTMLEvokePaginationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokePaginationElementEventMap>(type: K, listener: (this: HTMLEvokePaginationElement, ev: EvokePaginationCustomEvent<HTMLEvokePaginationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokePaginationElement: {
+        prototype: HTMLEvokePaginationElement;
+        new (): HTMLEvokePaginationElement;
+    };
+    interface HTMLEvokeProgressElement extends Components.EvokeProgress, HTMLStencilElement {
+    }
+    var HTMLEvokeProgressElement: {
+        prototype: HTMLEvokeProgressElement;
+        new (): HTMLEvokeProgressElement;
+    };
+    interface HTMLEvokeQuantityStepperElementEventMap {
+        "evokeChange": number;
+    }
+    interface HTMLEvokeQuantityStepperElement extends Components.EvokeQuantityStepper, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeQuantityStepperElementEventMap>(type: K, listener: (this: HTMLEvokeQuantityStepperElement, ev: EvokeQuantityStepperCustomEvent<HTMLEvokeQuantityStepperElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeQuantityStepperElementEventMap>(type: K, listener: (this: HTMLEvokeQuantityStepperElement, ev: EvokeQuantityStepperCustomEvent<HTMLEvokeQuantityStepperElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeQuantityStepperElement: {
+        prototype: HTMLEvokeQuantityStepperElement;
+        new (): HTMLEvokeQuantityStepperElement;
+    };
     interface HTMLEvokeRadioGroupElementEventMap {
         "evokeChange": string;
     }
@@ -324,7 +851,7 @@ declare global {
         new (): HTMLEvokeRadioGroupElement;
     };
     interface HTMLEvokeSelectElementEventMap {
-        "evokeChange": string;
+        "evokeChange": string | string[];
     }
     interface HTMLEvokeSelectElement extends Components.EvokeSelect, HTMLStencilElement {
         addEventListener<K extends keyof HTMLEvokeSelectElementEventMap>(type: K, listener: (this: HTMLEvokeSelectElement, ev: EvokeSelectCustomEvent<HTMLEvokeSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -340,19 +867,129 @@ declare global {
         prototype: HTMLEvokeSelectElement;
         new (): HTMLEvokeSelectElement;
     };
+    interface HTMLEvokeSwitchElementEventMap {
+        "evokeChange": boolean;
+    }
+    interface HTMLEvokeSwitchElement extends Components.EvokeSwitch, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeSwitchElementEventMap>(type: K, listener: (this: HTMLEvokeSwitchElement, ev: EvokeSwitchCustomEvent<HTMLEvokeSwitchElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeSwitchElementEventMap>(type: K, listener: (this: HTMLEvokeSwitchElement, ev: EvokeSwitchCustomEvent<HTMLEvokeSwitchElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeSwitchElement: {
+        prototype: HTMLEvokeSwitchElement;
+        new (): HTMLEvokeSwitchElement;
+    };
+    interface HTMLEvokeTableElementEventMap {
+        "evokeSort": { key: string; direction: 'asc' | 'desc' };
+    }
+    interface HTMLEvokeTableElement extends Components.EvokeTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeTableElementEventMap>(type: K, listener: (this: HTMLEvokeTableElement, ev: EvokeTableCustomEvent<HTMLEvokeTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeTableElementEventMap>(type: K, listener: (this: HTMLEvokeTableElement, ev: EvokeTableCustomEvent<HTMLEvokeTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeTableElement: {
+        prototype: HTMLEvokeTableElement;
+        new (): HTMLEvokeTableElement;
+    };
+    interface HTMLEvokeTabsElementEventMap {
+        "evokeChange": string;
+    }
+    interface HTMLEvokeTabsElement extends Components.EvokeTabs, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeTabsElementEventMap>(type: K, listener: (this: HTMLEvokeTabsElement, ev: EvokeTabsCustomEvent<HTMLEvokeTabsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeTabsElementEventMap>(type: K, listener: (this: HTMLEvokeTabsElement, ev: EvokeTabsCustomEvent<HTMLEvokeTabsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeTabsElement: {
+        prototype: HTMLEvokeTabsElement;
+        new (): HTMLEvokeTabsElement;
+    };
+    interface HTMLEvokeTextareaElementEventMap {
+        "evokeInput": string;
+        "evokeChange": string;
+    }
+    interface HTMLEvokeTextareaElement extends Components.EvokeTextarea, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeTextareaElementEventMap>(type: K, listener: (this: HTMLEvokeTextareaElement, ev: EvokeTextareaCustomEvent<HTMLEvokeTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeTextareaElementEventMap>(type: K, listener: (this: HTMLEvokeTextareaElement, ev: EvokeTextareaCustomEvent<HTMLEvokeTextareaElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeTextareaElement: {
+        prototype: HTMLEvokeTextareaElement;
+        new (): HTMLEvokeTextareaElement;
+    };
+    interface HTMLEvokeToastElementEventMap {
+        "evokeAction": void;
+        "evokeClose": void;
+    }
+    interface HTMLEvokeToastElement extends Components.EvokeToast, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeToastElementEventMap>(type: K, listener: (this: HTMLEvokeToastElement, ev: EvokeToastCustomEvent<HTMLEvokeToastElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeToastElementEventMap>(type: K, listener: (this: HTMLEvokeToastElement, ev: EvokeToastCustomEvent<HTMLEvokeToastElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeToastElement: {
+        prototype: HTMLEvokeToastElement;
+        new (): HTMLEvokeToastElement;
+    };
+    interface HTMLEvokeTooltipElement extends Components.EvokeTooltip, HTMLStencilElement {
+    }
+    var HTMLEvokeTooltipElement: {
+        prototype: HTMLEvokeTooltipElement;
+        new (): HTMLEvokeTooltipElement;
+    };
     interface HTMLElementTagNameMap {
         "evoke-alert": HTMLEvokeAlertElement;
+        "evoke-app-bar": HTMLEvokeAppBarElement;
+        "evoke-badge": HTMLEvokeBadgeElement;
         "evoke-button": HTMLEvokeButtonElement;
         "evoke-card": HTMLEvokeCardElement;
         "evoke-checkbox": HTMLEvokeCheckboxElement;
+        "evoke-chip": HTMLEvokeChipElement;
         "evoke-input": HTMLEvokeInputElement;
         "evoke-modal": HTMLEvokeModalElement;
+        "evoke-pagination": HTMLEvokePaginationElement;
+        "evoke-progress": HTMLEvokeProgressElement;
+        "evoke-quantity-stepper": HTMLEvokeQuantityStepperElement;
         "evoke-radio-group": HTMLEvokeRadioGroupElement;
         "evoke-select": HTMLEvokeSelectElement;
+        "evoke-switch": HTMLEvokeSwitchElement;
+        "evoke-table": HTMLEvokeTableElement;
+        "evoke-tabs": HTMLEvokeTabsElement;
+        "evoke-textarea": HTMLEvokeTextareaElement;
+        "evoke-toast": HTMLEvokeToastElement;
+        "evoke-tooltip": HTMLEvokeTooltipElement;
     }
 }
 declare namespace LocalJSX {
     interface EvokeAlert {
+        /**
+          * Subtle (tinted background) or solid (filled colour)
+          * @default 'subtle'
+         */
+        "appearance"?: 'subtle' | 'solid';
         /**
           * @default false
          */
@@ -366,7 +1003,59 @@ declare namespace LocalJSX {
          */
         "type"?: 'info' | 'success' | 'warning' | 'danger';
     }
+    interface EvokeAppBar {
+        /**
+          * Light surface, or dark / brand-coloured (navy)
+          * @default 'light'
+         */
+        "appearance"?: 'light' | 'dark';
+        /**
+          * Accessible name for the navigation landmark
+          * @default 'Main'
+         */
+        "navLabel"?: string;
+        /**
+          * Stick to the top of the viewport while scrolling
+          * @default false
+         */
+        "sticky"?: boolean;
+    }
+    interface EvokeBadge {
+        /**
+          * @default 'danger'
+         */
+        "color"?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info';
+        /**
+          * Number to show (count badge)
+          * @default 0
+         */
+        "count"?: number;
+        /**
+          * Show a small status dot instead of a number
+          * @default false
+         */
+        "dot"?: boolean;
+        /**
+          * Screen-reader text, e.g. "3 items in cart". A dot without a label is treated as decorative.
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * Counts above this show as "max+" (e.g. 99+)
+          * @default 99
+         */
+        "max"?: number;
+        /**
+          * Show the badge even when the count is 0
+          * @default false
+         */
+        "showZero"?: boolean;
+    }
     interface EvokeButton {
+        /**
+          * aria-label for the inner button (required when `icon-only`)
+         */
+        "accessibleLabel"?: string;
         /**
           * Stretch to the full width of the container
           * @default false
@@ -382,25 +1071,57 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Optional leading icon
+         */
+        "icon"?: EvokeIcon;
+        /**
+          * Square button for icon-only use; set `accessible-label` too
+          * @default false
+         */
+        "iconOnly"?: boolean;
+        /**
+          * Shows a spinner and blocks clicks while true
+          * @default false
+         */
+        "loading"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: 'sm' | 'md' | 'lg';
+        /**
           * @default 'button'
          */
         "type"?: 'button' | 'submit' | 'reset';
         /**
-          * Visual variant
+          * Solid variants (primary, secondary, danger), outline, or ghost (text only, no border)
           * @default 'primary'
          */
-        "variant"?: 'primary' | 'secondary' | 'danger' | 'outline';
+        "variant"?: 'primary' | 'secondary' | 'danger' | 'outline' | 'ghost';
     }
     interface EvokeCard {
+        /**
+          * Outlined (border) or elevated (shadow, no border)
+          * @default 'outlined'
+         */
+        "appearance"?: 'outlined' | 'elevated';
         /**
           * Extra classes for the card container, e.g. "shadow-md" (Tailwind) or "card" (Bootstrap)
           * @default ''
          */
         "cardClass"?: string;
         /**
+          * Makes the whole card a button (hover/active/focus states, Enter/Space)
+          * @default false
+         */
+        "clickable"?: boolean;
+        /**
           * @default ''
          */
         "heading"?: string;
+        /**
+          * Fired when a `clickable` card is activated
+         */
+        "onEvokeClick"?: (event: EvokeCardCustomEvent<void>) => void;
     }
     interface EvokeCheckbox {
         /**
@@ -417,6 +1138,11 @@ declare namespace LocalJSX {
          */
         "error"?: string;
         /**
+          * Mixed state, e.g. a "select all" box when only some items are selected. Cleared on click.
+          * @default false
+         */
+        "indeterminate"?: boolean;
+        /**
           * Extra classes for the inner <input>
           * @default ''
          */
@@ -430,7 +1156,7 @@ declare namespace LocalJSX {
          */
         "onEvokeChange"?: (event: EvokeCheckboxCustomEvent<boolean>) => void;
     }
-    interface EvokeInput {
+    interface EvokeChip {
         /**
           * @default false
          */
@@ -438,11 +1164,50 @@ declare namespace LocalJSX {
         /**
           * @default ''
          */
+        "label"?: string;
+        /**
+          * Emits the new selected state (filter chip)
+         */
+        "onEvokeChange"?: (event: EvokeChipCustomEvent<boolean>) => void;
+        /**
+          * Fired when the remove button is clicked (removable chip)
+         */
+        "onEvokeRemove"?: (event: EvokeChipCustomEvent<void>) => void;
+        /**
+          * Shows a remove button instead of toggling selection
+          * @default false
+         */
+        "removable"?: boolean;
+        /**
+          * Selected state (filter chip)
+          * @default false
+         */
+        "selected"?: boolean;
+    }
+    interface EvokeInput {
+        /**
+          * Outlined (default) or filled (tinted background, bottom border)
+          * @default 'outlined'
+         */
+        "appearance"?: 'outlined' | 'filled';
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error message shown below the field (replaces the hint)
+          * @default ''
+         */
         "error"?: string;
+        /**
+          * Helper text shown below the field
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Optional leading icon
          */
-        "icon"?: 'mail' | 'lock' | 'user' | 'search';
+        "icon"?: EvokeIcon;
         /**
           * Extra classes for the inner <input>, e.g. "form-control" (Bootstrap)
           * @default ''
@@ -452,6 +1217,10 @@ declare namespace LocalJSX {
           * @default ''
          */
         "label"?: string;
+        /**
+          * @default ''
+         */
+        "name"?: string;
         /**
           * Emits the new value on commit (blur/enter)
          */
@@ -464,6 +1233,10 @@ declare namespace LocalJSX {
           * @default ''
          */
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
         /**
           * @default 'text'
          */
@@ -496,8 +1269,106 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
+        /**
+          * Centred dialog, or a drawer sliding in from the right
+          * @default 'center'
+         */
+        "position"?: 'center' | 'right';
+        /**
+          * @default 'md'
+         */
+        "size"?: 'sm' | 'md' | 'lg';
+    }
+    interface EvokePagination {
+        /**
+          * Numbered pages, or compact (Prev, "2 of 10", Next)
+          * @default 'numbered'
+         */
+        "appearance"?: 'numbered' | 'compact';
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Emits the new page number
+         */
+        "onEvokeChange"?: (event: EvokePaginationCustomEvent<number>) => void;
+        /**
+          * Current page (1-based)
+          * @default 1
+         */
+        "page"?: number;
+        /**
+          * Total number of pages
+          * @default 1
+         */
+        "total"?: number;
+    }
+    interface EvokeProgress {
+        /**
+          * Unknown duration: animates continuously and ignores `value`
+          * @default false
+         */
+        "indeterminate"?: boolean;
+        /**
+          * Accessible name, e.g. "Uploading"
+          * @default 'Loading'
+         */
+        "label"?: string;
+        /**
+          * Diameter in px for the circular type
+          * @default 40
+         */
+        "size"?: number;
+        /**
+          * Linear bar, or circular spinner / ring
+          * @default 'linear'
+         */
+        "type"?: 'linear' | 'circular';
+        /**
+          * Progress from 0 to 100
+          * @default 0
+         */
+        "value"?: number;
+    }
+    interface EvokeQuantityStepper {
+        /**
+          * Inline (minus, value, plus) or compact with a quantity dropdown
+          * @default 'inline'
+         */
+        "appearance"?: 'inline' | 'compact';
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Accessible name for the control
+          * @default 'Quantity'
+         */
+        "label"?: string;
+        /**
+          * @default 99
+         */
+        "max"?: number;
+        /**
+          * @default 1
+         */
+        "min"?: number;
+        /**
+          * Emits the new quantity
+         */
+        "onEvokeChange"?: (event: EvokeQuantityStepperCustomEvent<number>) => void;
+        /**
+          * @default 1
+         */
+        "value"?: number;
     }
     interface EvokeRadioGroup {
+        /**
+          * Classic radio circles, or a segmented button group
+          * @default 'classic'
+         */
+        "appearance"?: 'classic' | 'segmented';
         /**
           * @default false
          */
@@ -508,7 +1379,7 @@ declare namespace LocalJSX {
          */
         "error"?: string;
         /**
-          * Lay options out in a row instead of a column
+          * Lay classic options out in a row instead of a column
           * @default false
          */
         "inline"?: boolean;
@@ -540,18 +1411,27 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Error message shown below the field
+          * Error message shown below the field (replaces the hint)
           * @default ''
          */
         "error"?: string;
         /**
           * @default ''
          */
+        "hint"?: string;
+        /**
+          * @default ''
+         */
         "label"?: string;
         /**
-          * Emits the selected value
+          * Multi-select: selected values are shown as removable chips
+          * @default false
          */
-        "onEvokeChange"?: (event: EvokeSelectCustomEvent<string>) => void;
+        "multiple"?: boolean;
+        /**
+          * Emits the selected value (string) or the selected values (string[]) when `multiple`
+         */
+        "onEvokeChange"?: (event: EvokeSelectCustomEvent<string | string[]>) => void;
         /**
           * Options as an array of { label, value, disabled? } or a JSON string of the same
           * @default []
@@ -562,53 +1442,316 @@ declare namespace LocalJSX {
          */
         "placeholder"?: string;
         /**
-          * Extra classes for the inner <select>, e.g. "form-select" (Bootstrap)
+          * Adds a search box that filters the options
+          * @default false
+         */
+        "searchable"?: boolean;
+        /**
+          * Extra classes for the inner <select> (single, non-searchable mode), e.g. "form-select"
           * @default ''
          */
         "selectClass"?: string;
+        /**
+          * Selected value (string), or an array of values when `multiple`
+          * @default ''
+         */
+        "value"?: string | string[];
+    }
+    interface EvokeSwitch {
+        /**
+          * aria-label for a plain toggle that has no visible label
+         */
+        "accessibleLabel"?: string;
+        /**
+          * @default false
+         */
+        "checked"?: boolean;
+        /**
+          * Secondary text under the label
+          * @default ''
+         */
+        "description"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Optional visible label. Without a label or description it is a plain toggle.
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * Emits the new checked state
+         */
+        "onEvokeChange"?: (event: EvokeSwitchCustomEvent<boolean>) => void;
+    }
+    interface EvokeTable {
+        /**
+          * Visually hidden/visible table caption for screen readers
+          * @default ''
+         */
+        "caption"?: string;
+        /**
+          * Columns as an array of { key, label, sortable?, align? } or a JSON string of the same
+          * @default []
+         */
+        "columns"?: { key: string; label: string; sortable?: boolean; align?: 'left' | 'center' | 'right' }[] | string;
+        /**
+          * @default 'No data'
+         */
+        "emptyText"?: string;
+        /**
+          * Fired after a header is sorted: { key, direction } where direction is 'asc' or 'desc'
+         */
+        "onEvokeSort"?: (event: EvokeTableCustomEvent<{ key: string; direction: 'asc' | 'desc' }>) => void;
+        /**
+          * Rows as an array of objects keyed by column key, or a JSON string of the same
+          * @default []
+         */
+        "rows"?: Record<string, string | number | boolean | null>[] | string;
+        /**
+          * Allow sorting on columns marked `sortable` (or all columns if none are marked)
+          * @default false
+         */
+        "sortable"?: boolean;
+        /**
+          * Alternate row shading
+          * @default false
+         */
+        "striped"?: boolean;
+    }
+    interface EvokeTabs {
+        /**
+          * Underline tabs or pill tabs
+          * @default 'underline'
+         */
+        "appearance"?: 'underline' | 'pill';
+        /**
+          * Accessible name for the tab list
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * Emits the value of the newly selected tab
+         */
+        "onEvokeChange"?: (event: EvokeTabsCustomEvent<string>) => void;
+        /**
+          * Tabs as an array of { label, value, disabled? } or a JSON string of the same
+          * @default []
+         */
+        "options"?: EvokeOption[] | string;
+        /**
+          * Value of the active tab. Defaults to the first enabled tab.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface EvokeTextarea {
+        /**
+          * Grow with the content instead of scrolling
+          * @default false
+         */
+        "autoGrow"?: boolean;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default ''
+         */
+        "error"?: string;
+        /**
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * Max characters; also shows a live "n / max" counter
+         */
+        "maxLength"?: number;
+        /**
+          * @default ''
+         */
+        "name"?: string;
+        /**
+          * Emits the new value on commit (blur)
+         */
+        "onEvokeChange"?: (event: EvokeTextareaCustomEvent<string>) => void;
+        /**
+          * Emits the new value on every keystroke
+         */
+        "onEvokeInput"?: (event: EvokeTextareaCustomEvent<string>) => void;
+        /**
+          * @default ''
+         */
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Visible rows (the minimum height when `auto-grow` is on)
+          * @default 4
+         */
+        "rows"?: number;
+        /**
+          * Extra classes for the inner <textarea>
+          * @default ''
+         */
+        "textareaClass"?: string;
         /**
           * @default ''
          */
         "value"?: string;
     }
+    interface EvokeToast {
+        /**
+          * Label of an action button, e.g. "View cart". Leave empty for a simple message.
+          * @default ''
+         */
+        "action"?: string;
+        /**
+          * Auto-dismiss after this many ms; 0 keeps it open until closed
+          * @default 4000
+         */
+        "duration"?: number;
+        /**
+          * Message text (or use the default slot)
+          * @default ''
+         */
+        "message"?: string;
+        /**
+          * Fired when the action button is clicked
+         */
+        "onEvokeAction"?: (event: EvokeToastCustomEvent<void>) => void;
+        /**
+          * Fired when the toast closes (button, action or timeout)
+         */
+        "onEvokeClose"?: (event: EvokeToastCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * @default 'bottom'
+         */
+        "position"?: 'bottom' | 'top';
+        /**
+          * @default 'info'
+         */
+        "type"?: 'info' | 'success' | 'warning' | 'danger';
+    }
+    interface EvokeTooltip {
+        /**
+          * @default 'top'
+         */
+        "placement"?: 'top' | 'bottom' | 'left' | 'right';
+        /**
+          * @default ''
+         */
+        "text"?: string;
+        /**
+          * Dark, or light with an arrow
+          * @default 'dark'
+         */
+        "theme"?: 'dark' | 'light';
+    }
 
     interface EvokeAlertAttributes {
         "type": 'info' | 'success' | 'warning' | 'danger';
+        "appearance": 'subtle' | 'solid';
         "dismissible": boolean;
     }
+    interface EvokeAppBarAttributes {
+        "appearance": 'light' | 'dark';
+        "sticky": boolean;
+        "navLabel": string;
+    }
+    interface EvokeBadgeAttributes {
+        "count": number;
+        "max": number;
+        "dot": boolean;
+        "showZero": boolean;
+        "color": 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info';
+        "label": string;
+    }
     interface EvokeButtonAttributes {
-        "variant": 'primary' | 'secondary' | 'danger' | 'outline';
+        "variant": 'primary' | 'secondary' | 'danger' | 'outline' | 'ghost';
+        "size": 'sm' | 'md' | 'lg';
         "type": 'button' | 'submit' | 'reset';
         "disabled": boolean;
+        "loading": boolean;
+        "icon": EvokeIcon;
+        "iconOnly": boolean;
+        "accessibleLabel": string;
         "block": boolean;
         "buttonClass": string;
     }
     interface EvokeCardAttributes {
         "heading": string;
+        "appearance": 'outlined' | 'elevated';
+        "clickable": boolean;
         "cardClass": string;
     }
     interface EvokeCheckboxAttributes {
         "label": string;
         "checked": boolean;
+        "indeterminate": boolean;
         "disabled": boolean;
         "error": string;
         "inputClass": string;
+    }
+    interface EvokeChipAttributes {
+        "label": string;
+        "selected": boolean;
+        "removable": boolean;
+        "disabled": boolean;
     }
     interface EvokeInputAttributes {
         "label": string;
         "value": string;
         "type": string;
+        "name": string;
         "placeholder": string;
         "disabled": boolean;
+        "required": boolean;
+        "appearance": 'outlined' | 'filled';
         "error": string;
-        "icon": 'mail' | 'lock' | 'user' | 'search';
+        "hint": string;
+        "icon": EvokeIcon;
         "inputClass": string;
     }
     interface EvokeModalAttributes {
         "open": boolean;
         "heading": string;
+        "position": 'center' | 'right';
+        "size": 'sm' | 'md' | 'lg';
         "closeOnBackdrop": boolean;
         "modalClass": string;
+    }
+    interface EvokePaginationAttributes {
+        "page": number;
+        "total": number;
+        "appearance": 'numbered' | 'compact';
+        "disabled": boolean;
+    }
+    interface EvokeProgressAttributes {
+        "type": 'linear' | 'circular';
+        "value": number;
+        "indeterminate": boolean;
+        "label": string;
+        "size": number;
+    }
+    interface EvokeQuantityStepperAttributes {
+        "value": number;
+        "min": number;
+        "max": number;
+        "appearance": 'inline' | 'compact';
+        "disabled": boolean;
+        "label": string;
     }
     interface EvokeRadioGroupAttributes {
         "label": string;
@@ -616,28 +1759,92 @@ declare namespace LocalJSX {
         "value": string;
         "name": string;
         "disabled": boolean;
+        "appearance": 'classic' | 'segmented';
         "inline": boolean;
         "error": string;
     }
     interface EvokeSelectAttributes {
         "label": string;
         "options": EvokeOption[] | string;
-        "value": string;
+        "value": string | string[];
         "placeholder": string;
+        "multiple": boolean;
+        "searchable": boolean;
         "disabled": boolean;
         "error": string;
+        "hint": string;
         "selectClass": string;
+    }
+    interface EvokeSwitchAttributes {
+        "checked": boolean;
+        "label": string;
+        "description": string;
+        "disabled": boolean;
+        "accessibleLabel": string;
+    }
+    interface EvokeTableAttributes {
+        "columns": { key: string; label: string; sortable?: boolean; align?: 'left' | 'center' | 'right' }[] | string;
+        "rows": Record<string, string | number | boolean | null>[] | string;
+        "striped": boolean;
+        "sortable": boolean;
+        "caption": string;
+        "emptyText": string;
+    }
+    interface EvokeTabsAttributes {
+        "options": EvokeOption[] | string;
+        "value": string;
+        "appearance": 'underline' | 'pill';
+        "label": string;
+    }
+    interface EvokeTextareaAttributes {
+        "label": string;
+        "value": string;
+        "name": string;
+        "placeholder": string;
+        "rows": number;
+        "autoGrow": boolean;
+        "maxLength": number;
+        "disabled": boolean;
+        "required": boolean;
+        "error": string;
+        "hint": string;
+        "textareaClass": string;
+    }
+    interface EvokeToastAttributes {
+        "open": boolean;
+        "message": string;
+        "type": 'info' | 'success' | 'warning' | 'danger';
+        "action": string;
+        "duration": number;
+        "position": 'bottom' | 'top';
+    }
+    interface EvokeTooltipAttributes {
+        "text": string;
+        "placement": 'top' | 'bottom' | 'left' | 'right';
+        "theme": 'dark' | 'light';
     }
 
     interface IntrinsicElements {
         "evoke-alert": Omit<EvokeAlert, keyof EvokeAlertAttributes> & { [K in keyof EvokeAlert & keyof EvokeAlertAttributes]?: EvokeAlert[K] } & { [K in keyof EvokeAlert & keyof EvokeAlertAttributes as `attr:${K}`]?: EvokeAlertAttributes[K] } & { [K in keyof EvokeAlert & keyof EvokeAlertAttributes as `prop:${K}`]?: EvokeAlert[K] };
+        "evoke-app-bar": Omit<EvokeAppBar, keyof EvokeAppBarAttributes> & { [K in keyof EvokeAppBar & keyof EvokeAppBarAttributes]?: EvokeAppBar[K] } & { [K in keyof EvokeAppBar & keyof EvokeAppBarAttributes as `attr:${K}`]?: EvokeAppBarAttributes[K] } & { [K in keyof EvokeAppBar & keyof EvokeAppBarAttributes as `prop:${K}`]?: EvokeAppBar[K] };
+        "evoke-badge": Omit<EvokeBadge, keyof EvokeBadgeAttributes> & { [K in keyof EvokeBadge & keyof EvokeBadgeAttributes]?: EvokeBadge[K] } & { [K in keyof EvokeBadge & keyof EvokeBadgeAttributes as `attr:${K}`]?: EvokeBadgeAttributes[K] } & { [K in keyof EvokeBadge & keyof EvokeBadgeAttributes as `prop:${K}`]?: EvokeBadge[K] };
         "evoke-button": Omit<EvokeButton, keyof EvokeButtonAttributes> & { [K in keyof EvokeButton & keyof EvokeButtonAttributes]?: EvokeButton[K] } & { [K in keyof EvokeButton & keyof EvokeButtonAttributes as `attr:${K}`]?: EvokeButtonAttributes[K] } & { [K in keyof EvokeButton & keyof EvokeButtonAttributes as `prop:${K}`]?: EvokeButton[K] };
         "evoke-card": Omit<EvokeCard, keyof EvokeCardAttributes> & { [K in keyof EvokeCard & keyof EvokeCardAttributes]?: EvokeCard[K] } & { [K in keyof EvokeCard & keyof EvokeCardAttributes as `attr:${K}`]?: EvokeCardAttributes[K] } & { [K in keyof EvokeCard & keyof EvokeCardAttributes as `prop:${K}`]?: EvokeCard[K] };
         "evoke-checkbox": Omit<EvokeCheckbox, keyof EvokeCheckboxAttributes> & { [K in keyof EvokeCheckbox & keyof EvokeCheckboxAttributes]?: EvokeCheckbox[K] } & { [K in keyof EvokeCheckbox & keyof EvokeCheckboxAttributes as `attr:${K}`]?: EvokeCheckboxAttributes[K] } & { [K in keyof EvokeCheckbox & keyof EvokeCheckboxAttributes as `prop:${K}`]?: EvokeCheckbox[K] };
+        "evoke-chip": Omit<EvokeChip, keyof EvokeChipAttributes> & { [K in keyof EvokeChip & keyof EvokeChipAttributes]?: EvokeChip[K] } & { [K in keyof EvokeChip & keyof EvokeChipAttributes as `attr:${K}`]?: EvokeChipAttributes[K] } & { [K in keyof EvokeChip & keyof EvokeChipAttributes as `prop:${K}`]?: EvokeChip[K] };
         "evoke-input": Omit<EvokeInput, keyof EvokeInputAttributes> & { [K in keyof EvokeInput & keyof EvokeInputAttributes]?: EvokeInput[K] } & { [K in keyof EvokeInput & keyof EvokeInputAttributes as `attr:${K}`]?: EvokeInputAttributes[K] } & { [K in keyof EvokeInput & keyof EvokeInputAttributes as `prop:${K}`]?: EvokeInput[K] };
         "evoke-modal": Omit<EvokeModal, keyof EvokeModalAttributes> & { [K in keyof EvokeModal & keyof EvokeModalAttributes]?: EvokeModal[K] } & { [K in keyof EvokeModal & keyof EvokeModalAttributes as `attr:${K}`]?: EvokeModalAttributes[K] } & { [K in keyof EvokeModal & keyof EvokeModalAttributes as `prop:${K}`]?: EvokeModal[K] };
+        "evoke-pagination": Omit<EvokePagination, keyof EvokePaginationAttributes> & { [K in keyof EvokePagination & keyof EvokePaginationAttributes]?: EvokePagination[K] } & { [K in keyof EvokePagination & keyof EvokePaginationAttributes as `attr:${K}`]?: EvokePaginationAttributes[K] } & { [K in keyof EvokePagination & keyof EvokePaginationAttributes as `prop:${K}`]?: EvokePagination[K] };
+        "evoke-progress": Omit<EvokeProgress, keyof EvokeProgressAttributes> & { [K in keyof EvokeProgress & keyof EvokeProgressAttributes]?: EvokeProgress[K] } & { [K in keyof EvokeProgress & keyof EvokeProgressAttributes as `attr:${K}`]?: EvokeProgressAttributes[K] } & { [K in keyof EvokeProgress & keyof EvokeProgressAttributes as `prop:${K}`]?: EvokeProgress[K] };
+        "evoke-quantity-stepper": Omit<EvokeQuantityStepper, keyof EvokeQuantityStepperAttributes> & { [K in keyof EvokeQuantityStepper & keyof EvokeQuantityStepperAttributes]?: EvokeQuantityStepper[K] } & { [K in keyof EvokeQuantityStepper & keyof EvokeQuantityStepperAttributes as `attr:${K}`]?: EvokeQuantityStepperAttributes[K] } & { [K in keyof EvokeQuantityStepper & keyof EvokeQuantityStepperAttributes as `prop:${K}`]?: EvokeQuantityStepper[K] };
         "evoke-radio-group": Omit<EvokeRadioGroup, keyof EvokeRadioGroupAttributes> & { [K in keyof EvokeRadioGroup & keyof EvokeRadioGroupAttributes]?: EvokeRadioGroup[K] } & { [K in keyof EvokeRadioGroup & keyof EvokeRadioGroupAttributes as `attr:${K}`]?: EvokeRadioGroupAttributes[K] } & { [K in keyof EvokeRadioGroup & keyof EvokeRadioGroupAttributes as `prop:${K}`]?: EvokeRadioGroup[K] };
         "evoke-select": Omit<EvokeSelect, keyof EvokeSelectAttributes> & { [K in keyof EvokeSelect & keyof EvokeSelectAttributes]?: EvokeSelect[K] } & { [K in keyof EvokeSelect & keyof EvokeSelectAttributes as `attr:${K}`]?: EvokeSelectAttributes[K] } & { [K in keyof EvokeSelect & keyof EvokeSelectAttributes as `prop:${K}`]?: EvokeSelect[K] };
+        "evoke-switch": Omit<EvokeSwitch, keyof EvokeSwitchAttributes> & { [K in keyof EvokeSwitch & keyof EvokeSwitchAttributes]?: EvokeSwitch[K] } & { [K in keyof EvokeSwitch & keyof EvokeSwitchAttributes as `attr:${K}`]?: EvokeSwitchAttributes[K] } & { [K in keyof EvokeSwitch & keyof EvokeSwitchAttributes as `prop:${K}`]?: EvokeSwitch[K] };
+        "evoke-table": Omit<EvokeTable, keyof EvokeTableAttributes> & { [K in keyof EvokeTable & keyof EvokeTableAttributes]?: EvokeTable[K] } & { [K in keyof EvokeTable & keyof EvokeTableAttributes as `attr:${K}`]?: EvokeTableAttributes[K] } & { [K in keyof EvokeTable & keyof EvokeTableAttributes as `prop:${K}`]?: EvokeTable[K] };
+        "evoke-tabs": Omit<EvokeTabs, keyof EvokeTabsAttributes> & { [K in keyof EvokeTabs & keyof EvokeTabsAttributes]?: EvokeTabs[K] } & { [K in keyof EvokeTabs & keyof EvokeTabsAttributes as `attr:${K}`]?: EvokeTabsAttributes[K] } & { [K in keyof EvokeTabs & keyof EvokeTabsAttributes as `prop:${K}`]?: EvokeTabs[K] };
+        "evoke-textarea": Omit<EvokeTextarea, keyof EvokeTextareaAttributes> & { [K in keyof EvokeTextarea & keyof EvokeTextareaAttributes]?: EvokeTextarea[K] } & { [K in keyof EvokeTextarea & keyof EvokeTextareaAttributes as `attr:${K}`]?: EvokeTextareaAttributes[K] } & { [K in keyof EvokeTextarea & keyof EvokeTextareaAttributes as `prop:${K}`]?: EvokeTextarea[K] };
+        "evoke-toast": Omit<EvokeToast, keyof EvokeToastAttributes> & { [K in keyof EvokeToast & keyof EvokeToastAttributes]?: EvokeToast[K] } & { [K in keyof EvokeToast & keyof EvokeToastAttributes as `attr:${K}`]?: EvokeToastAttributes[K] } & { [K in keyof EvokeToast & keyof EvokeToastAttributes as `prop:${K}`]?: EvokeToast[K] };
+        "evoke-tooltip": Omit<EvokeTooltip, keyof EvokeTooltipAttributes> & { [K in keyof EvokeTooltip & keyof EvokeTooltipAttributes]?: EvokeTooltip[K] } & { [K in keyof EvokeTooltip & keyof EvokeTooltipAttributes as `attr:${K}`]?: EvokeTooltipAttributes[K] } & { [K in keyof EvokeTooltip & keyof EvokeTooltipAttributes as `prop:${K}`]?: EvokeTooltip[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -645,13 +1852,25 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "evoke-alert": LocalJSX.IntrinsicElements["evoke-alert"] & JSXBase.HTMLAttributes<HTMLEvokeAlertElement>;
+            "evoke-app-bar": LocalJSX.IntrinsicElements["evoke-app-bar"] & JSXBase.HTMLAttributes<HTMLEvokeAppBarElement>;
+            "evoke-badge": LocalJSX.IntrinsicElements["evoke-badge"] & JSXBase.HTMLAttributes<HTMLEvokeBadgeElement>;
             "evoke-button": LocalJSX.IntrinsicElements["evoke-button"] & JSXBase.HTMLAttributes<HTMLEvokeButtonElement>;
             "evoke-card": LocalJSX.IntrinsicElements["evoke-card"] & JSXBase.HTMLAttributes<HTMLEvokeCardElement>;
             "evoke-checkbox": LocalJSX.IntrinsicElements["evoke-checkbox"] & JSXBase.HTMLAttributes<HTMLEvokeCheckboxElement>;
+            "evoke-chip": LocalJSX.IntrinsicElements["evoke-chip"] & JSXBase.HTMLAttributes<HTMLEvokeChipElement>;
             "evoke-input": LocalJSX.IntrinsicElements["evoke-input"] & JSXBase.HTMLAttributes<HTMLEvokeInputElement>;
             "evoke-modal": LocalJSX.IntrinsicElements["evoke-modal"] & JSXBase.HTMLAttributes<HTMLEvokeModalElement>;
+            "evoke-pagination": LocalJSX.IntrinsicElements["evoke-pagination"] & JSXBase.HTMLAttributes<HTMLEvokePaginationElement>;
+            "evoke-progress": LocalJSX.IntrinsicElements["evoke-progress"] & JSXBase.HTMLAttributes<HTMLEvokeProgressElement>;
+            "evoke-quantity-stepper": LocalJSX.IntrinsicElements["evoke-quantity-stepper"] & JSXBase.HTMLAttributes<HTMLEvokeQuantityStepperElement>;
             "evoke-radio-group": LocalJSX.IntrinsicElements["evoke-radio-group"] & JSXBase.HTMLAttributes<HTMLEvokeRadioGroupElement>;
             "evoke-select": LocalJSX.IntrinsicElements["evoke-select"] & JSXBase.HTMLAttributes<HTMLEvokeSelectElement>;
+            "evoke-switch": LocalJSX.IntrinsicElements["evoke-switch"] & JSXBase.HTMLAttributes<HTMLEvokeSwitchElement>;
+            "evoke-table": LocalJSX.IntrinsicElements["evoke-table"] & JSXBase.HTMLAttributes<HTMLEvokeTableElement>;
+            "evoke-tabs": LocalJSX.IntrinsicElements["evoke-tabs"] & JSXBase.HTMLAttributes<HTMLEvokeTabsElement>;
+            "evoke-textarea": LocalJSX.IntrinsicElements["evoke-textarea"] & JSXBase.HTMLAttributes<HTMLEvokeTextareaElement>;
+            "evoke-toast": LocalJSX.IntrinsicElements["evoke-toast"] & JSXBase.HTMLAttributes<HTMLEvokeToastElement>;
+            "evoke-tooltip": LocalJSX.IntrinsicElements["evoke-tooltip"] & JSXBase.HTMLAttributes<HTMLEvokeTooltipElement>;
         }
     }
 }

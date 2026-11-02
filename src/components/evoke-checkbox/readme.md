@@ -7,13 +7,14 @@
 
 ## Properties
 
-| Property     | Attribute     | Description                            | Type      | Default |
-| ------------ | ------------- | -------------------------------------- | --------- | ------- |
-| `checked`    | `checked`     |                                        | `boolean` | `false` |
-| `disabled`   | `disabled`    |                                        | `boolean` | `false` |
-| `error`      | `error`       | Error message shown below the checkbox | `string`  | `''`    |
-| `inputClass` | `input-class` | Extra classes for the inner <input>    | `string`  | `''`    |
-| `label`      | `label`       |                                        | `string`  | `''`    |
+| Property        | Attribute       | Description                                                                               | Type      | Default |
+| --------------- | --------------- | ----------------------------------------------------------------------------------------- | --------- | ------- |
+| `checked`       | `checked`       |                                                                                           | `boolean` | `false` |
+| `disabled`      | `disabled`      |                                                                                           | `boolean` | `false` |
+| `error`         | `error`         | Error message shown below the checkbox                                                    | `string`  | `''`    |
+| `indeterminate` | `indeterminate` | Mixed state, e.g. a "select all" box when only some items are selected. Cleared on click. | `boolean` | `false` |
+| `inputClass`    | `input-class`   | Extra classes for the inner <input>                                                       | `string`  | `''`    |
+| `label`         | `label`         |                                                                                           | `string`  | `''`    |
 
 
 ## Events

@@ -3,19 +3,192 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Evoke UI</title>
+  <title>Evoke UI Kit</title>
   <script type="module" src="/build/evoke-ui.esm.js"></script>
   <link rel="stylesheet" href="/build/evoke-ui.css" />
+  <style>
+    body { margin: 0; font-family: Inter, sans-serif; color: #1a1a1a; }
+    main { max-width: 960px; margin: 0 auto; padding: 24px; display: grid; gap: 32px; }
+    h2 { margin: 0 0 12px; font-size: 1.25rem; }
+    .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+    .box, .grid > * { min-width: 0; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .box { display: grid; gap: 12px; align-content: start; }
+    small { color: #6b6b6b; }
+  </style>
 </head>
-<body style="padding:2rem;font-family:Inter,sans-serif;display:grid;gap:1.25rem;max-width:420px">
-  <evoke-alert type="success" dismissible>Saved successfully</evoke-alert>
-  <evoke-select label="Sign in as" placeholder="Select your role"
-    options='[{"label":"Product Manager","value":"pm"},{"label":"Project Lead","value":"lead"},{"label":"Designer","value":"designer"},{"label":"Developer","value":"dev"}]'></evoke-select>
-  <evoke-input label="Username" icon="mail" placeholder="name@company.com" error="Username is required"></evoke-input>
-  <evoke-input label="Password" icon="lock" type="password" placeholder="Enter your password"></evoke-input>
-  <evoke-radio-group label="Plan" value="pro" inline options='[{"label":"Free","value":"free"},{"label":"Pro","value":"pro"},{"label":"Team","value":"team","disabled":true}]'></evoke-radio-group>
-  <evoke-checkbox label="Remember me" checked></evoke-checkbox>
-  <evoke-checkbox label="I accept the terms" error="You must accept the terms"></evoke-checkbox>
-  <evoke-button block>Sign in to workspace</evoke-button>
+<body>
+  <evoke-app-bar id="bar" sticky>
+    <span slot="logo">Evoke</span>
+    <span slot="nav"><a href="#buttons" aria-current="page">Components</a><a href="#forms">Forms</a></span>
+    <span slot="actions">
+      <evoke-badge id="cartBadge" count="3" label="3 items in cart"><evoke-button variant="ghost" icon="cart" icon-only accessible-label="Cart"></evoke-button></evoke-badge>
+      <evoke-button size="sm" id="toggleBar">Dark bar</evoke-button>
+    </span>
+  </evoke-app-bar>
+
+  <main>
+    <section id="buttons">
+      <h2>Button</h2>
+      <div class="row">
+        <evoke-button>Primary</evoke-button>
+        <evoke-button variant="secondary">Secondary</evoke-button>
+        <evoke-button variant="danger">Danger</evoke-button>
+        <evoke-button variant="outline">Outline</evoke-button>
+        <evoke-button variant="ghost">Ghost</evoke-button>
+        <evoke-button size="sm">Small</evoke-button>
+        <evoke-button size="lg">Large</evoke-button>
+        <evoke-button loading>Loading</evoke-button>
+        <evoke-button icon="arrow-right">With icon</evoke-button>
+        <evoke-button disabled>Disabled</evoke-button>
+      </div>
+    </section>
+
+    <section id="forms" class="grid">
+      <div class="box">
+        <h2>Input</h2>
+        <evoke-input label="Outlined" icon="user" placeholder="name@company.com" hint="We never share your email"></evoke-input>
+        <evoke-input label="Filled" appearance="filled" icon="mail" placeholder="you@example.com"></evoke-input>
+        <evoke-input label="With error" error="Username is required"></evoke-input>
+      </div>
+      <div class="box">
+        <h2>Select</h2>
+        <evoke-select id="selSingle" label="Single" placeholder="Select your role"></evoke-select>
+        <evoke-select id="selMulti" label="Multi with chips" multiple searchable placeholder="Pick skills" hint="Type to filter"></evoke-select>
+      </div>
+      <div class="box">
+        <h2>Checkbox / Radio / Switch</h2>
+        <evoke-checkbox label="Standard" checked></evoke-checkbox>
+        <evoke-checkbox id="selectAll" label="Select all (indeterminate)" indeterminate></evoke-checkbox>
+        <evoke-checkbox label="With error" error="You must accept the terms"></evoke-checkbox>
+        <evoke-radio-group id="radioClassic" label="Classic" value="pro" inline></evoke-radio-group>
+        <evoke-radio-group id="radioSeg" label="Segmented" appearance="segmented" value="month"></evoke-radio-group>
+        <evoke-switch accessible-label="Notifications" checked></evoke-switch>
+        <evoke-switch checked label="Email alerts" description="Get a message when an order ships"></evoke-switch>
+      </div>
+      <div class="box">
+        <h2>Textarea</h2>
+        <evoke-textarea label="Fixed rows" rows="3" placeholder="Write a note"></evoke-textarea>
+        <evoke-textarea label="Auto-grow + counter" auto-grow rows="2" max-length="120" placeholder="Type to grow"></evoke-textarea>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="box">
+        <h2>Card</h2>
+        <evoke-card heading="Outlined"><p style="margin:0">Plain card body</p></evoke-card>
+        <evoke-card id="cardElev" appearance="elevated" clickable heading="Elevated + clickable"><p style="margin:0">Click or press Enter</p></evoke-card>
+      </div>
+      <div class="box">
+        <h2>Alert</h2>
+        <evoke-alert type="success" dismissible>Subtle success</evoke-alert>
+        <evoke-alert type="warning">Subtle warning</evoke-alert>
+        <evoke-alert type="danger" appearance="solid" dismissible>Solid danger</evoke-alert>
+        <evoke-alert type="info" appearance="solid">Solid info</evoke-alert>
+      </div>
+      <div class="box">
+        <h2>Tabs</h2>
+        <evoke-tabs id="tabsU" label="Sections"><p id="tabsUText" style="margin:0">Overview content</p></evoke-tabs>
+        <evoke-tabs id="tabsP" appearance="pill" label="Pill sections"><p style="margin:0">Pill content</p></evoke-tabs>
+      </div>
+      <div class="box">
+        <h2>Badge / Chip / Tooltip</h2>
+        <div class="row">
+          <evoke-badge count="5"><evoke-button variant="outline">Inbox</evoke-button></evoke-badge>
+          <evoke-badge count="120" max="99" color="primary"><evoke-button variant="outline">Alerts</evoke-button></evoke-badge>
+          <evoke-badge dot color="success" label="Online"><evoke-button variant="outline">Status</evoke-button></evoke-badge>
+        </div>
+        <div class="row">
+          <evoke-chip label="Filter chip"></evoke-chip>
+          <evoke-chip label="Selected" selected></evoke-chip>
+          <evoke-chip id="chipRemove" label="Removable" removable></evoke-chip>
+        </div>
+        <div class="row">
+          <evoke-tooltip text="Dark tooltip"><evoke-button size="sm" variant="outline">Hover me</evoke-button></evoke-tooltip>
+          <evoke-tooltip text="Light with arrow" theme="light" placement="bottom"><evoke-button size="sm" variant="outline">Light</evoke-button></evoke-tooltip>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Table</h2>
+      <div class="grid">
+        <evoke-table id="tableBasic" caption="Basic"></evoke-table>
+        <evoke-table id="tableSort" striped sortable caption="Striped + sortable"></evoke-table>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="box">
+        <h2>Pagination</h2>
+        <evoke-pagination id="pgNum" page="5" total="12"></evoke-pagination>
+        <evoke-pagination id="pgCompact" page="2" total="10" appearance="compact"></evoke-pagination>
+      </div>
+      <div class="box">
+        <h2>Progress</h2>
+        <evoke-progress value="60" label="Uploading"></evoke-progress>
+        <evoke-progress indeterminate label="Loading"></evoke-progress>
+        <div class="row">
+          <evoke-progress type="circular" value="70" label="Done"></evoke-progress>
+          <evoke-progress type="circular" indeterminate></evoke-progress>
+        </div>
+      </div>
+      <div class="box">
+        <h2>Quantity stepper</h2>
+        <evoke-quantity-stepper value="2" max="5"></evoke-quantity-stepper>
+        <evoke-quantity-stepper value="3" appearance="compact" max="20"></evoke-quantity-stepper>
+      </div>
+      <div class="box">
+        <h2>Modal / Toast</h2>
+        <div class="row">
+          <evoke-button id="openModal">Open dialog</evoke-button>
+          <evoke-button id="openDrawer" variant="secondary">Open drawer</evoke-button>
+          <evoke-button id="openToast" variant="outline">Show toast</evoke-button>
+        </div>
+        <small id="log">Events appear here</small>
+      </div>
+    </section>
+  </main>
+
+  <evoke-modal id="modal" heading="Confirm order">
+    <p>Centred dialog. Focus is trapped; Esc closes it.</p>
+    <evoke-input label="Coupon" placeholder="Optional"></evoke-input>
+    <br />
+    <evoke-button id="modalOk">Place order</evoke-button>
+  </evoke-modal>
+  <evoke-modal id="drawer" heading="Cart" position="right">
+    <p>Side drawer sliding in from the right.</p>
+    <evoke-quantity-stepper value="1"></evoke-quantity-stepper>
+  </evoke-modal>
+  <evoke-toast id="toast" type="success" message="Added to cart" action="View cart" duration="0"></evoke-toast>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const log = (m) => ($('log').textContent = m);
+    customElements.whenDefined('evoke-select').then(() => {
+      $('selSingle').options = [{ label: 'Product Manager', value: 'pm' }, { label: 'Designer', value: 'designer' }, { label: 'Developer', value: 'dev' }];
+      $('selMulti').options = ['Angular', 'React', 'Vue', 'Stencil', 'Tailwind', 'Bootstrap'].map((s) => ({ label: s, value: s.toLowerCase() }));
+      $('selMulti').value = ['angular', 'stencil'];
+      $('radioClassic').options = [{ label: 'Free', value: 'free' }, { label: 'Pro', value: 'pro' }, { label: 'Team', value: 'team', disabled: true }];
+      $('radioSeg').options = [{ label: 'Monthly', value: 'month' }, { label: 'Yearly', value: 'year' }, { label: 'Lifetime', value: 'life' }];
+      const tabs = [{ label: 'Overview', value: 'o' }, { label: 'Specs', value: 's' }, { label: 'Reviews', value: 'r' }, { label: 'Disabled', value: 'd', disabled: true }];
+      $('tabsU').options = tabs; $('tabsP').options = tabs;
+      $('tabsU').addEventListener('evokeChange', (e) => ($('tabsUText').textContent = 'Showing: ' + e.detail));
+      const cols = [{ key: 'name', label: 'Name', sortable: true }, { key: 'role', label: 'Role', sortable: true }, { key: 'age', label: 'Age', sortable: true, align: 'right' }];
+      const rows = [{ name: 'Maya', role: 'Designer', age: 31 }, { name: 'Alex', role: 'Developer', age: 27 }, { name: 'Sam', role: 'Lead', age: 40 }];
+      for (const id of ['tableBasic', 'tableSort']) { $(id).columns = cols; $(id).rows = rows; }
+      $('tableSort').addEventListener('evokeSort', (e) => log('sort ' + JSON.stringify(e.detail)));
+    });
+    $('selectAll').addEventListener('evokeChange', (e) => log('select all: ' + e.detail));
+    $('cardElev').addEventListener('evokeClick', () => log('card clicked'));
+    $('chipRemove').addEventListener('evokeRemove', () => { $('chipRemove').remove(); log('chip removed'); });
+    $('pgNum').addEventListener('evokeChange', (e) => log('page ' + e.detail));
+    $('openModal').addEventListener('click', () => ($('modal').open = true));
+    $('modalOk').addEventListener('click', () => ($('modal').open = false));
+    $('openDrawer').addEventListener('click', () => ($('drawer').open = true));
+    $('openToast').addEventListener('click', () => ($('toast').open = true));
+    $('toast').addEventListener('evokeAction', () => log('toast action: View cart'));
+    $('toggleBar').addEventListener('click', () => { const b = $('bar'); b.appearance = b.appearance === 'dark' ? 'light' : 'dark'; });
+  </script>
 </body>
 </html>

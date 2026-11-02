@@ -1,22 +1,23 @@
 import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
-
-const ICONS: Record<string, string[]> = {
-  mail: ['M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z', 'm22 7-10 6L2 7'],
-  lock: ['M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z', 'M7 11V7a5 5 0 0 1 10 0v4'],
-  user: ['M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2', 'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'],
-  search: ['M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z', 'm21 21-4.3-4.3'],
-};
+import { EvokeIcon, renderIcon } from '../../utils/icons';
 
 @Component({ tag: 'evoke-input', styleUrl: 'evoke-input.css', shadow: false })
 export class EvokeInput {
   @Prop() label = '';
   @Prop({ mutable: true }) value = '';
   @Prop() type = 'text';
+  @Prop() name = '';
   @Prop() placeholder = '';
   @Prop() disabled = false;
+  @Prop() required = false;
+  /** Outlined (default) or filled (tinted background, bottom border) */
+  @Prop() appearance: 'outlined' | 'filled' = 'outlined';
+  /** Error message shown below the field (replaces the hint) */
   @Prop() error = '';
+  /** Helper text shown below the field */
+  @Prop() hint = '';
   /** Optional leading icon */
-  @Prop() icon?: 'mail' | 'lock' | 'user' | 'search';
+  @Prop() icon?: EvokeIcon;
   /** Extra classes for the inner <input>, e.g. "form-control" (Bootstrap) */
   @Prop() inputClass = '';
 
@@ -28,24 +29,24 @@ export class EvokeInput {
   private inputId = `evoke-input-${Math.random().toString(36).slice(2, 9)}`;
 
   render() {
-    const iconPaths = this.icon ? ICONS[this.icon] : undefined;
+    const hasIcon = !!this.icon;
+    const describedBy = this.error || this.hint ? `${this.inputId}-msg` : undefined;
     return (
-      <div class="evoke-field">
-        {this.label && <label htmlFor={this.inputId} class="evoke-field__label">{this.label}</label>}
+      <div class={`evoke-field evoke-field--${this.appearance}`}>
+        {this.label && <label htmlFor={this.inputId} class="evoke-field__label">{this.label}{this.required && <span aria-hidden="true"> *</span>}</label>}
         <div class="evoke-field__control">
-          {iconPaths && (
-            <svg class="evoke-field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              {iconPaths.map((d) => <path d={d} />)}
-            </svg>
-          )}
+          {renderIcon(this.icon, 'evoke-field__icon')}
           <input
             id={this.inputId}
-            class={`evoke-field__input ${iconPaths ? 'evoke-field__input--icon' : ''} ${this.error ? 'evoke-field__input--error' : ''} ${this.inputClass}`.trim()}
+            class={`evoke-field__input ${hasIcon ? 'evoke-field__input--icon' : ''} ${this.error ? 'evoke-field__input--error' : ''} ${this.inputClass}`.replace(/\s+/g, ' ').trim()}
             type={this.type}
+            name={this.name || undefined}
             value={this.value}
             placeholder={this.placeholder}
             disabled={this.disabled}
+            required={this.required}
             aria-invalid={this.error ? 'true' : undefined}
+            aria-describedby={describedBy}
             onInput={(e) => {
               this.value = (e.target as HTMLInputElement).value;
               this.evokeInput.emit(this.value);
@@ -53,7 +54,11 @@ export class EvokeInput {
             onChange={(e) => this.evokeChange.emit((e.target as HTMLInputElement).value)}
           />
         </div>
-        {this.error && <span class="evoke-field__error" role="alert">{this.error}</span>}
+        {this.error ? (
+          <span id={describedBy} class="evoke-field__error" role="alert">{this.error}</span>
+        ) : (
+          this.hint && <span id={describedBy} class="evoke-field__hint">{this.hint}</span>
+        )}
       </div>
     );
   }
