@@ -41,13 +41,17 @@
       "import": "./loader/index.js",
       "require": "./loader/index.cjs.js"
     },
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "import": "./dist/vue/index.js"
+    },
     "./dist/evoke-ui/evoke-ui.css": "./dist/evoke-ui/evoke-ui.css",
     "./themes/*": "./dist/themes/*"
   },
   "scripts": {
     "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && stencil build --docs",
     "start": "stencil build --dev --watch --serve",
-    "postbuild": "node -e \"require('fs').cpSync('src/themes','dist/themes',{recursive:true})\"",
+    "postbuild": "node -e \"require('fs').cpSync('src/themes','dist/themes',{recursive:true})\" && tsc -p tsconfig.vue.json",
     "test": "stencil test --spec",
     "prepublishOnly": "npm run build"
   },
@@ -61,7 +65,20 @@
     "bootstrap",
     "angular-material"
   ],
+  "dependencies": {
+    "@stencil/vue-output-target": "^0.15.0"
+  },
+  "peerDependencies": {
+    "vue": ">=3.4.38"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
+  },
   "devDependencies": {
-    "@stencil/core": "^4.45.2"
+    "@stencil/core": "^4.45.2",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.45"
   }
 }

@@ -1,0 +1,267 @@
+/* eslint-disable */
+/* tslint:disable */
+/* auto-generated vue proxies */
+import { defineContainer, type StencilVueComponent } from '@stencil/vue-output-target/runtime';
+
+import type { JSX } from '@evoke-tech/stencil-ui-kit';
+
+
+
+
+
+export const EvokeAlert: StencilVueComponent<JSX.EvokeAlert> = /*@__PURE__*/ defineContainer<JSX.EvokeAlert>('evoke-alert', undefined, [
+  'type',
+  'appearance',
+  'dismissible',
+  'evokeDismiss'
+], [
+  'evokeDismiss'
+]);
+
+
+export const EvokeAppBar: StencilVueComponent<JSX.EvokeAppBar> = /*@__PURE__*/ defineContainer<JSX.EvokeAppBar>('evoke-app-bar', undefined, [
+  'appearance',
+  'sticky',
+  'navLabel'
+]);
+
+
+export const EvokeBadge: StencilVueComponent<JSX.EvokeBadge> = /*@__PURE__*/ defineContainer<JSX.EvokeBadge>('evoke-badge', undefined, [
+  'count',
+  'max',
+  'dot',
+  'showZero',
+  'color',
+  'label'
+]);
+
+
+export const EvokeButton: StencilVueComponent<JSX.EvokeButton> = /*@__PURE__*/ defineContainer<JSX.EvokeButton>('evoke-button', undefined, [
+  'variant',
+  'size',
+  'type',
+  'disabled',
+  'loading',
+  'icon',
+  'iconOnly',
+  'accessibleLabel',
+  'block',
+  'buttonClass'
+]);
+
+
+export const EvokeCard: StencilVueComponent<JSX.EvokeCard> = /*@__PURE__*/ defineContainer<JSX.EvokeCard>('evoke-card', undefined, [
+  'heading',
+  'appearance',
+  'clickable',
+  'cardClass',
+  'evokeClick'
+], [
+  'evokeClick'
+]);
+
+
+export const EvokeCheckbox: StencilVueComponent<JSX.EvokeCheckbox> = /*@__PURE__*/ defineContainer<JSX.EvokeCheckbox>('evoke-checkbox', undefined, [
+  'label',
+  'checked',
+  'indeterminate',
+  'disabled',
+  'error',
+  'inputClass',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeChip: StencilVueComponent<JSX.EvokeChip> = /*@__PURE__*/ defineContainer<JSX.EvokeChip>('evoke-chip', undefined, [
+  'label',
+  'selected',
+  'removable',
+  'disabled',
+  'evokeChange',
+  'evokeRemove'
+], [
+  'evokeChange',
+  'evokeRemove'
+]);
+
+
+export const EvokeInput: StencilVueComponent<JSX.EvokeInput> = /*@__PURE__*/ defineContainer<JSX.EvokeInput>('evoke-input', undefined, [
+  'label',
+  'value',
+  'type',
+  'name',
+  'placeholder',
+  'disabled',
+  'required',
+  'appearance',
+  'error',
+  'hint',
+  'icon',
+  'inputClass',
+  'evokeInput',
+  'evokeChange'
+], [
+  'evokeInput',
+  'evokeChange'
+]);
+
+
+export const EvokeModal: StencilVueComponent<JSX.EvokeModal> = /*@__PURE__*/ defineContainer<JSX.EvokeModal>('evoke-modal', undefined, [
+  'open',
+  'heading',
+  'position',
+  'size',
+  'closeOnBackdrop',
+  'modalClass',
+  'evokeClose'
+], [
+  'evokeClose'
+]);
+
+
+export const EvokePagination: StencilVueComponent<JSX.EvokePagination> = /*@__PURE__*/ defineContainer<JSX.EvokePagination>('evoke-pagination', undefined, [
+  'page',
+  'total',
+  'appearance',
+  'disabled',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeProgress: StencilVueComponent<JSX.EvokeProgress> = /*@__PURE__*/ defineContainer<JSX.EvokeProgress>('evoke-progress', undefined, [
+  'type',
+  'value',
+  'indeterminate',
+  'label',
+  'size'
+]);
+
+
+export const EvokeQuantityStepper: StencilVueComponent<JSX.EvokeQuantityStepper> = /*@__PURE__*/ defineContainer<JSX.EvokeQuantityStepper>('evoke-quantity-stepper', undefined, [
+  'value',
+  'min',
+  'max',
+  'appearance',
+  'disabled',
+  'label',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeRadioGroup: StencilVueComponent<JSX.EvokeRadioGroup> = /*@__PURE__*/ defineContainer<JSX.EvokeRadioGroup>('evoke-radio-group', undefined, [
+  'label',
+  'options',
+  'value',
+  'name',
+  'disabled',
+  'appearance',
+  'inline',
+  'error',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeSelect: StencilVueComponent<JSX.EvokeSelect> = /*@__PURE__*/ defineContainer<JSX.EvokeSelect>('evoke-select', undefined, [
+  'label',
+  'options',
+  'value',
+  'placeholder',
+  'multiple',
+  'searchable',
+  'disabled',
+  'error',
+  'hint',
+  'selectClass',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeSwitch: StencilVueComponent<JSX.EvokeSwitch> = /*@__PURE__*/ defineContainer<JSX.EvokeSwitch>('evoke-switch', undefined, [
+  'checked',
+  'label',
+  'description',
+  'disabled',
+  'accessibleLabel',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeTable: StencilVueComponent<JSX.EvokeTable> = /*@__PURE__*/ defineContainer<JSX.EvokeTable>('evoke-table', undefined, [
+  'columns',
+  'rows',
+  'striped',
+  'sortable',
+  'caption',
+  'emptyText',
+  'evokeSort'
+], [
+  'evokeSort'
+]);
+
+
+export const EvokeTabs: StencilVueComponent<JSX.EvokeTabs> = /*@__PURE__*/ defineContainer<JSX.EvokeTabs>('evoke-tabs', undefined, [
+  'options',
+  'value',
+  'appearance',
+  'label',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeTextarea: StencilVueComponent<JSX.EvokeTextarea> = /*@__PURE__*/ defineContainer<JSX.EvokeTextarea>('evoke-textarea', undefined, [
+  'label',
+  'value',
+  'name',
+  'placeholder',
+  'rows',
+  'autoGrow',
+  'maxLength',
+  'disabled',
+  'required',
+  'error',
+  'hint',
+  'textareaClass',
+  'evokeInput',
+  'evokeChange'
+], [
+  'evokeInput',
+  'evokeChange'
+]);
+
+
+export const EvokeToast: StencilVueComponent<JSX.EvokeToast> = /*@__PURE__*/ defineContainer<JSX.EvokeToast>('evoke-toast', undefined, [
+  'open',
+  'message',
+  'type',
+  'action',
+  'duration',
+  'position',
+  'evokeAction',
+  'evokeClose'
+], [
+  'evokeAction',
+  'evokeClose'
+]);
+
+
+export const EvokeTooltip: StencilVueComponent<JSX.EvokeTooltip> = /*@__PURE__*/ defineContainer<JSX.EvokeTooltip>('evoke-tooltip', undefined, [
+  'text',
+  'placement',
+  'theme'
+]);
+
+

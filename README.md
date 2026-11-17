@@ -51,14 +51,30 @@ defineCustomElements();
 (React 19 passes props/events to custom elements natively; for React 18 use `ref` + `addEventListener`.)
 
 ### Vue
+
+**Recommended: use the Vue wrappers** (`@evoke-tech/stencil-ui-kit/vue`). They are generated with Stencil's Vue output target and need no compiler setting.
+
 ```ts
-// vite.config.ts: vue({ template: { compilerOptions: { isCustomElement: t => t.startsWith('evoke-') } } })
-import { defineCustomElements } from '@evoke-tech/stencil-ui-kit/loader';
-defineCustomElements();
+// main.ts
+import { createApp } from 'vue';
+import { EvokeUi } from '@evoke-tech/stencil-ui-kit/vue';
+import '@evoke-tech/stencil-ui-kit/dist/evoke-ui/evoke-ui.css';
+
+createApp(App).use(EvokeUi).mount('#app'); // registers the custom elements
 ```
-```html
-<evoke-input label="Email" @evokeInput="email = $event.detail" />
+```vue
+<script setup>
+import { EvokeButton, EvokeInput } from '@evoke-tech/stencil-ui-kit/vue';
+</script>
+<template>
+  <EvokeButton @click="count++">Clicked {{ count }} times</EvokeButton>
+  <EvokeInput label="Email" @evokeInput="email = $event.detail" />
+</template>
 ```
+
+**Why wrappers?** The components render into the page DOM (no shadow root) so Tailwind, Bootstrap and your CSS can style them. If you use the raw tag `<evoke-button>Count: {{ n }}</evoke-button>`, Vue replaces the tag's contents on every update and removes the button's inner markup. The wrappers pass the text to the tag in a way that avoids this.
+
+**Using the raw tags instead?** Set `isCustomElement: t => t.startsWith('evoke-')` in your Vue compiler options, call `defineCustomElements()` from `@evoke-tech/stencil-ui-kit/loader`, and wrap any dynamic text in an element: `<evoke-button><span>{{ n }}</span></evoke-button>`.
 
 ### Plain HTML / CDN
 ```html
@@ -282,7 +298,7 @@ Alternative: `npm link` (run `npm link` in the package folder, then `npm link @e
    ```
 3. Confirm the package name is free (a 404 means it is available):
    ```bash
-   npm view @evoke-tech/stencil-ui-kit
+   npm view @evoke-tech/stencil-ui-kit 
    ```
 
 ### Every release

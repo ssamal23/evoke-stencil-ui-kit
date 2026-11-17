@@ -7,9 +7,9 @@
   --evoke-surface: var(--mat-sys-surface, #fef7ff);
   --evoke-text: var(--mat-sys-on-surface, #1d1b20);
   --evoke-border: var(--mat-sys-outline, #79747e);
-  --evoke-radius: var(--mat-sys-corner-full, 20px);
+  --evoke-radius: var(--mat-sys-corner-medium, 12px);
   --evoke-radius-field: var(--mat-sys-corner-extra-small, 4px);
-  --evoke-font: var(--mat-sys-body-large-font, Roboto, 'Helvetica Neue', sans-serif);
+  --evoke-font: var(--mat-sys-body-large-font, Roboto), 'Helvetica Neue', sans-serif;
   --evoke-focus-ring: 0 0 0 2px var(--mat-sys-primary, #6750a4);
   --evoke-secondary: var(--mat-sys-secondary, #625b71);
   --evoke-secondary-contrast: var(--mat-sys-on-secondary, #ffffff);
