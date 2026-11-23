@@ -1,0 +1,50 @@
+{
+  "_readme": "What the monthly update check compares against. status: built = already in the kit (evoke is its tag), planned = to be built, skipped = decided not to build. Edit by hand, or let a pull request update it. See agent/README.md.",
+  "material": {
+    "seenVersion": "22.3.0",
+    "ignore": ["core", "theming", "_theming"],
+    "components": {
+      "autocomplete": { "status": "skipped", "note": "Not needed (decided by the owner)" },
+      "badge": { "status": "built", "evoke": "evoke-badge" },
+      "bottom-sheet": { "status": "planned" },
+      "button": { "status": "built", "evoke": "evoke-button" },
+      "button-toggle": { "status": "planned" },
+      "card": { "status": "built", "evoke": "evoke-card" },
+      "checkbox": { "status": "built", "evoke": "evoke-checkbox" },
+      "chips": { "status": "built", "evoke": "evoke-chip" },
+      "datepicker": { "status": "planned" },
+      "dialog": { "status": "built", "evoke": "evoke-modal" },
+      "divider": { "status": "planned" },
+      "expansion": { "status": "planned" },
+      "form-field": { "status": "built", "evoke": "evoke-input", "note": "Label, hint and error are built into the form components" },
+      "grid-list": { "status": "planned" },
+      "icon": { "status": "planned" },
+      "input": { "status": "built", "evoke": "evoke-input" },
+      "list": { "status": "planned" },
+      "menu": { "status": "planned" },
+      "paginator": { "status": "built", "evoke": "evoke-pagination" },
+      "progress-bar": { "status": "built", "evoke": "evoke-progress" },
+      "progress-spinner": { "status": "built", "evoke": "evoke-progress" },
+      "radio": { "status": "built", "evoke": "evoke-radio-group" },
+      "select": { "status": "built", "evoke": "evoke-select" },
+      "sidenav": { "status": "planned" },
+      "slide-toggle": { "status": "built", "evoke": "evoke-switch" },
+      "slider": { "status": "planned" },
+      "snack-bar": { "status": "built", "evoke": "evoke-toast" },
+      "sort": { "status": "built", "evoke": "evoke-table", "note": "The sortable option of the table" },
+      "stepper": { "status": "planned" },
+      "table": { "status": "built", "evoke": "evoke-table" },
+      "tabs": { "status": "built", "evoke": "evoke-tabs" },
+      "timepicker": { "status": "planned" },
+      "toolbar": { "status": "built", "evoke": "evoke-app-bar" },
+      "tooltip": { "status": "built", "evoke": "evoke-tooltip" },
+      "tree": { "status": "planned" }
+    }
+  },
+  "frameworks": {
+    "@angular/core": { "seen": "22.3.0", "track": "major" },
+    "react": { "seen": "19.3.1", "track": "major" },
+    "vue": { "seen": "3.5.46", "track": "minor" },
+    "@stencil/core": { "seen": "4.45.5", "track": "minor" }
+  }
+}

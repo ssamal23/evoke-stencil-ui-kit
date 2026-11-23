@@ -1,0 +1,46 @@
+name: Check for updates
+
+# Looks for new Angular Material components and new Angular, React, Vue and Stencil versions.
+# It only reports: it opens a GitHub issue titled "New update: ...". It never changes code and never publishes.
+
+on:
+  schedule:
+    - cron: '0 6 1 * *' # 06:00 UTC on the 1st of every month
+  workflow_dispatch: # the "Run workflow" button in the Actions tab
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check for updates
+        id: check
+        run: node scripts/check-updates.mjs
+
+      - name: Show the report on the run page
+        if: always()
+        run: |
+          if [ -f agent/report.md ]; then cat agent/report.md >> "$GITHUB_STEP_SUMMARY"; fi
+
+      - name: Open an issue
+        if: steps.check.outputs.has_updates == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ steps.check.outputs.title }}
+          FINGERPRINT: ${{ steps.check.outputs.fingerprint }}
+        run: |
+          gh label create new-update --description "Found by the monthly update check" --color 1d76db || true
+          if gh issue list --label new-update --state open --limit 100 --json body --jq '.[].body' | grep -q "fingerprint: ${FINGERPRINT}"; then
+            echo "This update is already reported in an open issue."
+          else
+            gh issue create --title "$TITLE" --label new-update --body-file agent/report.md
+          fi

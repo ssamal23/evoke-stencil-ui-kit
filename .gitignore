@@ -4,3 +4,4 @@ www/
 loader/
 .stencil/
 *.tgz
+agent/report.md

@@ -53,6 +53,7 @@
     "start": "stencil build --dev --watch --serve",
     "postbuild": "node -e \"require('fs').cpSync('src/themes','dist/themes',{recursive:true})\" && tsc -p tsconfig.vue.json",
     "test": "stencil test --spec",
+    "check-updates": "node scripts/check-updates.mjs",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
