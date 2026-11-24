@@ -4,10 +4,20 @@ name: Check for updates
 # It only reports: it opens a GitHub issue titled "New update: ...". It never changes code and never publishes.
 
 on:
+  # The "Run workflow" button in the Actions tab.
+  workflow_dispatch:
+
+  # Also runs whenever the check itself or its saved state changes on main, so a change can be tested without the button.
+  push:
+    branches: [main]
+    paths:
+      - 'agent/state.json'
+      - 'scripts/check-updates.mjs'
+      - '.github/workflows/check-updates.yml'
+
   schedule:
     # TESTING: every hour, on the hour. Change back to '0 6 1 * *' (06:00 UTC on the 1st of every month) when testing is done.
     - cron: '0 * * * *'
-  workflow_dispatch: # the "Run workflow" button in the Actions tab
 
 permissions:
   contents: read
