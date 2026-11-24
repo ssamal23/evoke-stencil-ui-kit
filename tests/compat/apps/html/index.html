@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evoke compatibility test: plain HTML</title>
+  <link rel="stylesheet" href="/node_modules/@evoke-tech/stencil-ui-kit/dist/evoke-ui/evoke-ui.css" />
+  <script type="module" src="/node_modules/@evoke-tech/stencil-ui-kit/dist/evoke-ui/evoke-ui.esm.js"></script>
+</head>
+<body>
+  <!-- One example of every component. The checks in specs/components.spec.mjs use these ids. -->
+  <evoke-app-bar id="appbar">
+    <span slot="logo">Evoke</span>
+    <span slot="nav"><a href="#main" aria-current="page">Home</a><a href="#main">Docs</a></span>
+    <span slot="actions"><evoke-button id="bar-btn" size="sm">Sign in</evoke-button></span>
+  </evoke-app-bar>
+
+  <main id="main" style="display:grid; gap:16px; max-width:720px; padding:16px">
+    <evoke-button id="btn">Save</evoke-button>
+    <evoke-input id="input" label="Email" placeholder="name@company.com"></evoke-input>
+    <evoke-select id="select" label="Role" options='[{"label":"Developer","value":"dev"},{"label":"Designer","value":"design"}]'></evoke-select>
+    <evoke-checkbox id="checkbox" label="Remember me"></evoke-checkbox>
+    <evoke-radio-group id="radio" label="Plan" options='[{"label":"Free","value":"free"},{"label":"Pro","value":"pro"}]'></evoke-radio-group>
+    <evoke-textarea id="textarea" label="Notes"></evoke-textarea>
+    <evoke-switch id="switch" label="Email alerts"></evoke-switch>
+    <evoke-card id="card" heading="Card" appearance="elevated" clickable>Body text</evoke-card>
+    <evoke-alert id="alert" type="success" dismissible>Saved</evoke-alert>
+    <evoke-tabs id="tabs" label="Product" options='[{"label":"Overview","value":"o"},{"label":"Specs","value":"s"}]'>Panel content</evoke-tabs>
+    <evoke-badge id="badge" count="3" label="3 items in cart"></evoke-badge>
+    <evoke-tooltip id="tooltip" text="Delete item"><evoke-button id="tip-btn" variant="outline">Hover me</evoke-button></evoke-tooltip>
+    <evoke-table id="table" striped sortable columns='[{"key":"name","label":"Name","sortable":true}]' rows='[{"name":"Maya"},{"name":"Ravi"}]'></evoke-table>
+    <evoke-pagination id="pager" page="1" total="5"></evoke-pagination>
+    <evoke-chip id="chip" label="In stock"></evoke-chip>
+    <evoke-chip id="chip-removable" label="Red" removable></evoke-chip>
+    <evoke-progress id="progress" value="60" label="Uploading"></evoke-progress>
+    <evoke-quantity-stepper id="qty" value="2" min="1" max="10"></evoke-quantity-stepper>
+
+    <!-- Closed until a plain button opens them, so the check also covers opening. -->
+    <button id="open-modal" type="button">Open modal</button>
+    <button id="open-toast" type="button">Open toast</button>
+    <evoke-modal id="modal" heading="Confirm">Are you sure?</evoke-modal>
+    <evoke-toast id="toast" message="Saved" action="View" duration="0"></evoke-toast>
+  </main>
+
+  <script>
+    // Every component event bubbles, so one listener on the document records them all.
+    window.__events = [];
+    for (const name of ['evokeChange', 'evokeInput', 'evokeClose', 'evokeDismiss', 'evokeAction', 'evokeSort', 'evokeClick', 'evokeRemove']) {
+      document.addEventListener(name, (e) => window.__events.push({ event: name, id: e.target.id, detail: e.detail }));
+    }
+    // A button's own event is the native click.
+    document.getElementById('btn').addEventListener('click', () => window.__events.push({ event: 'click', id: 'btn' }));
+    document.getElementById('open-modal').addEventListener('click', () => { document.getElementById('modal').open = true; });
+    document.getElementById('open-toast').addEventListener('click', () => { document.getElementById('toast').open = true; });
+  </script>
+</body>
+</html>

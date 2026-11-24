@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Evoke compatibility test: theme file</title>
+  <script>
+    // ?theme=tailwind | bootstrap | material | tokens. No parameter = the default look, the base file only.
+    const theme = new URLSearchParams(location.search).get('theme');
+    const base = '/node_modules/@evoke-tech/stencil-ui-kit/dist/';
+    const sheets = [base + 'evoke-ui/evoke-ui.css'];
+    if (theme) sheets.push(base + 'themes/' + theme + '.css'); // the theme file goes AFTER the base file
+    for (const href of sheets) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  </script>
+  <script type="module" src="/node_modules/@evoke-tech/stencil-ui-kit/dist/evoke-ui/evoke-ui.esm.js"></script>
+</head>
+<body>
+  <evoke-button id="primary">Primary</evoke-button>
+  <evoke-button id="secondary" variant="secondary">Secondary</evoke-button>
+  <evoke-input id="input" label="Email"></evoke-input>
+</body>
+</html>
