@@ -9,6 +9,11 @@ A monthly GitHub Actions job (`.github/workflows/check-updates.yml`) that looks 
 If something is new it opens a GitHub issue titled **New update: ...** with the label `new-update`. If nothing is new, the run
 page shows "Nothing new since the last check". The same findings are never reported twice while the issue is open.
 
+Every report, with or without news, ends with a **Coverage** section: how many Angular Material components the kit covers, the list
+of components **planned but not built yet** (with a link to each one's Angular Material page), and the ones left out on purpose.
+It is read from `state.json`, so it is only as current as that file. It never opens an issue by itself. A status other than
+`built`, `planned` or `skipped` stops the run with an error, so a typo is noticed.
+
 It only reports. It does not change code, does not publish, and none of this folder, `scripts/` or `.github/` is part of the npm
 package (`files` in `package.json` lists only `dist/` and `loader/`).
 
