@@ -50,6 +50,18 @@ export const EvokeButton: StencilVueComponent<JSX.EvokeButton> = /*@__PURE__*/ d
 ]);
 
 
+export const EvokeButtonToggle: StencilVueComponent<JSX.EvokeButtonToggle> = /*@__PURE__*/ defineContainer<JSX.EvokeButtonToggle>('evoke-button-toggle', undefined, [
+  'items',
+  'value',
+  'multiple',
+  'label',
+  'disabled',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
 export const EvokeCard: StencilVueComponent<JSX.EvokeCard> = /*@__PURE__*/ defineContainer<JSX.EvokeCard>('evoke-card', undefined, [
   'heading',
   'appearance',
@@ -87,6 +99,23 @@ export const EvokeChip: StencilVueComponent<JSX.EvokeChip> = /*@__PURE__*/ defin
 ]);
 
 
+export const EvokeDivider: StencilVueComponent<JSX.EvokeDivider> = /*@__PURE__*/ defineContainer<JSX.EvokeDivider>('evoke-divider', undefined, [
+  'vertical',
+  'appearance'
+]);
+
+
+export const EvokeExpansion: StencilVueComponent<JSX.EvokeExpansion> = /*@__PURE__*/ defineContainer<JSX.EvokeExpansion>('evoke-expansion', undefined, [
+  'heading',
+  'description',
+  'expanded',
+  'disabled',
+  'evokeToggle'
+], [
+  'evokeToggle'
+]);
+
+
 export const EvokeInput: StencilVueComponent<JSX.EvokeInput> = /*@__PURE__*/ defineContainer<JSX.EvokeInput>('evoke-input', undefined, [
   'label',
   'value',
@@ -105,6 +134,29 @@ export const EvokeInput: StencilVueComponent<JSX.EvokeInput> = /*@__PURE__*/ def
 ], [
   'evokeInput',
   'evokeChange'
+]);
+
+
+export const EvokeList: StencilVueComponent<JSX.EvokeList> = /*@__PURE__*/ defineContainer<JSX.EvokeList>('evoke-list', undefined, [
+  'items',
+  'appearance',
+  'multiple',
+  'value',
+  'label',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeMenu: StencilVueComponent<JSX.EvokeMenu> = /*@__PURE__*/ defineContainer<JSX.EvokeMenu>('evoke-menu', undefined, [
+  'label',
+  'options',
+  'align',
+  'disabled',
+  'evokeSelect'
+], [
+  'evokeSelect'
 ]);
 
 
@@ -180,6 +232,20 @@ export const EvokeSelect: StencilVueComponent<JSX.EvokeSelect> = /*@__PURE__*/ d
   'error',
   'hint',
   'selectClass',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
+export const EvokeSlider: StencilVueComponent<JSX.EvokeSlider> = /*@__PURE__*/ defineContainer<JSX.EvokeSlider>('evoke-slider', undefined, [
+  'label',
+  'value',
+  'min',
+  'max',
+  'step',
+  'showValue',
+  'disabled',
   'evokeChange'
 ], [
   'evokeChange'
