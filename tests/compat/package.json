@@ -1,0 +1,12 @@
+{
+  "name": "evoke-compat-tests",
+  "private": true,
+  "type": "module",
+  "description": "Compatibility tests for @evoke-tech/stencil-ui-kit. Not part of the published package.",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

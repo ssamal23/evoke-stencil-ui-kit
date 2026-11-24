@@ -5,3 +5,6 @@ loader/
 .stencil/
 *.tgz
 agent/report.md
+tests/compat/.work/
+tests/compat/results/
+tests/compat/test-results/
