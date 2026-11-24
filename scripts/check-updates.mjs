@@ -85,6 +85,32 @@ async function main() {
     lines.push('');
   }
   if (!hasUpdates) lines.push('Nothing new since the last check.', '');
+
+  // Coverage against Angular Material. Informational: it appears in every report but never opens an issue by itself.
+  const current = Object.entries(known).filter(([name]) => live.includes(name));
+  const badStatus = current.filter(([, v]) => !['built', 'planned', 'skipped'].includes(v.status));
+  if (badStatus.length) throw new Error(`Unknown status in agent/state.json: ${badStatus.map(([n, v]) => `${n}=${v.status}`).join(', ')} (use built, planned or skipped)`);
+  const withStatus = (status) => current.filter(([, v]) => v.status === status).map(([name, v]) => ({ name, ...v }));
+  const built = withStatus('built');
+  const planned = withStatus('planned');
+  const skipped = withStatus('skipped');
+  lines.push(
+    '## Coverage',
+    '',
+    `Angular Material has ${current.length} components that matter. The kit covers ${built.length}; ${planned.length} are planned and ${skipped.length} left out on purpose.`,
+    '',
+  );
+  if (planned.length) {
+    lines.push(`### Planned but not built yet (${planned.length})`, '');
+    for (const c of planned) lines.push(`- \`${c.name}\`: https://material.angular.dev/components/${c.name}/overview`);
+    lines.push('');
+  }
+  if (skipped.length) {
+    lines.push(`### Left out on purpose (${skipped.length})`, '');
+    for (const c of skipped) lines.push(`- \`${c.name}\`${c.note ? `: ${c.note}` : ''}`);
+    lines.push('');
+  }
+
   if (hasUpdates) {
     lines.push(
       '## What to do',
