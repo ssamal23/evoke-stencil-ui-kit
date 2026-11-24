@@ -10,10 +10,10 @@ import { test as base, expect } from '@playwright/test';
  */
 const EXPECTED_TAGS = [
   'evoke-alert', 'evoke-app-bar', 'evoke-badge', 'evoke-bottom-sheet', 'evoke-button', 'evoke-button-toggle', 'evoke-card',
-  'evoke-checkbox', 'evoke-chip', 'evoke-divider', 'evoke-expansion', 'evoke-grid-list', 'evoke-icon', 'evoke-input',
+  'evoke-checkbox', 'evoke-chip', 'evoke-divider', 'evoke-expansion', 'evoke-grid-list', 'evoke-icon', 'evoke-datepicker', 'evoke-input',
   'evoke-list', 'evoke-menu', 'evoke-modal', 'evoke-pagination', 'evoke-progress', 'evoke-quantity-stepper',
   'evoke-radio-group', 'evoke-select', 'evoke-sidenav', 'evoke-slider', 'evoke-stepper', 'evoke-switch', 'evoke-table',
-  'evoke-tabs', 'evoke-textarea', 'evoke-toast', 'evoke-tooltip',
+  'evoke-tabs', 'evoke-textarea', 'evoke-timepicker', 'evoke-toast', 'evoke-tooltip', 'evoke-tree',
 ];
 
 /** [tag, selector of something the component must render inside itself] */
@@ -49,6 +49,9 @@ const RENDERS = [
   ['evoke-stepper', '#stepper .evoke-stepper__header'],
   ['evoke-bottom-sheet', '#sheet.hydrated'],
   ['evoke-sidenav', '#sidenav.hydrated'],
+  ['evoke-datepicker', '#date input[type="text"]'],
+  ['evoke-timepicker', '#time input[type="text"]'],
+  ['evoke-tree', '#tree [role="treeitem"]'],
 ];
 
 // A test fails when the page logs an error, throws, or a file fails to load.
@@ -75,7 +78,7 @@ const events = (page) => page.evaluate(() => window.__events);
 const last = async (page, event, id) => (await events(page)).filter((e) => e.event === event && (!id || e.id === id)).at(-1);
 
 test.describe('registration', () => {
-  test('all 31 components are registered', async ({ page }) => {
+  test('all 34 components are registered', async ({ page }) => {
     const missing = await page.evaluate((tags) => tags.filter((t) => !customElements.get(t)), EXPECTED_TAGS);
     expect(missing).toEqual([]);
   });
@@ -247,6 +250,122 @@ test.describe('events', () => {
 
   test('evoke-stepper: a linear stepper cannot jump ahead from the header', async ({ page }) => {
     await expect(page.locator('#stepper .evoke-stepper__step >> nth=2 >> button')).toBeDisabled();
+  });
+
+  test('evoke-datepicker: shows its value, and typing a date commits it', async ({ page }) => {
+    await expect(page.locator('#date input[type="text"]')).toHaveValue('2025-03-15');
+    await page.fill('#date input[type="text"]', '2025-03-18');
+    await page.locator('#date input[type="text"]').blur();
+    expect((await last(page, 'evokeChange', 'date'))?.detail).toBe('2025-03-18');
+  });
+
+  test('evoke-datepicker: a date that does not exist or is out of range is refused with a message', async ({ page }) => {
+    await page.fill('#date input[type="text"]', '2025-02-30');
+    await page.locator('#date input[type="text"]').blur();
+    await expect(page.locator('#date [role="alert"]')).toContainText('YYYY-MM-DD');
+    await page.fill('#date input[type="text"]', '2025-04-01');
+    await page.locator('#date input[type="text"]').blur();
+    await expect(page.locator('#date [role="alert"]')).toContainText('not available');
+    expect(await last(page, 'evokeChange', 'date')).toBeUndefined();
+  });
+
+  test('evoke-datepicker: the calendar opens on the value, a day click commits and closes', async ({ page }) => {
+    await page.click('#date .evoke-datepicker__toggle');
+    await expect(page.locator('#date .evoke-datepicker__title')).toHaveText('March 2025');
+    await page.click('#date button[data-date="2025-03-20"]');
+    expect((await last(page, 'evokeChange', 'date'))?.detail).toBe('2025-03-20');
+    await expect(page.locator('#date [role="dialog"]')).toHaveCount(0);
+  });
+
+  test('evoke-datepicker: days outside min and max cannot be chosen', async ({ page }) => {
+    await page.click('#date .evoke-datepicker__toggle');
+    await expect(page.locator('#date button[data-date="2025-03-09"]')).toBeDisabled();
+    await expect(page.locator('#date button[data-date="2025-03-26"]')).toBeDisabled();
+    await expect(page.locator('#date button[data-date="2025-03-10"]')).toBeEnabled();
+  });
+
+  test('evoke-datepicker: arrow keys move, Enter chooses, PageDown changes the month', async ({ page }) => {
+    await page.click('#date2 .evoke-datepicker__toggle');
+    await expect(page.locator('#date2 button[data-date="2025-03-15"]')).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('ArrowDown');
+    await expect(page.locator('#date2 button[data-date="2025-03-23"]')).toBeFocused();
+    await page.keyboard.press('PageDown');
+    await expect(page.locator('#date2 .evoke-datepicker__title')).toHaveText('April 2025');
+    await expect(page.locator('#date2 button[data-date="2025-04-23"]')).toBeFocused();
+    await page.keyboard.press('Enter');
+    expect((await last(page, 'evokeChange', 'date2'))?.detail).toBe('2025-04-23');
+    await page.click('#date2 .evoke-datepicker__toggle');
+    await expect(page.locator('#date2 button[data-date="2025-04-23"]')).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#date2 [role="dialog"]')).toHaveCount(0);
+  });
+
+  test('evoke-datepicker: keyboard focus stays inside min and max', async ({ page }) => {
+    await page.click('#date .evoke-datepicker__toggle');
+    await expect(page.locator('#date button[data-date="2025-03-15"]')).toBeFocused();
+    await page.keyboard.press('PageDown');
+    await expect(page.locator('#date button[data-date="2025-03-25"]')).toBeFocused();
+    await page.keyboard.press('PageUp');
+    await expect(page.locator('#date button[data-date="2025-03-10"]')).toBeFocused();
+  });
+
+  test('evoke-timepicker: typing a 24-hour time commits HH:MM', async ({ page }) => {
+    await page.fill('#time input[type="text"]', '9:05');
+    await page.locator('#time input[type="text"]').blur();
+    expect((await last(page, 'evokeChange', 'time'))?.detail).toBe('09:05');
+    await expect(page.locator('#time input[type="text"]')).toHaveValue('09:05');
+  });
+
+  test('evoke-timepicker: a bad time is refused with a message', async ({ page }) => {
+    await page.fill('#time input[type="text"]', '25:00');
+    await page.locator('#time input[type="text"]').blur();
+    await expect(page.locator('#time [role="alert"]')).toBeVisible();
+    expect(await last(page, 'evokeChange', 'time')).toBeUndefined();
+  });
+
+  test('evoke-timepicker: the list sets hour and minute', async ({ page }) => {
+    await page.click('#time .evoke-timepicker__toggle');
+    await page.click('#time [aria-label="Hour"] button:text-is("14")');
+    await page.click('#time [aria-label="Minute"] button:text-is("30")');
+    expect((await last(page, 'evokeChange', 'time'))?.detail).toBe('14:30');
+    await expect(page.locator('#time input[type="text"]')).toHaveValue('14:30');
+    await page.click('#time .evoke-timepicker__done');
+    await expect(page.locator('#time [role="dialog"]')).toHaveCount(0);
+  });
+
+  test('evoke-timepicker twelve-hour: shows AM/PM, and the value stays 24-hour', async ({ page }) => {
+    await page.fill('#time12 input[type="text"]', '2:30 pm');
+    await page.locator('#time12 input[type="text"]').blur();
+    expect((await last(page, 'evokeChange', 'time12'))?.detail).toBe('14:30');
+    await expect(page.locator('#time12 input[type="text"]')).toHaveValue('2:30 PM');
+    await page.fill('#time12 input[type="text"]', '12:15 am');
+    await page.locator('#time12 input[type="text"]').blur();
+    expect((await last(page, 'evokeChange', 'time12'))?.detail).toBe('00:15');
+  });
+
+  test('evoke-tree: opens a branch, selects a node, and reports both', async ({ page }) => {
+    await expect(page.locator('#tree [role="treeitem"]')).toHaveCount(2);
+    await page.click('#tree button[aria-label="Expand src"]');
+    expect((await last(page, 'evokeToggle', 'tree'))?.detail).toEqual({ value: 'src', expanded: true });
+    await expect(page.locator('#tree [role="treeitem"]')).toHaveCount(4);
+    await page.click('#tree [role="treeitem"]:has-text("index.ts")');
+    expect((await last(page, 'evokeChange', 'tree'))?.detail).toBe('index');
+    await expect(page.locator('#tree [role="treeitem"][aria-selected="true"]')).toContainText('index.ts');
+  });
+
+  test('evoke-tree: arrow keys expand, collapse and move', async ({ page }) => {
+    await page.locator('#tree [role="treeitem"]').first().focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#tree [role="treeitem"]')).toHaveCount(4);
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#tree [role="treeitem"]:has-text("index.ts")')).toBeFocused();
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator('#tree [role="treeitem"]').first()).toBeFocused();
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator('#tree [role="treeitem"]')).toHaveCount(2);
+    await page.keyboard.press('Enter');
+    expect((await last(page, 'evokeChange', 'tree'))?.detail).toBe('src');
   });
 });
 

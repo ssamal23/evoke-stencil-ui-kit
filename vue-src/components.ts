@@ -109,6 +109,24 @@ export const EvokeChip: StencilVueComponent<JSX.EvokeChip> = /*@__PURE__*/ defin
 ]);
 
 
+export const EvokeDatepicker: StencilVueComponent<JSX.EvokeDatepicker> = /*@__PURE__*/ defineContainer<JSX.EvokeDatepicker>('evoke-datepicker', undefined, [
+  'label',
+  'value',
+  'min',
+  'max',
+  'placeholder',
+  'disabled',
+  'required',
+  'error',
+  'hint',
+  'locale',
+  'weekStart',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
 export const EvokeDivider: StencilVueComponent<JSX.EvokeDivider> = /*@__PURE__*/ defineContainer<JSX.EvokeDivider>('evoke-divider', undefined, [
   'vertical',
   'appearance'
@@ -361,6 +379,22 @@ export const EvokeTextarea: StencilVueComponent<JSX.EvokeTextarea> = /*@__PURE__
 ]);
 
 
+export const EvokeTimepicker: StencilVueComponent<JSX.EvokeTimepicker> = /*@__PURE__*/ defineContainer<JSX.EvokeTimepicker>('evoke-timepicker', undefined, [
+  'label',
+  'value',
+  'twelveHour',
+  'step',
+  'placeholder',
+  'disabled',
+  'required',
+  'error',
+  'hint',
+  'evokeChange'
+], [
+  'evokeChange'
+]);
+
+
 export const EvokeToast: StencilVueComponent<JSX.EvokeToast> = /*@__PURE__*/ defineContainer<JSX.EvokeToast>('evoke-toast', undefined, [
   'open',
   'message',
@@ -380,6 +414,20 @@ export const EvokeTooltip: StencilVueComponent<JSX.EvokeTooltip> = /*@__PURE__*/
   'text',
   'placement',
   'theme'
+]);
+
+
+export const EvokeTree: StencilVueComponent<JSX.EvokeTree> = /*@__PURE__*/ defineContainer<JSX.EvokeTree>('evoke-tree', undefined, [
+  'nodes',
+  'value',
+  'expanded',
+  'expandAll',
+  'label',
+  'evokeChange',
+  'evokeToggle'
+], [
+  'evokeChange',
+  'evokeToggle'
 ]);
 
 

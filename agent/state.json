@@ -12,7 +12,7 @@
       "card": { "status": "built", "evoke": "evoke-card" },
       "checkbox": { "status": "built", "evoke": "evoke-checkbox" },
       "chips": { "status": "built", "evoke": "evoke-chip" },
-      "datepicker": { "status": "planned" },
+      "datepicker": { "status": "built", "evoke": "evoke-datepicker" },
       "dialog": { "status": "built", "evoke": "evoke-modal" },
       "divider": { "status": "built", "evoke": "evoke-divider" },
       "expansion": { "status": "built", "evoke": "evoke-expansion" },
@@ -35,10 +35,10 @@
       "stepper": { "status": "built", "evoke": "evoke-stepper" },
       "table": { "status": "built", "evoke": "evoke-table" },
       "tabs": { "status": "built", "evoke": "evoke-tabs" },
-      "timepicker": { "status": "planned" },
+      "timepicker": { "status": "built", "evoke": "evoke-timepicker" },
       "toolbar": { "status": "built", "evoke": "evoke-app-bar" },
       "tooltip": { "status": "built", "evoke": "evoke-tooltip" },
-      "tree": { "status": "planned" }
+      "tree": { "status": "built", "evoke": "evoke-tree" }
     }
   },
   "frameworks": {

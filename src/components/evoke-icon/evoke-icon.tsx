@@ -3,7 +3,7 @@ import { EvokeIcon, renderIcon } from '../../utils/icons';
 
 @Component({ tag: 'evoke-icon', styleUrl: 'evoke-icon.css', shadow: false })
 export class EvokeIconComponent {
-  /** Icon name: mail, lock, user, search, plus, minus, check, x, chevron-down, chevron-up, chevron-left, chevron-right, arrow-right, arrow-up, arrow-down, sort, cart, info, alert */
+  /** Icon name: mail, lock, user, search, plus, minus, check, x, chevron-down, chevron-up, chevron-left, chevron-right, arrow-right, arrow-up, arrow-down, sort, cart, info, alert, calendar, clock */
   @Prop() name!: EvokeIcon;
   /** sm 16px, md 20px, lg 24px, xl 32px. Any other size: set the CSS variable --evoke-icon-size. */
   @Prop() size: 'sm' | 'md' | 'lg' | 'xl' = 'md';

@@ -9,10 +9,12 @@ import { EvokeIcon } from "./utils/icons";
 import { EvokeListItem, EvokeMenuOption } from "./utils/list-items";
 import { EvokeOption } from "./utils/options";
 import { EvokeStep } from "./components/evoke-stepper/evoke-stepper";
+import { EvokeTreeNode } from "./components/evoke-tree/evoke-tree";
 export { EvokeIcon } from "./utils/icons";
 export { EvokeListItem, EvokeMenuOption } from "./utils/list-items";
 export { EvokeOption } from "./utils/options";
 export { EvokeStep } from "./components/evoke-stepper/evoke-stepper";
+export { EvokeTreeNode } from "./components/evoke-tree/evoke-tree";
 export namespace Components {
     interface EvokeAlert {
         /**
@@ -235,6 +237,58 @@ export namespace Components {
          */
         "selected": boolean;
     }
+    interface EvokeDatepicker {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error message shown below the field (replaces the hint)
+          * @default ''
+         */
+        "error": string;
+        /**
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * @default ''
+         */
+        "label": string;
+        /**
+          * Language for month and weekday names, e.g. "en-US", "de-DE"
+          * @default 'en-US'
+         */
+        "locale": string;
+        /**
+          * Latest date that can be chosen, YYYY-MM-DD
+          * @default ''
+         */
+        "max": string;
+        /**
+          * Earliest date that can be chosen, YYYY-MM-DD
+          * @default ''
+         */
+        "min": string;
+        /**
+          * @default 'YYYY-MM-DD'
+         */
+        "placeholder": string;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Selected date as YYYY-MM-DD (empty for none)
+          * @default ''
+         */
+        "value": string;
+        /**
+          * First day of the week: 0 = Sunday, 1 = Monday
+          * @default 0
+         */
+        "weekStart": 0 | 1;
+    }
     interface EvokeDivider {
         /**
           * Full width, or indented from the start edge (like the divider between list items)
@@ -296,7 +350,7 @@ export namespace Components {
          */
         "label": string;
         /**
-          * Icon name: mail, lock, user, search, plus, minus, check, x, chevron-down, chevron-up, chevron-left, chevron-right, arrow-right, arrow-up, arrow-down, sort, cart, info, alert
+          * Icon name: mail, lock, user, search, plus, minus, check, x, chevron-down, chevron-up, chevron-left, chevron-right, arrow-right, arrow-up, arrow-down, sort, cart, info, alert, calendar, clock
          */
         "name": EvokeIcon;
         /**
@@ -816,6 +870,48 @@ export namespace Components {
          */
         "value": string;
     }
+    interface EvokeTimepicker {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error message shown below the field (replaces the hint)
+          * @default ''
+         */
+        "error": string;
+        /**
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * @default ''
+         */
+        "label": string;
+        /**
+          * @default ''
+         */
+        "placeholder": string;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Gap between the minutes offered in the list, 1 to 30. You can still type any minute.
+          * @default 5
+         */
+        "step": number;
+        /**
+          * Show and accept AM/PM instead of 24-hour time
+          * @default false
+         */
+        "twelveHour": boolean;
+        /**
+          * Selected time as 24-hour HH:MM (empty for none), whatever `twelveHour` shows
+          * @default ''
+         */
+        "value": string;
+    }
     interface EvokeToast {
         /**
           * Label of an action button, e.g. "View cart". Leave empty for a simple message.
@@ -860,6 +956,33 @@ export namespace Components {
          */
         "theme": 'dark' | 'light';
     }
+    interface EvokeTree {
+        /**
+          * Open every node at the start (only when `expanded` is empty)
+          * @default false
+         */
+        "expandAll": boolean;
+        /**
+          * Values of the nodes that are open: an array, a JSON string, or a comma list
+          * @default []
+         */
+        "expanded": string[] | string;
+        /**
+          * Accessible name for the tree
+          * @default ''
+         */
+        "label": string;
+        /**
+          * Nodes as an array of { label, value, children?, disabled? } or a JSON string of the same
+          * @default []
+         */
+        "nodes": EvokeTreeNode[] | string;
+        /**
+          * Value of the selected node
+          * @default ''
+         */
+        "value": string;
+    }
 }
 export interface EvokeAlertCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -884,6 +1007,10 @@ export interface EvokeCheckboxCustomEvent<T> extends CustomEvent<T> {
 export interface EvokeChipCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEvokeChipElement;
+}
+export interface EvokeDatepickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeDatepickerElement;
 }
 export interface EvokeExpansionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -949,9 +1076,17 @@ export interface EvokeTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEvokeTextareaElement;
 }
+export interface EvokeTimepickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeTimepickerElement;
+}
 export interface EvokeToastCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLEvokeToastElement;
+}
+export interface EvokeTreeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLEvokeTreeElement;
 }
 declare global {
     interface HTMLEvokeAlertElementEventMap {
@@ -1074,6 +1209,23 @@ declare global {
     var HTMLEvokeChipElement: {
         prototype: HTMLEvokeChipElement;
         new (): HTMLEvokeChipElement;
+    };
+    interface HTMLEvokeDatepickerElementEventMap {
+        "evokeChange": string;
+    }
+    interface HTMLEvokeDatepickerElement extends Components.EvokeDatepicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeDatepickerElementEventMap>(type: K, listener: (this: HTMLEvokeDatepickerElement, ev: EvokeDatepickerCustomEvent<HTMLEvokeDatepickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeDatepickerElementEventMap>(type: K, listener: (this: HTMLEvokeDatepickerElement, ev: EvokeDatepickerCustomEvent<HTMLEvokeDatepickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeDatepickerElement: {
+        prototype: HTMLEvokeDatepickerElement;
+        new (): HTMLEvokeDatepickerElement;
     };
     interface HTMLEvokeDividerElement extends Components.EvokeDivider, HTMLStencilElement {
     }
@@ -1374,6 +1526,23 @@ declare global {
         prototype: HTMLEvokeTextareaElement;
         new (): HTMLEvokeTextareaElement;
     };
+    interface HTMLEvokeTimepickerElementEventMap {
+        "evokeChange": string;
+    }
+    interface HTMLEvokeTimepickerElement extends Components.EvokeTimepicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeTimepickerElementEventMap>(type: K, listener: (this: HTMLEvokeTimepickerElement, ev: EvokeTimepickerCustomEvent<HTMLEvokeTimepickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeTimepickerElementEventMap>(type: K, listener: (this: HTMLEvokeTimepickerElement, ev: EvokeTimepickerCustomEvent<HTMLEvokeTimepickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeTimepickerElement: {
+        prototype: HTMLEvokeTimepickerElement;
+        new (): HTMLEvokeTimepickerElement;
+    };
     interface HTMLEvokeToastElementEventMap {
         "evokeAction": void;
         "evokeClose": void;
@@ -1398,6 +1567,24 @@ declare global {
         prototype: HTMLEvokeTooltipElement;
         new (): HTMLEvokeTooltipElement;
     };
+    interface HTMLEvokeTreeElementEventMap {
+        "evokeChange": string;
+        "evokeToggle": { value: string; expanded: boolean };
+    }
+    interface HTMLEvokeTreeElement extends Components.EvokeTree, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLEvokeTreeElementEventMap>(type: K, listener: (this: HTMLEvokeTreeElement, ev: EvokeTreeCustomEvent<HTMLEvokeTreeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLEvokeTreeElementEventMap>(type: K, listener: (this: HTMLEvokeTreeElement, ev: EvokeTreeCustomEvent<HTMLEvokeTreeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLEvokeTreeElement: {
+        prototype: HTMLEvokeTreeElement;
+        new (): HTMLEvokeTreeElement;
+    };
     interface HTMLElementTagNameMap {
         "evoke-alert": HTMLEvokeAlertElement;
         "evoke-app-bar": HTMLEvokeAppBarElement;
@@ -1408,6 +1595,7 @@ declare global {
         "evoke-card": HTMLEvokeCardElement;
         "evoke-checkbox": HTMLEvokeCheckboxElement;
         "evoke-chip": HTMLEvokeChipElement;
+        "evoke-datepicker": HTMLEvokeDatepickerElement;
         "evoke-divider": HTMLEvokeDividerElement;
         "evoke-expansion": HTMLEvokeExpansionElement;
         "evoke-grid-list": HTMLEvokeGridListElement;
@@ -1428,8 +1616,10 @@ declare global {
         "evoke-table": HTMLEvokeTableElement;
         "evoke-tabs": HTMLEvokeTabsElement;
         "evoke-textarea": HTMLEvokeTextareaElement;
+        "evoke-timepicker": HTMLEvokeTimepickerElement;
         "evoke-toast": HTMLEvokeToastElement;
         "evoke-tooltip": HTMLEvokeTooltipElement;
+        "evoke-tree": HTMLEvokeTreeElement;
     }
 }
 declare namespace LocalJSX {
@@ -1684,6 +1874,62 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
     }
+    interface EvokeDatepicker {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error message shown below the field (replaces the hint)
+          * @default ''
+         */
+        "error"?: string;
+        /**
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * Language for month and weekday names, e.g. "en-US", "de-DE"
+          * @default 'en-US'
+         */
+        "locale"?: string;
+        /**
+          * Latest date that can be chosen, YYYY-MM-DD
+          * @default ''
+         */
+        "max"?: string;
+        /**
+          * Earliest date that can be chosen, YYYY-MM-DD
+          * @default ''
+         */
+        "min"?: string;
+        /**
+          * Emits the chosen date as YYYY-MM-DD, or an empty string when cleared
+         */
+        "onEvokeChange"?: (event: EvokeDatepickerCustomEvent<string>) => void;
+        /**
+          * @default 'YYYY-MM-DD'
+         */
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Selected date as YYYY-MM-DD (empty for none)
+          * @default ''
+         */
+        "value"?: string;
+        /**
+          * First day of the week: 0 = Sunday, 1 = Monday
+          * @default 0
+         */
+        "weekStart"?: 0 | 1;
+    }
     interface EvokeDivider {
         /**
           * Full width, or indented from the start edge (like the divider between list items)
@@ -1749,7 +1995,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * Icon name: mail, lock, user, search, plus, minus, check, x, chevron-down, chevron-up, chevron-left, chevron-right, arrow-right, arrow-up, arrow-down, sort, cart, info, alert
+          * Icon name: mail, lock, user, search, plus, minus, check, x, chevron-down, chevron-up, chevron-left, chevron-right, arrow-right, arrow-up, arrow-down, sort, cart, info, alert, calendar, clock
          */
         "name": EvokeIcon;
         /**
@@ -2341,6 +2587,52 @@ declare namespace LocalJSX {
          */
         "value"?: string;
     }
+    interface EvokeTimepicker {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error message shown below the field (replaces the hint)
+          * @default ''
+         */
+        "error"?: string;
+        /**
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * Emits the chosen time as 24-hour HH:MM, or an empty string when cleared
+         */
+        "onEvokeChange"?: (event: EvokeTimepickerCustomEvent<string>) => void;
+        /**
+          * @default ''
+         */
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Gap between the minutes offered in the list, 1 to 30. You can still type any minute.
+          * @default 5
+         */
+        "step"?: number;
+        /**
+          * Show and accept AM/PM instead of 24-hour time
+          * @default false
+         */
+        "twelveHour"?: boolean;
+        /**
+          * Selected time as 24-hour HH:MM (empty for none), whatever `twelveHour` shows
+          * @default ''
+         */
+        "value"?: string;
+    }
     interface EvokeToast {
         /**
           * Label of an action button, e.g. "View cart". Leave empty for a simple message.
@@ -2392,6 +2684,41 @@ declare namespace LocalJSX {
           * @default 'dark'
          */
         "theme"?: 'dark' | 'light';
+    }
+    interface EvokeTree {
+        /**
+          * Open every node at the start (only when `expanded` is empty)
+          * @default false
+         */
+        "expandAll"?: boolean;
+        /**
+          * Values of the nodes that are open: an array, a JSON string, or a comma list
+          * @default []
+         */
+        "expanded"?: string[] | string;
+        /**
+          * Accessible name for the tree
+          * @default ''
+         */
+        "label"?: string;
+        /**
+          * Nodes as an array of { label, value, children?, disabled? } or a JSON string of the same
+          * @default []
+         */
+        "nodes"?: EvokeTreeNode[] | string;
+        /**
+          * Emits the value of the node that was selected
+         */
+        "onEvokeChange"?: (event: EvokeTreeCustomEvent<string>) => void;
+        /**
+          * Emits when a node is opened or closed
+         */
+        "onEvokeToggle"?: (event: EvokeTreeCustomEvent<{ value: string; expanded: boolean }>) => void;
+        /**
+          * Value of the selected node
+          * @default ''
+         */
+        "value"?: string;
     }
 
     interface EvokeAlertAttributes {
@@ -2455,6 +2782,19 @@ declare namespace LocalJSX {
         "selected": boolean;
         "removable": boolean;
         "disabled": boolean;
+    }
+    interface EvokeDatepickerAttributes {
+        "label": string;
+        "value": string;
+        "min": string;
+        "max": string;
+        "placeholder": string;
+        "disabled": boolean;
+        "required": boolean;
+        "error": string;
+        "hint": string;
+        "locale": string;
+        "weekStart": 0 | 1;
     }
     interface EvokeDividerAttributes {
         "vertical": boolean;
@@ -2614,6 +2954,17 @@ declare namespace LocalJSX {
         "hint": string;
         "textareaClass": string;
     }
+    interface EvokeTimepickerAttributes {
+        "label": string;
+        "value": string;
+        "twelveHour": boolean;
+        "step": number;
+        "placeholder": string;
+        "disabled": boolean;
+        "required": boolean;
+        "error": string;
+        "hint": string;
+    }
     interface EvokeToastAttributes {
         "open": boolean;
         "message": string;
@@ -2627,6 +2978,13 @@ declare namespace LocalJSX {
         "placement": 'top' | 'bottom' | 'left' | 'right';
         "theme": 'dark' | 'light';
     }
+    interface EvokeTreeAttributes {
+        "nodes": EvokeTreeNode[] | string;
+        "value": string;
+        "expanded": string[] | string;
+        "expandAll": boolean;
+        "label": string;
+    }
 
     interface IntrinsicElements {
         "evoke-alert": Omit<EvokeAlert, keyof EvokeAlertAttributes> & { [K in keyof EvokeAlert & keyof EvokeAlertAttributes]?: EvokeAlert[K] } & { [K in keyof EvokeAlert & keyof EvokeAlertAttributes as `attr:${K}`]?: EvokeAlertAttributes[K] } & { [K in keyof EvokeAlert & keyof EvokeAlertAttributes as `prop:${K}`]?: EvokeAlert[K] };
@@ -2638,6 +2996,7 @@ declare namespace LocalJSX {
         "evoke-card": Omit<EvokeCard, keyof EvokeCardAttributes> & { [K in keyof EvokeCard & keyof EvokeCardAttributes]?: EvokeCard[K] } & { [K in keyof EvokeCard & keyof EvokeCardAttributes as `attr:${K}`]?: EvokeCardAttributes[K] } & { [K in keyof EvokeCard & keyof EvokeCardAttributes as `prop:${K}`]?: EvokeCard[K] };
         "evoke-checkbox": Omit<EvokeCheckbox, keyof EvokeCheckboxAttributes> & { [K in keyof EvokeCheckbox & keyof EvokeCheckboxAttributes]?: EvokeCheckbox[K] } & { [K in keyof EvokeCheckbox & keyof EvokeCheckboxAttributes as `attr:${K}`]?: EvokeCheckboxAttributes[K] } & { [K in keyof EvokeCheckbox & keyof EvokeCheckboxAttributes as `prop:${K}`]?: EvokeCheckbox[K] };
         "evoke-chip": Omit<EvokeChip, keyof EvokeChipAttributes> & { [K in keyof EvokeChip & keyof EvokeChipAttributes]?: EvokeChip[K] } & { [K in keyof EvokeChip & keyof EvokeChipAttributes as `attr:${K}`]?: EvokeChipAttributes[K] } & { [K in keyof EvokeChip & keyof EvokeChipAttributes as `prop:${K}`]?: EvokeChip[K] };
+        "evoke-datepicker": Omit<EvokeDatepicker, keyof EvokeDatepickerAttributes> & { [K in keyof EvokeDatepicker & keyof EvokeDatepickerAttributes]?: EvokeDatepicker[K] } & { [K in keyof EvokeDatepicker & keyof EvokeDatepickerAttributes as `attr:${K}`]?: EvokeDatepickerAttributes[K] } & { [K in keyof EvokeDatepicker & keyof EvokeDatepickerAttributes as `prop:${K}`]?: EvokeDatepicker[K] };
         "evoke-divider": Omit<EvokeDivider, keyof EvokeDividerAttributes> & { [K in keyof EvokeDivider & keyof EvokeDividerAttributes]?: EvokeDivider[K] } & { [K in keyof EvokeDivider & keyof EvokeDividerAttributes as `attr:${K}`]?: EvokeDividerAttributes[K] } & { [K in keyof EvokeDivider & keyof EvokeDividerAttributes as `prop:${K}`]?: EvokeDivider[K] };
         "evoke-expansion": Omit<EvokeExpansion, keyof EvokeExpansionAttributes> & { [K in keyof EvokeExpansion & keyof EvokeExpansionAttributes]?: EvokeExpansion[K] } & { [K in keyof EvokeExpansion & keyof EvokeExpansionAttributes as `attr:${K}`]?: EvokeExpansionAttributes[K] } & { [K in keyof EvokeExpansion & keyof EvokeExpansionAttributes as `prop:${K}`]?: EvokeExpansion[K] };
         "evoke-grid-list": Omit<EvokeGridList, keyof EvokeGridListAttributes> & { [K in keyof EvokeGridList & keyof EvokeGridListAttributes]?: EvokeGridList[K] } & { [K in keyof EvokeGridList & keyof EvokeGridListAttributes as `attr:${K}`]?: EvokeGridListAttributes[K] } & { [K in keyof EvokeGridList & keyof EvokeGridListAttributes as `prop:${K}`]?: EvokeGridList[K] };
@@ -2658,8 +3017,10 @@ declare namespace LocalJSX {
         "evoke-table": Omit<EvokeTable, keyof EvokeTableAttributes> & { [K in keyof EvokeTable & keyof EvokeTableAttributes]?: EvokeTable[K] } & { [K in keyof EvokeTable & keyof EvokeTableAttributes as `attr:${K}`]?: EvokeTableAttributes[K] } & { [K in keyof EvokeTable & keyof EvokeTableAttributes as `prop:${K}`]?: EvokeTable[K] };
         "evoke-tabs": Omit<EvokeTabs, keyof EvokeTabsAttributes> & { [K in keyof EvokeTabs & keyof EvokeTabsAttributes]?: EvokeTabs[K] } & { [K in keyof EvokeTabs & keyof EvokeTabsAttributes as `attr:${K}`]?: EvokeTabsAttributes[K] } & { [K in keyof EvokeTabs & keyof EvokeTabsAttributes as `prop:${K}`]?: EvokeTabs[K] };
         "evoke-textarea": Omit<EvokeTextarea, keyof EvokeTextareaAttributes> & { [K in keyof EvokeTextarea & keyof EvokeTextareaAttributes]?: EvokeTextarea[K] } & { [K in keyof EvokeTextarea & keyof EvokeTextareaAttributes as `attr:${K}`]?: EvokeTextareaAttributes[K] } & { [K in keyof EvokeTextarea & keyof EvokeTextareaAttributes as `prop:${K}`]?: EvokeTextarea[K] };
+        "evoke-timepicker": Omit<EvokeTimepicker, keyof EvokeTimepickerAttributes> & { [K in keyof EvokeTimepicker & keyof EvokeTimepickerAttributes]?: EvokeTimepicker[K] } & { [K in keyof EvokeTimepicker & keyof EvokeTimepickerAttributes as `attr:${K}`]?: EvokeTimepickerAttributes[K] } & { [K in keyof EvokeTimepicker & keyof EvokeTimepickerAttributes as `prop:${K}`]?: EvokeTimepicker[K] };
         "evoke-toast": Omit<EvokeToast, keyof EvokeToastAttributes> & { [K in keyof EvokeToast & keyof EvokeToastAttributes]?: EvokeToast[K] } & { [K in keyof EvokeToast & keyof EvokeToastAttributes as `attr:${K}`]?: EvokeToastAttributes[K] } & { [K in keyof EvokeToast & keyof EvokeToastAttributes as `prop:${K}`]?: EvokeToast[K] };
         "evoke-tooltip": Omit<EvokeTooltip, keyof EvokeTooltipAttributes> & { [K in keyof EvokeTooltip & keyof EvokeTooltipAttributes]?: EvokeTooltip[K] } & { [K in keyof EvokeTooltip & keyof EvokeTooltipAttributes as `attr:${K}`]?: EvokeTooltipAttributes[K] } & { [K in keyof EvokeTooltip & keyof EvokeTooltipAttributes as `prop:${K}`]?: EvokeTooltip[K] };
+        "evoke-tree": Omit<EvokeTree, keyof EvokeTreeAttributes> & { [K in keyof EvokeTree & keyof EvokeTreeAttributes]?: EvokeTree[K] } & { [K in keyof EvokeTree & keyof EvokeTreeAttributes as `attr:${K}`]?: EvokeTreeAttributes[K] } & { [K in keyof EvokeTree & keyof EvokeTreeAttributes as `prop:${K}`]?: EvokeTree[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -2675,6 +3036,7 @@ declare module "@stencil/core" {
             "evoke-card": LocalJSX.IntrinsicElements["evoke-card"] & JSXBase.HTMLAttributes<HTMLEvokeCardElement>;
             "evoke-checkbox": LocalJSX.IntrinsicElements["evoke-checkbox"] & JSXBase.HTMLAttributes<HTMLEvokeCheckboxElement>;
             "evoke-chip": LocalJSX.IntrinsicElements["evoke-chip"] & JSXBase.HTMLAttributes<HTMLEvokeChipElement>;
+            "evoke-datepicker": LocalJSX.IntrinsicElements["evoke-datepicker"] & JSXBase.HTMLAttributes<HTMLEvokeDatepickerElement>;
             "evoke-divider": LocalJSX.IntrinsicElements["evoke-divider"] & JSXBase.HTMLAttributes<HTMLEvokeDividerElement>;
             "evoke-expansion": LocalJSX.IntrinsicElements["evoke-expansion"] & JSXBase.HTMLAttributes<HTMLEvokeExpansionElement>;
             "evoke-grid-list": LocalJSX.IntrinsicElements["evoke-grid-list"] & JSXBase.HTMLAttributes<HTMLEvokeGridListElement>;
@@ -2695,8 +3057,10 @@ declare module "@stencil/core" {
             "evoke-table": LocalJSX.IntrinsicElements["evoke-table"] & JSXBase.HTMLAttributes<HTMLEvokeTableElement>;
             "evoke-tabs": LocalJSX.IntrinsicElements["evoke-tabs"] & JSXBase.HTMLAttributes<HTMLEvokeTabsElement>;
             "evoke-textarea": LocalJSX.IntrinsicElements["evoke-textarea"] & JSXBase.HTMLAttributes<HTMLEvokeTextareaElement>;
+            "evoke-timepicker": LocalJSX.IntrinsicElements["evoke-timepicker"] & JSXBase.HTMLAttributes<HTMLEvokeTimepickerElement>;
             "evoke-toast": LocalJSX.IntrinsicElements["evoke-toast"] & JSXBase.HTMLAttributes<HTMLEvokeToastElement>;
             "evoke-tooltip": LocalJSX.IntrinsicElements["evoke-tooltip"] & JSXBase.HTMLAttributes<HTMLEvokeTooltipElement>;
+            "evoke-tree": LocalJSX.IntrinsicElements["evoke-tree"] & JSXBase.HTMLAttributes<HTMLEvokeTreeElement>;
         }
     }
 }

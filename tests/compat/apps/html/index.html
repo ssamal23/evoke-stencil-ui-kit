@@ -50,6 +50,12 @@
     <button id="open-sidenav" type="button">Open sidenav</button>
     <evoke-sidenav id="sidenav" heading="Menu">Nav content</evoke-sidenav>
 
+    <evoke-datepicker id="date" label="Start date" value="2025-03-15" min="2025-03-10" max="2025-03-25"></evoke-datepicker>
+    <evoke-datepicker id="date2" label="Due date" value="2025-03-15"></evoke-datepicker>
+    <evoke-timepicker id="time" label="Start time"></evoke-timepicker>
+    <evoke-timepicker id="time12" label="Alarm" twelve-hour></evoke-timepicker>
+    <evoke-tree id="tree" label="Files" nodes='[{"label":"src","value":"src","children":[{"label":"index.ts","value":"index"},{"label":"utils","value":"utils","children":[{"label":"dates.ts","value":"dates"}]}]},{"label":"README","value":"readme"}]'></evoke-tree>
+
     <!-- Closed until a plain button opens them, so the check also covers opening. -->
     <button id="open-modal" type="button">Open modal</button>
     <button id="open-toast" type="button">Open toast</button>
