@@ -35,6 +35,13 @@
     <evoke-progress id="progress" value="60" label="Uploading"></evoke-progress>
     <evoke-quantity-stepper id="qty" value="2" min="1" max="10"></evoke-quantity-stepper>
 
+    <evoke-divider id="divider"></evoke-divider>
+    <evoke-list id="list" appearance="selectable" label="Fruit" items='[{"label":"Apple","value":"apple"},{"label":"Pear","value":"pear"}]'></evoke-list>
+    <evoke-button-toggle id="toggle" label="View" items='[{"label":"Day","value":"day"},{"label":"Week","value":"week"}]'></evoke-button-toggle>
+    <evoke-expansion id="expansion" heading="Details" description="More info">Hidden text</evoke-expansion>
+    <evoke-menu id="menu" label="Actions" options='[{"label":"Edit","value":"edit"},{"divider":true},{"label":"Delete","value":"delete"}]'></evoke-menu>
+    <evoke-slider id="slider" label="Volume" value="30"></evoke-slider>
+
     <!-- Closed until a plain button opens them, so the check also covers opening. -->
     <button id="open-modal" type="button">Open modal</button>
     <button id="open-toast" type="button">Open toast</button>
@@ -45,7 +52,7 @@
   <script>
     // Every component event bubbles, so one listener on the document records them all.
     window.__events = [];
-    for (const name of ['evokeChange', 'evokeInput', 'evokeClose', 'evokeDismiss', 'evokeAction', 'evokeSort', 'evokeClick', 'evokeRemove']) {
+    for (const name of ['evokeChange', 'evokeInput', 'evokeClose', 'evokeDismiss', 'evokeAction', 'evokeSort', 'evokeClick', 'evokeRemove', 'evokeToggle', 'evokeSelect']) {
       document.addEventListener(name, (e) => window.__events.push({ event: name, id: e.target.id, detail: e.detail }));
     }
     // A button's own event is the native click.

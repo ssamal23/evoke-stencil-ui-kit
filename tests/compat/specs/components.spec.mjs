@@ -9,9 +9,10 @@ import { test as base, expect } from '@playwright/test';
  * apps/html/index.html.
  */
 const EXPECTED_TAGS = [
-  'evoke-alert', 'evoke-app-bar', 'evoke-badge', 'evoke-button', 'evoke-card', 'evoke-checkbox', 'evoke-chip',
-  'evoke-input', 'evoke-modal', 'evoke-pagination', 'evoke-progress', 'evoke-quantity-stepper', 'evoke-radio-group',
-  'evoke-select', 'evoke-switch', 'evoke-table', 'evoke-tabs', 'evoke-textarea', 'evoke-toast', 'evoke-tooltip',
+  'evoke-alert', 'evoke-app-bar', 'evoke-badge', 'evoke-button', 'evoke-button-toggle', 'evoke-card', 'evoke-checkbox',
+  'evoke-chip', 'evoke-divider', 'evoke-expansion', 'evoke-input', 'evoke-list', 'evoke-menu', 'evoke-modal',
+  'evoke-pagination', 'evoke-progress', 'evoke-quantity-stepper', 'evoke-radio-group', 'evoke-select', 'evoke-slider',
+  'evoke-switch', 'evoke-table', 'evoke-tabs', 'evoke-textarea', 'evoke-toast', 'evoke-tooltip',
 ];
 
 /** [tag, selector of something the component must render inside itself] */
@@ -36,6 +37,12 @@ const RENDERS = [
   ['evoke-textarea', '#textarea textarea'],
   ['evoke-toast', '#toast.hydrated'],
   ['evoke-tooltip', '#tooltip .evoke-tooltip'],
+  ['evoke-divider', '#divider [role="separator"]'],
+  ['evoke-list', '#list [role="option"]'],
+  ['evoke-button-toggle', '#toggle button[aria-pressed]'],
+  ['evoke-expansion', '#expansion button[aria-expanded]'],
+  ['evoke-menu', '#menu button[aria-haspopup="menu"]'],
+  ['evoke-slider', '#slider input[type="range"]'],
 ];
 
 // A test fails when the page logs an error, throws, or a file fails to load.
@@ -62,7 +69,7 @@ const events = (page) => page.evaluate(() => window.__events);
 const last = async (page, event, id) => (await events(page)).filter((e) => e.event === event && (!id || e.id === id)).at(-1);
 
 test.describe('registration', () => {
-  test('all 20 components are registered', async ({ page }) => {
+  test('all 26 components are registered', async ({ page }) => {
     const missing = await page.evaluate((tags) => tags.filter((t) => !customElements.get(t)), EXPECTED_TAGS);
     expect(missing).toEqual([]);
   });
@@ -175,6 +182,41 @@ test.describe('events', () => {
   test('evoke-quantity-stepper: evokeChange carries the new quantity', async ({ page }) => {
     await page.click('#qty button[aria-label="Increase quantity"]');
     expect((await last(page, 'evokeChange', 'qty'))?.detail).toBe(3);
+  });
+
+  test('evoke-list: evokeChange carries the chosen item', async ({ page }) => {
+    await page.click('#list [role="option"]:has-text("Pear")');
+    expect((await last(page, 'evokeChange', 'list'))?.detail).toBe('pear');
+    await expect(page.locator('#list [role="option"][aria-selected="true"]')).toHaveText(/Pear/);
+  });
+
+  test('evoke-button-toggle: evokeChange carries the chosen button', async ({ page }) => {
+    await page.click('#toggle button:has-text("Week")');
+    expect((await last(page, 'evokeChange', 'toggle'))?.detail).toBe('week');
+    await expect(page.locator('#toggle button:has-text("Week")')).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  test('evoke-expansion: evokeToggle opens and closes the panel', async ({ page }) => {
+    await expect(page.locator('#expansion [role="region"]')).toBeHidden();
+    await page.click('#expansion button[aria-expanded]');
+    expect((await last(page, 'evokeToggle', 'expansion'))?.detail).toBe(true);
+    await expect(page.locator('#expansion [role="region"]')).toBeVisible();
+    await expect(page.locator('#expansion')).toContainText('Hidden text');
+  });
+
+  test('evoke-menu: opens, and choosing an item fires evokeSelect', async ({ page }) => {
+    await expect(page.locator('#menu [role="menu"]')).toHaveCount(0);
+    await page.click('#menu button[aria-haspopup="menu"]');
+    await expect(page.locator('#menu [role="menu"]')).toBeVisible();
+    await page.click('#menu [role="menuitem"]:has-text("Delete")');
+    expect((await last(page, 'evokeSelect', 'menu'))?.detail).toBe('delete');
+    await expect(page.locator('#menu [role="menu"]')).toHaveCount(0);
+  });
+
+  test('evoke-slider: evokeChange carries the new value', async ({ page }) => {
+    await page.locator('#slider input').focus();
+    await page.keyboard.press('ArrowRight');
+    expect((await last(page, 'evokeChange', 'slider'))?.detail).toBe(31);
   });
 });
 
