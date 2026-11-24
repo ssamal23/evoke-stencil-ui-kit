@@ -42,6 +42,14 @@
     <evoke-menu id="menu" label="Actions" options='[{"label":"Edit","value":"edit"},{"divider":true},{"label":"Delete","value":"delete"}]'></evoke-menu>
     <evoke-slider id="slider" label="Volume" value="30"></evoke-slider>
 
+    <evoke-icon id="icon" name="check" label="Done"></evoke-icon>
+    <evoke-grid-list id="grid" columns="2"><div>One</div><div>Two</div><div>Three</div></evoke-grid-list>
+    <evoke-stepper id="stepper" steps='[{"label":"Account"},{"label":"Profile"},{"label":"Done"}]'>Step content</evoke-stepper>
+    <button id="open-sheet" type="button">Open sheet</button>
+    <evoke-bottom-sheet id="sheet" heading="Share">Sheet content</evoke-bottom-sheet>
+    <button id="open-sidenav" type="button">Open sidenav</button>
+    <evoke-sidenav id="sidenav" heading="Menu">Nav content</evoke-sidenav>
+
     <!-- Closed until a plain button opens them, so the check also covers opening. -->
     <button id="open-modal" type="button">Open modal</button>
     <button id="open-toast" type="button">Open toast</button>
@@ -52,12 +60,14 @@
   <script>
     // Every component event bubbles, so one listener on the document records them all.
     window.__events = [];
-    for (const name of ['evokeChange', 'evokeInput', 'evokeClose', 'evokeDismiss', 'evokeAction', 'evokeSort', 'evokeClick', 'evokeRemove', 'evokeToggle', 'evokeSelect']) {
+    for (const name of ['evokeChange', 'evokeInput', 'evokeClose', 'evokeDismiss', 'evokeAction', 'evokeSort', 'evokeClick', 'evokeRemove', 'evokeToggle', 'evokeSelect', 'evokeComplete']) {
       document.addEventListener(name, (e) => window.__events.push({ event: name, id: e.target.id, detail: e.detail }));
     }
     // A button's own event is the native click.
     document.getElementById('btn').addEventListener('click', () => window.__events.push({ event: 'click', id: 'btn' }));
     document.getElementById('open-modal').addEventListener('click', () => { document.getElementById('modal').open = true; });
+    document.getElementById('open-sheet').addEventListener('click', () => { document.getElementById('sheet').open = true; });
+    document.getElementById('open-sidenav').addEventListener('click', () => { document.getElementById('sidenav').open = true; });
     document.getElementById('open-toast').addEventListener('click', () => { document.getElementById('toast').open = true; });
   </script>
 </body>

@@ -1,0 +1,13 @@
+evoke-bottom-sheet .evoke-sheet__backdrop { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: flex-end; justify-content: center; background: rgba(0, 0, 0, 0.5); animation: evoke-sheet-fade 0.15s ease-out; }
+evoke-bottom-sheet .evoke-sheet { box-sizing: border-box; display: flex; flex-direction: column; width: min(100vw, 640px); max-height: 85vh; border-radius: 16px 16px 0 0; background: var(--evoke-surface, #ffffff); color: var(--evoke-text, #1a1a1a); font-family: var(--evoke-font, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); font-size: var(--evoke-font-size, 16px); box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.18); animation: evoke-sheet-up 0.2s ease-out; }
+evoke-bottom-sheet .evoke-sheet:focus { outline: none; }
+evoke-bottom-sheet .evoke-sheet__grip { flex: none; width: 36px; height: 4px; margin: 8px auto 0; border-radius: 9999px; background: var(--evoke-border, #dedede); }
+evoke-bottom-sheet .evoke-sheet__header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.5rem 1rem; font-weight: 600; }
+evoke-bottom-sheet .evoke-sheet__close { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; background: none; border: 0; border-radius: 50%; color: inherit; cursor: pointer; }
+evoke-bottom-sheet .evoke-sheet__close:hover { background: var(--evoke-surface-muted, #f5f5f5); }
+evoke-bottom-sheet .evoke-sheet__close:focus-visible { outline: none; box-shadow: var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-bottom-sheet .evoke-sheet__close .evoke-icon { width: 18px; height: 18px; }
+evoke-bottom-sheet .evoke-sheet__body { padding: 0 1rem 1rem; overflow: auto; }
+@keyframes evoke-sheet-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes evoke-sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { evoke-bottom-sheet .evoke-sheet__backdrop, evoke-bottom-sheet .evoke-sheet { animation: none; } }

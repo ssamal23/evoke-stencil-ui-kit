@@ -36,6 +36,16 @@ export const EvokeBadge: StencilVueComponent<JSX.EvokeBadge> = /*@__PURE__*/ def
 ]);
 
 
+export const EvokeBottomSheet: StencilVueComponent<JSX.EvokeBottomSheet> = /*@__PURE__*/ defineContainer<JSX.EvokeBottomSheet>('evoke-bottom-sheet', undefined, [
+  'open',
+  'heading',
+  'closeOnBackdrop',
+  'evokeClose'
+], [
+  'evokeClose'
+]);
+
+
 export const EvokeButton: StencilVueComponent<JSX.EvokeButton> = /*@__PURE__*/ defineContainer<JSX.EvokeButton>('evoke-button', undefined, [
   'variant',
   'size',
@@ -113,6 +123,21 @@ export const EvokeExpansion: StencilVueComponent<JSX.EvokeExpansion> = /*@__PURE
   'evokeToggle'
 ], [
   'evokeToggle'
+]);
+
+
+export const EvokeGridList: StencilVueComponent<JSX.EvokeGridList> = /*@__PURE__*/ defineContainer<JSX.EvokeGridList>('evoke-grid-list', undefined, [
+  'columns',
+  'minItemWidth',
+  'gap',
+  'rowHeight'
+]);
+
+
+export const EvokeIcon: StencilVueComponent<JSX.EvokeIcon> = /*@__PURE__*/ defineContainer<JSX.EvokeIcon>('evoke-icon', undefined, [
+  'name',
+  'size',
+  'label'
 ]);
 
 
@@ -238,6 +263,19 @@ export const EvokeSelect: StencilVueComponent<JSX.EvokeSelect> = /*@__PURE__*/ d
 ]);
 
 
+export const EvokeSidenav: StencilVueComponent<JSX.EvokeSidenav> = /*@__PURE__*/ defineContainer<JSX.EvokeSidenav>('evoke-sidenav', undefined, [
+  'open',
+  'mode',
+  'position',
+  'heading',
+  'label',
+  'closeOnBackdrop',
+  'evokeClose'
+], [
+  'evokeClose'
+]);
+
+
 export const EvokeSlider: StencilVueComponent<JSX.EvokeSlider> = /*@__PURE__*/ defineContainer<JSX.EvokeSlider>('evoke-slider', undefined, [
   'label',
   'value',
@@ -249,6 +287,20 @@ export const EvokeSlider: StencilVueComponent<JSX.EvokeSlider> = /*@__PURE__*/ d
   'evokeChange'
 ], [
   'evokeChange'
+]);
+
+
+export const EvokeStepper: StencilVueComponent<JSX.EvokeStepper> = /*@__PURE__*/ defineContainer<JSX.EvokeStepper>('evoke-stepper', undefined, [
+  'steps',
+  'current',
+  'linear',
+  'showActions',
+  'label',
+  'evokeChange',
+  'evokeComplete'
+], [
+  'evokeChange',
+  'evokeComplete'
 ]);
 
 
