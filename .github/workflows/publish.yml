@@ -1,0 +1,84 @@
+name: Publish to npm
+
+# Publishes the package to npm. It starts ONLY when a release tag such as v0.3.0 is pushed, never on a plain merge to main.
+# It builds and runs the compatibility tests first, then waits for a person to approve in the "npm-publish" environment.
+# No npm token is stored: npm trusted publishing lets this workflow prove its identity to npm (see agent/README.md).
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: The tag must match the version in package.json
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          if [ "v${VERSION}" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match package.json version ${VERSION}. Nothing was published."
+            exit 1
+          fi
+
+      - name: Install
+        run: npm ci
+
+      - name: Install the compatibility test tools
+        working-directory: tests/compat
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Build, pack and run the compatibility tests
+        run: npm run compat -- html
+
+      - name: Show what will be published
+        run: npm pack --dry-run
+
+      - name: Keep the test report
+        if: always()
+        run: |
+          if [ -f tests/compat/results/html.md ]; then cat tests/compat/results/html.md >> "$GITHUB_STEP_SUMMARY"; fi
+
+  publish:
+    name: Publish to npm (needs approval)
+    needs: test
+    runs-on: ubuntu-latest
+    # A person must approve this job: Settings > Environments > npm-publish > Required reviewers.
+    environment: npm-publish
+    permissions:
+      contents: read
+      id-token: write # lets npm trusted publishing verify this workflow
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm 11.5.1 or newer.
+      - name: Use a recent npm
+        run: npm install -g npm@latest
+
+      - run: npm ci
+
+      - name: Publish
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          case "$VERSION" in
+            *-*) TAG="--tag next" ;;   # a pre-release such as 0.4.0-beta.1 never becomes "latest"
+            *)   TAG="" ;;
+          esac
+          npm publish --access public $TAG

@@ -2,7 +2,7 @@
 
 Framework-agnostic web components built with [Stencil](https://stenciljs.com). One package works in Angular, React, Vue, or plain HTML.
 
-The kit ships 20 components (see [Components](#components)).
+The kit ships 34 components (see [Components](#components)).
 
 ## Development
 
@@ -96,7 +96,7 @@ Out of the box the components follow the Evoke Figma design: orange primary (`#f
 - Change the look with tokens, e.g. `--evoke-primary`, `--evoke-radius-button`, `--evoke-control-height`. The Material / Tailwind / Bootstrap themes below replace these defaults with that system's look.
 ## Components
 
-20 components, each with two variants chosen by **one prop** (default = variant 1). Tags start with `evoke-`, events start with `evoke`, and the value is `event.detail` itself.
+34 components. The first 20 below each have two variants chosen by **one prop** (default = variant 1); the 14 added in 0.3.0 follow in a second table. Tags start with `evoke-`, events start with `evoke`, and the value is `event.detail` itself.
 
 | Component | Variant 1 (default) | Variant 2 | Events (`event.detail`) |
 |---|---|---|---|
@@ -121,7 +121,30 @@ Out of the box the components follow the Evoke Figma design: orange primary (`#f
 | `evoke-app-bar` | `appearance="light"` | `appearance="dark"` | none (slots `logo`, `nav`, `actions`) |
 | `evoke-quantity-stepper` | `appearance="inline"` | `appearance="compact"` (dropdown) | `evokeChange` (number) |
 
-Every component also has a class pass-through prop (`button-class`, `input-class`, `select-class`, `textarea-class`, `card-class`, `modal-class`) and shows `error` text where it applies.
+### Added in 0.3.0
+
+These follow the Angular Material components of the same name. List-like props (`items`, `options`, `nodes`, `steps`) take an array, or a JSON string when set as an HTML attribute.
+
+| Component | What it is | Main props | Events (`event.detail`) |
+|---|---|---|---|
+| `evoke-divider` | A separator line | `vertical`, `appearance="full\|inset"` | none |
+| `evoke-list` | Plain or selectable list | `items` (`{label, value, description?, icon?, disabled?}`), `appearance="plain\|selectable"`, `multiple`, `value` | `evokeChange` (string, or string[] when `multiple`) |
+| `evoke-button-toggle` | A row of toggle buttons | `items`, `value`, `multiple` | `evokeChange` (string, or string[]) |
+| `evoke-expansion` | A panel that opens and closes | `heading`, `description`, `expanded`, `disabled` | `evokeToggle` (boolean) |
+| `evoke-menu` | A button that opens a menu | `label`, `options` (`{label, value, icon?, disabled?, divider?}`), `align="start\|end"` | `evokeSelect` (string) |
+| `evoke-slider` | A range slider | `label`, `value`, `min`, `max`, `step`, `show-value` | `evokeChange` (number) |
+| `evoke-sidenav` | A side panel | `open`, `mode="over\|side"`, `position="start\|end"`, `heading` | `evokeClose` |
+| `evoke-stepper` | A step-by-step flow | `steps` (`{label, description?}`), `current`, `linear`, `show-actions` | `evokeChange` (number), `evokeComplete` |
+| `evoke-bottom-sheet` | A sheet that slides up | `open`, `heading` | `evokeClose` |
+| `evoke-grid-list` | Children laid out in a grid | `columns` (0 = fit to width), `min-item-width`, `gap`, `row-height` | none |
+| `evoke-icon` | An icon from the kit's set | `name`, `size="sm\|md\|lg\|xl"`, `label` | none |
+| `evoke-datepicker` | Date field with a calendar | `value` (`YYYY-MM-DD`), `min`, `max`, `locale`, `week-start`, `label`, `error` | `evokeChange` (string) |
+| `evoke-timepicker` | Time field with hour and minute lists | `value` (24-hour `HH:MM`), `twelve-hour`, `step`, `label`, `error` | `evokeChange` (string) |
+| `evoke-tree` | An expandable tree | `nodes` (`{label, value, children?, disabled?}`), `value`, `expanded`, `expand-all` | `evokeChange` (string), `evokeToggle` ({ value, expanded }) |
+
+The date and time pickers always give you ISO-style text (`YYYY-MM-DD`, `HH:MM`) in `value`, whatever the display format. The tree selects one node at a time. The icon set also gained `calendar` and `clock`.
+
+Every component in the first table also has a class pass-through prop (`button-class`, `input-class`, `select-class`, `textarea-class`, `card-class`, `modal-class`) and shows `error` text where it applies.
 
 ### Examples (one per variant)
 
@@ -323,6 +346,20 @@ Alternative: `npm link` (run `npm link` in the package folder, then `npm link @e
    npm view @evoke-tech/stencil-ui-kit
    npm install @evoke-tech/stencil-ui-kit     # in a clean project
    ```
+
+### Releasing from GitHub (recommended)
+Pushing a release tag builds, runs the compatibility tests and then **waits for a person to approve** before it publishes. A plain merge to `main` never publishes.
+1. Merge the changes, then on `main` bump the version in `package.json` (for example with `npm version minor --no-git-tag-version`) and merge that too.
+2. Create and push the tag. It must match the version exactly:
+   ```bash
+   git checkout main && git pull
+   git tag v0.3.0
+   git push origin v0.3.0
+   ```
+3. In GitHub open **Actions > Publish to npm**, check the tests, and click **Review deployments > Approve**.
+4. Verify with `npm view @evoke-tech/stencil-ui-kit version`.
+
+One-time setup (npm trusted publishing, no token stored): see [agent/README.md](agent/README.md#publishing-setup).
 
 ### Notes
 - Scoped packages are private by default, so the first publish needs `--access public` (see step 4). Later releases remember it.
