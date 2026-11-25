@@ -32,6 +32,10 @@
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components/index.js"
     },
+    "./components/*.js": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    },
     "./components/*": {
       "types": "./dist/components/*.d.ts",
       "import": "./dist/components/*.js"

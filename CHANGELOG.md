@@ -11,5 +11,7 @@ Fourteen new components, following Angular Material. The kit now has 34. Nothing
 - New icons: `calendar`, `clock`.
 - Vue wrappers (`@evoke-tech/stencil-ui-kit/vue`) include all new components.
 - `evoke-timepicker` uses the `twelve-hour` attribute for AM/PM display; its value is always 24-hour `HH:MM`.
+- **Fixed: the Vue wrappers did not work in a Vite or Rollup production build.** They started the components through the lazy loader, whose files a bundler leaves out, so no component appeared. Each wrapper now registers its own element from the tree-shakeable build. `app.use(EvokeUi)` still works but does nothing and is no longer needed. The package `exports` also resolve `@evoke-tech/stencil-ui-kit/components/<name>.js`.
+- Using the raw `<evoke-*>` tags in a bundled Vue app: register components with `defineCustomElement()` from `@evoke-tech/stencil-ui-kit/components/<name>.js` instead of the loader, and listen to events with `addEventListener` (see the README).
 - Not included: date ranges, multi-select in the tree, and autocomplete (left out on purpose).
 
