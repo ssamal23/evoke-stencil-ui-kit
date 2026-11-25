@@ -1,0 +1,5 @@
+evoke-divider { display: block; min-width: 0; }
+evoke-divider[vertical] { display: inline-flex; align-self: stretch; }
+evoke-divider .evoke-divider { border: 0; border-top: 1px solid var(--evoke-border, #dedede); width: 100%; }
+evoke-divider .evoke-divider--inset { margin-left: 16px; width: calc(100% - 16px); }
+evoke-divider .evoke-divider--vertical { border-top: 0; border-left: 1px solid var(--evoke-border, #dedede); width: 0; min-height: 1em; margin-left: 0; }

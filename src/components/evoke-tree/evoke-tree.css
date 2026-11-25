@@ -1,0 +1,13 @@
+evoke-tree { display: block; min-width: 0; }
+evoke-tree .evoke-tree { list-style: none; margin: 0; padding: 0; font-family: var(--evoke-font, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); font-size: var(--evoke-font-size, 16px); color: var(--evoke-text, #1a1a1a); }
+evoke-tree .evoke-tree__item { display: flex; align-items: center; gap: 4px; min-height: 40px; padding: 0 12px 0 calc(8px + (var(--evoke-tree-level, 1) - 1) * 24px); border-radius: var(--evoke-radius-field, 8px); cursor: pointer; }
+evoke-tree .evoke-tree__item:hover:not(.evoke-tree__item--disabled):not(.evoke-tree__item--selected) { background: var(--evoke-surface-muted, #f5f5f5); }
+evoke-tree .evoke-tree__item:focus-visible { outline: none; box-shadow: inset var(--evoke-focus-ring, 0 0 0 3px rgba(11, 21, 96, 0.15)); }
+evoke-tree .evoke-tree__item--selected { background: color-mix(in srgb, var(--evoke-primary, #ff5316) 10%, transparent); color: var(--evoke-primary-text, #cc3d0d); font-weight: 500; }
+evoke-tree .evoke-tree__item--disabled { opacity: 0.5; cursor: not-allowed; }
+evoke-tree .evoke-tree__toggle, evoke-tree .evoke-tree__spacer { flex: none; width: 28px; height: 28px; }
+evoke-tree .evoke-tree__toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+evoke-tree .evoke-tree__toggle:hover { background: color-mix(in srgb, var(--evoke-text, #1a1a1a) 10%, transparent); }
+evoke-tree .evoke-tree__toggle .evoke-icon { width: 16px; height: 16px; transition: transform 0.15s; }
+evoke-tree .evoke-tree__toggle--open .evoke-icon { transform: rotate(90deg); }
+evoke-tree .evoke-tree__label { min-width: 0; overflow-wrap: anywhere; }

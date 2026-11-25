@@ -1,0 +1,6 @@
+evoke-icon { display: inline-flex; vertical-align: middle; --evoke-icon-size: 20px; }
+evoke-icon .evoke-icon-wrap { display: inline-flex; align-items: center; justify-content: center; width: var(--evoke-icon-size); height: var(--evoke-icon-size); color: inherit; }
+evoke-icon .evoke-icon-wrap--sm { --evoke-icon-size: 16px; }
+evoke-icon .evoke-icon-wrap--lg { --evoke-icon-size: 24px; }
+evoke-icon .evoke-icon-wrap--xl { --evoke-icon-size: 32px; }
+evoke-icon .evoke-icon-wrap .evoke-icon { width: 100%; height: 100%; }
