@@ -52,15 +52,15 @@ defineCustomElements();
 
 ### Vue
 
-**Recommended: use the Vue wrappers** (`@evoke-tech/stencil-ui-kit/vue`). They are generated with Stencil's Vue output target and need no compiler setting.
+**Recommended: use the Vue wrappers** (`@evoke-tech/stencil-ui-kit/vue`). They are generated with Stencil's Vue output target and need no compiler setting. Each wrapper registers its own element when you import it, so only the components you use end up in your Vite or Rollup build.
 
 ```ts
 // main.ts
 import { createApp } from 'vue';
-import { EvokeUi } from '@evoke-tech/stencil-ui-kit/vue';
 import '@evoke-tech/stencil-ui-kit/dist/evoke-ui/evoke-ui.css';
 
-createApp(App).use(EvokeUi).mount('#app'); // registers the custom elements
+createApp(App).mount('#app');
+// Nothing to register. (`app.use(EvokeUi)` from older versions still works but is no longer needed.)
 ```
 ```vue
 <script setup>
@@ -68,13 +68,19 @@ import { EvokeButton, EvokeInput } from '@evoke-tech/stencil-ui-kit/vue';
 </script>
 <template>
   <EvokeButton @click="count++">Clicked {{ count }} times</EvokeButton>
-  <EvokeInput label="Email" @evokeInput="email = $event.detail" />
+  <EvokeInput label="Email" @evoke-input="email = $event.detail" />
 </template>
 ```
 
 **Why wrappers?** The components render into the page DOM (no shadow root) so Tailwind, Bootstrap and your CSS can style them. If you use the raw tag `<evoke-button>Count: {{ n }}</evoke-button>`, Vue replaces the tag's contents on every update and removes the button's inner markup. The wrappers pass the text to the tag in a way that avoids this.
 
-**Using the raw tags instead?** Set `isCustomElement: t => t.startsWith('evoke-')` in your Vue compiler options, call `defineCustomElements()` from `@evoke-tech/stencil-ui-kit/loader`, and wrap any dynamic text in an element: `<evoke-button><span>{{ n }}</span></evoke-button>`.
+**Using the raw tags instead?**
+1. Set `isCustomElement: t => t.startsWith('evoke-')` in your Vue compiler options.
+2. Register the components you use. In a bundled app (Vite, Rollup) import each one: `import { defineCustomElement } from '@evoke-tech/stencil-ui-kit/components/evoke-button.js'; defineCustomElement();`. Do not use `defineCustomElements()` from `@evoke-tech/stencil-ui-kit/loader` there: it loads its files on demand, and a Vite or Rollup production build leaves those files out, so no component starts. The loader is for pages that load the kit with a `<script>` tag.
+3. Wrap any dynamic text in an element: `<evoke-button><span>{{ n }}</span></evoke-button>`.
+4. Listen to events with `addEventListener` (for example `el.addEventListener('evokeChange', e => ...)`). Vue turns `@evokeChange` on a plain tag into the event name `evoke-change`, which the components do not emit. The wrappers handle this for you, and their events are written `@evoke-change`.
+
+Both ways are covered by an automated test with a real Vue app built with Vite (`npm run compat -- vue`).
 
 ### Plain HTML / CDN
 ```html

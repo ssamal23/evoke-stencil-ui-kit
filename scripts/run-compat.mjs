@@ -2,12 +2,13 @@
 /**
  * Runs the compatibility tests against the PACKED kit: the same files an npm user gets.
  *
- *   node scripts/run-compat.mjs html [--no-build]
+ *   node scripts/run-compat.mjs <html|vue> [--no-build]
  *
  *   1. builds the kit (skipped with --no-build) and packs it with `npm pack`
  *   2. installs the pack into a clean temporary folder (tests/compat/.work/<app>)
  *   3. copies the test app (tests/compat/apps/<app>) next to it and serves the folder
- *   4. runs the Playwright checks in tests/compat against that address (Chromium)
+ *      (a framework app such as vue is first built with Vite, and the built folder is served)
+ *   4. runs the Playwright checks in tests/compat/specs/<app> against that address (Chromium)
  *   5. writes tests/compat/results/<app>.json and <app>.md (a short table) and exits non-zero when a check failed
  *
  * Nothing here changes the kit's code or publishes anything.
@@ -20,7 +21,9 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const compat = join(root, 'tests/compat');
-const APPS = ['html'];
+const APPS = ['html', 'vue'];
+/** Apps that need installing and building (with Vite) before they can be served. Their dependencies are installed next to the kit. */
+const BUILT_APPS = { vue: { install: 'vue vite @vitejs/plugin-vue', build: 'npx vite build', output: 'dist' } };
 const app = process.argv[2];
 const noBuild = process.argv.includes('--no-build');
 // Anything else after the app name goes to Playwright, e.g. -g "registered" to run only some checks.
@@ -107,19 +110,25 @@ async function main() {
   writeFileSync(join(work, 'package.json'), JSON.stringify({ name: `compat-${app}`, private: true }));
   run(`npm install "${tarball}" --no-audit --no-fund`, work);
   cpSync(join(compat, 'apps', app), work, { recursive: true });
+  const built = BUILT_APPS[app];
+  if (built) {
+    console.log(`> Installing and building the ${app} app`);
+    run(`npm install ${built.install} --no-audit --no-fund`, work);
+    run(built.build, work);
+  }
   const kitVersion = JSON.parse(readFileSync(join(work, 'node_modules/@evoke-tech/stencil-ui-kit/package.json'), 'utf8')).version;
 
   if (!existsSync(join(compat, 'node_modules'))) run('npm install --no-audit --no-fund', compat);
   run('npx playwright install chromium', compat);
 
-  const { server, url } = await serve(work);
+  const { server, url } = await serve(built ? join(work, built.output) : work);
   console.log(`> Serving ${app} at ${url}`);
   let failed = true;
   try {
     const reportFile = join(results, `${app}.json`);
     // Not spawnSync: that would block this process, and this process is the web server the tests are talking to.
     const status = await new Promise((done) => {
-      const child = spawn(`npx playwright test ${extraArgs}`, { cwd: compat, shell: true, stdio: 'inherit', env: { ...process.env, BASE_URL: url, RESULTS_JSON: `results/${app}.json` } });
+      const child = spawn(`npx playwright test ${extraArgs}`, { cwd: compat, shell: true, stdio: 'inherit', env: { ...process.env, BASE_URL: url, APP: app, RESULTS_JSON: `results/${app}.json` } });
       child.on('close', (code) => done(code ?? 1));
     });
     if (!existsSync(reportFile)) throw new Error('Playwright wrote no report; see its output above.');

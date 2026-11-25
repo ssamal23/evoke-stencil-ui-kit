@@ -40,8 +40,11 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium
 
-      - name: Build, pack and run the compatibility tests
+      - name: Build, pack and run the compatibility tests (plain HTML)
         run: npm run compat -- html
+
+      - name: Compatibility tests (Vue app built with Vite)
+        run: npm run compat -- vue --no-build
 
       - name: Show what will be published
         run: npm pack --dry-run
@@ -49,7 +52,9 @@ jobs:
       - name: Keep the test report
         if: always()
         run: |
-          if [ -f tests/compat/results/html.md ]; then cat tests/compat/results/html.md >> "$GITHUB_STEP_SUMMARY"; fi
+          for f in html vue; do
+            if [ -f "tests/compat/results/$f.md" ]; then cat "tests/compat/results/$f.md" >> "$GITHUB_STEP_SUMMARY"; fi
+          done
 
   publish:
     name: Publish to npm (needs approval)

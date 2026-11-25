@@ -14,6 +14,10 @@ export const config: Config = {
     vueOutputTarget({
       componentCorePackage: '@evoke-tech/stencil-ui-kit',
       proxiesFile: './vue-src/components.ts',
+      // Each wrapper imports and registers its own element from the tree-shakeable build. The lazy loader does
+      // not survive a Vite/Rollup production build (its chunk files are never emitted), so wrappers must not use it.
+      includeImportCustomElements: true,
+      customElementsDir: 'components',
     }),
     { type: 'docs-readme' },
     { type: 'www', serviceWorker: null },
