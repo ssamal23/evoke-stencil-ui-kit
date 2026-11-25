@@ -46,13 +46,22 @@ jobs:
       - name: Compatibility tests (Vue app built with Vite)
         run: npm run compat -- vue --no-build
 
+      - name: Compatibility tests (React 19)
+        run: npm run compat -- react --no-build
+
+      - name: Compatibility tests (React 18)
+        run: npm run compat -- react18 --no-build
+
+      - name: Compatibility tests (Angular)
+        run: npm run compat -- angular --no-build
+
       - name: Show what will be published
         run: npm pack --dry-run
 
       - name: Keep the test report
         if: always()
         run: |
-          for f in html vue; do
+          for f in html vue react react18 angular; do
             if [ -f "tests/compat/results/$f.md" ]; then cat "tests/compat/results/$f.md" >> "$GITHUB_STEP_SUMMARY"; fi
           done
 

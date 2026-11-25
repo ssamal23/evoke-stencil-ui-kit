@@ -12,6 +12,9 @@ npm run compat -- html              # build, pack, install, test the plain-HTML 
 npm run compat -- html --no-build   # reuse the existing dist/ folder
 npm run compat -- html -g "switch"  # extra arguments go to Playwright: run only matching checks
 npm run compat -- vue               # a real Vue 3 app built with Vite (about 1 minute)
+npm run compat -- react             # a real React 19 app built with Vite
+npm run compat -- react18           # the same page with React 18
+npm run compat -- angular           # the same page with the Angular CLI (installs about 250 packages, 2 to 3 minutes)
 ```
 
 The first run installs Playwright and downloads its Chromium browser (`tests/compat/node_modules`, about 150 MB, not committed).
@@ -41,6 +44,8 @@ as props, component events reach Vue, list props that change in Vue (select opti
 from a Vue value and closes back into it. Any console error or Vue warning fails the check.
 
 The Vue app installs the newest `vue`, `vite` and `@vitejs/plugin-vue`, so a new Vue release that breaks the kit shows up here.
+
+`specs/framework/framework.spec.mjs` runs the same six checks on the React 19 app (`apps/react`), the React 18 app (`apps/react18`) and the Angular app (`apps/angular`). The three apps show the same page (ids such as `#count-btn` and `#out-name`), so the checks need no changes per framework. Each one registers the kit the way the README recommends for that framework: per-component imports for React and Vue (the lazy loader does not survive a Vite production build), and the loader for Angular, whose build tool handles it. The Angular app is built with strict templates, so it also proves the kit's event types compile. Like the Vue app, they install the newest framework release (React 19 and 18 are pinned to their major), and a new release that breaks the kit shows up here. If a new Angular release needs a different TypeScript, npm picks the one Angular asks for.
 
 ## When a component is added to the kit
 

@@ -21,9 +21,14 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const compat = join(root, 'tests/compat');
-const APPS = ['html', 'vue'];
+const APPS = ['html', 'vue', 'react', 'react18', 'angular'];
 /** Apps that need installing and building (with Vite) before they can be served. Their dependencies are installed next to the kit. */
-const BUILT_APPS = { vue: { install: 'vue vite @vitejs/plugin-vue', build: 'npx vite build', output: 'dist' } };
+const BUILT_APPS = {
+  vue: { install: 'vue vite @vitejs/plugin-vue', build: 'npx vite build', output: 'dist' },
+  react: { install: 'react@19 react-dom@19 vite @vitejs/plugin-react', build: 'npx vite build', output: 'dist', specs: 'framework' },
+  angular: { install: '@angular/core @angular/common @angular/compiler @angular/platform-browser rxjs tslib @angular/build @angular/compiler-cli @angular/cli', build: 'npx ng build', output: 'dist/browser', specs: 'framework' },
+  react18: { install: 'react@18 react-dom@18 vite @vitejs/plugin-react', build: 'npx vite build', output: 'dist', specs: 'framework' },
+};
 const app = process.argv[2];
 const noBuild = process.argv.includes('--no-build');
 // Anything else after the app name goes to Playwright, e.g. -g "registered" to run only some checks.
@@ -128,7 +133,7 @@ async function main() {
     const reportFile = join(results, `${app}.json`);
     // Not spawnSync: that would block this process, and this process is the web server the tests are talking to.
     const status = await new Promise((done) => {
-      const child = spawn(`npx playwright test ${extraArgs}`, { cwd: compat, shell: true, stdio: 'inherit', env: { ...process.env, BASE_URL: url, APP: app, RESULTS_JSON: `results/${app}.json` } });
+      const child = spawn(`npx playwright test ${extraArgs}`, { cwd: compat, shell: true, stdio: 'inherit', env: { ...process.env, BASE_URL: url, APP: app, SPECS: BUILT_APPS[app]?.specs ?? app, RESULTS_JSON: `results/${app}.json` } });
       child.on('close', (code) => done(code ?? 1));
     });
     if (!existsSync(reportFile)) throw new Error('Playwright wrote no report; see its output above.');
