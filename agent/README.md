@@ -35,6 +35,17 @@ package (`files` in `package.json` lists only `dist/` and `loader/`).
 When you act on an issue, update this file: give a new component a status, and raise `seen` to the new framework version.
 The check is quiet again after that.
 
+## Publishing setup
+
+`.github/workflows/publish.yml` publishes the package, but only when a release tag like `v0.3.0` is pushed, and only after a person approves. It builds, runs the compatibility tests, and checks that the tag matches `package.json`. A pre-release version such as `0.4.0-beta.1` is published under the `next` tag, never `latest`.
+
+It needs two one-time settings. No npm token is stored anywhere.
+
+1. **npm (trusted publishing).** On npmjs.com open the package `@evoke-tech/stencil-ui-kit` > Settings > Trusted Publisher > GitHub Actions, and enter: owner `ssamal23`, repository `evoke-stencil-ui-kit`, workflow `publish.yml`, environment `npm-publish`.
+2. **GitHub (the approval step).** In the repository open Settings > Environments > New environment, name it `npm-publish`, and tick **Required reviewers** and add yourself.
+
+Until both are done the publish job cannot run (it stops at the approval step, or npm refuses it). The test job still works.
+
 ## Later
 
 Compatibility tests, writing new components, publishing and updating the dashboard are separate steps and are not part of this job yet.
