@@ -27,6 +27,7 @@ Include the design tokens once (global CSS):
 ```
 
 ### Angular
+Tested with the Angular CLI (strict templates, zoneless). The event types come with the kit, so `$event.detail` is typed.
 ```ts
 // main.ts
 import { defineCustomElements } from '@evoke-tech/stencil-ui-kit/loader';
@@ -41,14 +42,37 @@ defineCustomElements();
 ```
 
 ### React
-```tsx
-import { defineCustomElements } from '@evoke-tech/stencil-ui-kit/loader';
-defineCustomElements();
+In a bundled app (tested with Vite), register the components you use from the tree-shakeable build. Do not use `defineCustomElements()` from `@evoke-tech/stencil-ui-kit/loader` there: it loads its files on demand, and a Vite production build leaves those files out, so no component starts. (The loader is for pages that load the kit with a `<script>` tag, and it works in Angular.)
 
-<evoke-button variant="danger" onClick={save}>Delete</evoke-button>
-<evoke-input label="Email" ref={el => el?.addEventListener('evokeInput', e => setEmail(e.detail))} />
+```tsx
+// main.tsx
+import { defineCustomElement as defineButton } from '@evoke-tech/stencil-ui-kit/components/evoke-button.js';
+import { defineCustomElement as defineInput } from '@evoke-tech/stencil-ui-kit/components/evoke-input.js';
+defineButton();
+defineInput();
 ```
-(React 19 passes props/events to custom elements natively; for React 18 use `ref` + `addEventListener`.)
+
+**React 19** passes props and events to custom elements natively. Objects and arrays are set as properties, and an event handler named `onXxx` listens for the event `Xxx` with its capitals kept, so `onevokeInput` listens for `evokeInput` (the lowercase `e` is required):
+```tsx
+<evoke-button variant="danger" onClick={save}>Delete</evoke-button>
+<evoke-input label="Email" value={email} onevokeInput={(e) => setEmail(e.detail)} />
+<evoke-select label="Role" options={roles} onevokeChange={(e) => setRole(e.detail)} />
+```
+
+**React 18** only passes strings as attributes, so set object and array props as properties and listen to events from a `ref`:
+```tsx
+const select = useRef<any>(null);
+useEffect(() => {
+  const el = select.current;
+  el.options = roles; // objects and arrays are set as properties
+  const onChange = (e: CustomEvent) => setRole(e.detail);
+  el.addEventListener('evokeChange', onChange);
+  return () => el.removeEventListener('evokeChange', onChange);
+}, [roles]);
+
+<evoke-select ref={select} label="Role" />
+```
+The compatibility test app `tests/compat/apps/react18` has a small reusable component that does this. Both React versions are covered by automated tests with real Vite builds (`npm run compat -- react` and `-- react18`). TypeScript users: the kit does not yet add `evoke-*` tags to React's JSX types.
 
 ### Vue
 
