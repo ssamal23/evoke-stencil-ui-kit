@@ -55,8 +55,20 @@ jobs:
       - name: Compatibility tests (Angular)
         run: npm run compat -- angular --no-build
 
+      # compat.json goes inside the package. It records the exact framework versions the tests above installed
+      # and fails here if any test app did not pass, so it cannot say "tested" for something that was not.
+      - name: Write compat.json
+        run: node scripts/write-compat.mjs --strict
+
       - name: Show what will be published
         run: npm pack --dry-run
+
+      - name: Keep compat.json for the publish job
+        uses: actions/upload-artifact@v4
+        with:
+          name: compat
+          path: compat.json
+          if-no-files-found: error
 
       - name: Keep the test report
         if: always()
@@ -87,6 +99,14 @@ jobs:
         run: npm install -g npm@latest
 
       - run: npm ci
+
+      - name: Get the compat.json that the test job wrote
+        uses: actions/download-artifact@v4
+        with:
+          name: compat
+
+      - name: compat.json must belong to this version
+        run: node scripts/write-compat.mjs --check
 
       - name: Publish
         run: |

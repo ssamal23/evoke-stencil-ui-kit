@@ -1,6 +1,6 @@
 {
   "name": "@evoke-tech/stencil-ui-kit",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Evoke Tech UI kit: framework-agnostic web components (Stencil) for Angular, React, Vue and plain HTML, with Angular Material, Tailwind CSS, Bootstrap and plain CSS themes.",
   "license": "MIT",
   "author": "ssamal23 (https://github.com/ssamal23)",
@@ -20,7 +20,8 @@
   "unpkg": "dist/evoke-ui/evoke-ui.esm.js",
   "files": [
     "dist/",
-    "loader/"
+    "loader/",
+    "compat.json"
   ],
   "exports": {
     ".": {
@@ -50,7 +51,8 @@
       "import": "./dist/vue/index.js"
     },
     "./dist/evoke-ui/evoke-ui.css": "./dist/evoke-ui/evoke-ui.css",
-    "./themes/*": "./dist/themes/*"
+    "./themes/*": "./dist/themes/*",
+    "./compat.json": "./compat.json"
   },
   "scripts": {
     "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && stencil build --docs",
@@ -59,7 +61,8 @@
     "test": "stencil test --spec",
     "check-updates": "node scripts/check-updates.mjs",
     "compat": "node scripts/run-compat.mjs",
-    "prepublishOnly": "npm run build"
+    "compat:write": "node scripts/write-compat.mjs --strict",
+    "prepublishOnly": "node scripts/write-compat.mjs --check && npm run build"
   },
   "keywords": [
     "stencil",

@@ -389,6 +389,8 @@ Pushing a release tag builds, runs the compatibility tests and then **waits for 
 3. In GitHub open **Actions > Publish to npm**, check the tests, and click **Review deployments > Approve**.
 4. Verify with `npm view @evoke-tech/stencil-ui-kit version`.
 
+**compat.json.** Every release carries `compat.json`: the framework versions it was tested with and the styling libraries, which the version dashboard reads. You do not edit framework versions: the release workflow reads them from the packages the tests installed, and stops if a test app did not pass. To change notes or the styling-library results, edit `compat/compat.source.json`. To build the file locally after running the tests, use `npm run compat:write`.
+
 One-time setup (npm trusted publishing, no token stored): see [agent/README.md](agent/README.md#publishing-setup).
 
 ### Notes

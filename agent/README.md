@@ -37,6 +37,8 @@ The check is quiet again after that.
 
 ## Publishing setup
 
+The release also writes `compat.json` into the package (from `compat/compat.source.json` plus the versions the compatibility tests installed). The dashboard reads it per version. `prepublishOnly` refuses to publish if the file is missing or belongs to another version.
+
 `.github/workflows/publish.yml` publishes the package, but only when a release tag like `v0.3.0` is pushed, and only after a person approves. It builds, runs the compatibility tests, and checks that the tag matches `package.json`. A pre-release version such as `0.4.0-beta.1` is published under the `next` tag, never `latest`.
 
 It needs two one-time settings. No npm token is stored anywhere.
