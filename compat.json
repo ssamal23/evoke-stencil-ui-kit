@@ -1,0 +1,65 @@
+{
+  "kit": "0.3.1",
+  "generated": "2026-11-26T13:27:31.908Z",
+  "frameworks": [
+    {
+      "name": "Angular",
+      "version": "22.3",
+      "status": "tested",
+      "note": "Angular CLI build, strict templates, zoneless. Use defineCustomElements() from the loader; $event.detail is typed"
+    },
+    {
+      "name": "React",
+      "version": "19.3",
+      "status": "tested",
+      "note": "Vite production build. Register each component from @evoke-tech/stencil-ui-kit/components/<name>.js (the loader does not work in Vite builds). Events: onevokeChange"
+    },
+    {
+      "name": "React",
+      "version": "18.3",
+      "status": "tested",
+      "note": "Same registration as React 19. Object props and events need a ref (set the property, use addEventListener), see the README"
+    },
+    {
+      "name": "Vue",
+      "version": "3.5",
+      "status": "tested",
+      "note": "Vite production build. The /vue wrappers need no setup. Raw tags need isCustomElement, per-component registration and addEventListener for events"
+    },
+    {
+      "name": "Plain HTML",
+      "version": "Chromium 159",
+      "status": "tested",
+      "note": "Every component on one page"
+    }
+  ],
+  "styling": [
+    {
+      "name": "Plain CSS (default Evoke look)",
+      "version": "—",
+      "status": "tested",
+      "note": "No theme file needed"
+    },
+    {
+      "name": "Tailwind CSS",
+      "version": "4.1",
+      "status": "expected",
+      "note": "Checked by eye in 0.2.0. Not re-run for the 14 components added in 0.3.0"
+    },
+    {
+      "name": "Bootstrap",
+      "version": "5.3",
+      "status": "expected",
+      "note": "Checked by eye in 0.2.0. Not re-run for the 14 components added in 0.3.0"
+    },
+    {
+      "name": "Angular Material",
+      "version": "22.2",
+      "status": "expected",
+      "note": "M3 theme. Checked by eye in 0.2.0. Not re-run for the 14 components added in 0.3.0"
+    }
+  ],
+  "notes": [
+    "Not tested: TypeScript React (JSX types for evoke-* tags), webpack, Next.js, Nuxt"
+  ]
+}

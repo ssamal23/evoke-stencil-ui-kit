@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Writes compat.json, which is published inside the npm package. The dashboard reads it per version, so
+ * Writes compat.json, which is published inside the npm package. The file is committed (the build fails if a path in
+ * package.json "files" is missing), but the publish workflow always regenerates it with --strict before publishing. The dashboard reads it per version, so
  * nobody has to type framework versions by hand.
  *
  *   node scripts/write-compat.mjs            write compat.json from compat/compat.source.json and the last test runs
