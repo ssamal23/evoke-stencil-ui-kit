@@ -1,0 +1,19 @@
+{
+  "_about": "Hand-written part of compat.json. scripts/write-compat.mjs adds the kit version, the exact framework versions that the compatibility tests installed, and whether each test run passed. Edit this file when notes or the styling-library results change. Do not write framework version numbers here.",
+  "frameworks": [
+    { "name": "Angular", "app": "angular", "package": "@angular/core", "note": "Angular CLI build, strict templates, zoneless. Use defineCustomElements() from the loader; $event.detail is typed" },
+    { "name": "React", "app": "react", "package": "react", "note": "Vite production build. Register each component from @evoke-tech/stencil-ui-kit/components/<name>.js (the loader does not work in Vite builds). Events: onevokeChange" },
+    { "name": "React", "app": "react18", "package": "react", "note": "Same registration as React 19. Object props and events need a ref (set the property, use addEventListener), see the README" },
+    { "name": "Vue", "app": "vue", "package": "vue", "note": "Vite production build. The /vue wrappers need no setup. Raw tags need isCustomElement, per-component registration and addEventListener for events" },
+    { "name": "Plain HTML", "app": "html", "browser": "chromium", "note": "Every component on one page" }
+  ],
+  "styling": [
+    { "name": "Plain CSS (default Evoke look)", "version": "—", "status": "tested", "note": "No theme file needed" },
+    { "name": "Tailwind CSS", "version": "4.1", "status": "expected", "note": "Checked by eye in 0.2.0. Not re-run for the 14 components added in 0.3.0" },
+    { "name": "Bootstrap", "version": "5.3", "status": "expected", "note": "Checked by eye in 0.2.0. Not re-run for the 14 components added in 0.3.0" },
+    { "name": "Angular Material", "version": "22.2", "status": "expected", "note": "M3 theme. Checked by eye in 0.2.0. Not re-run for the 14 components added in 0.3.0" }
+  ],
+  "notes": [
+    "Not tested: TypeScript React (JSX types for evoke-* tags), webpack, Next.js, Nuxt"
+  ]
+}

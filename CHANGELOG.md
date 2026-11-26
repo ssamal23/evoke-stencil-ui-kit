@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1
+
+No component changes. The package now carries its own compatibility record.
+
+- New file `compat.json` in the package (also importable as `@evoke-tech/stencil-ui-kit/compat.json`). It lists the framework versions this release was tested with (Angular, React 19, React 18, Vue, Chromium) and the styling libraries, with notes.
+- The framework versions are not typed by hand: the release build reads them from the packages the compatibility tests installed, and refuses to write the file if a test app did not pass.
+- The version dashboard reads this file for each release, so it no longer needs a manual update.
+
 ## 0.3.0
 
 Fourteen new components, following Angular Material. The kit now has 34. Nothing existing changed.

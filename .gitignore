@@ -8,3 +8,5 @@ agent/report.md
 tests/compat/.work/
 tests/compat/results/
 tests/compat/test-results/
+# written by scripts/write-compat.mjs, shipped inside the package
+compat.json
