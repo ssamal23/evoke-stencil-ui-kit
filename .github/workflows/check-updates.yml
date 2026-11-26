@@ -16,8 +16,8 @@ on:
       - '.github/workflows/check-updates.yml'
 
   schedule:
-    # TESTING: every hour, on the hour. Change back to '0 6 1 * *' (06:00 UTC on the 1st of every month) when testing is done.
-    - cron: '0 * * * *'
+    # 06:00 UTC on the 1st of every month.
+    - cron: '0 6 1 * *'
 
 permissions:
   contents: read
